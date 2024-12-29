@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../core/errors/internet_checker.dart';
 import '../../../hr_manamgement_system_package.dart';
@@ -10,9 +13,6 @@ class LoginRepoImpl implements LoginRepo {
   @override
   Future<Either<Failure, RoleLoginModel>> roleLogin(
       RoleLoginRequestBody roleLoginRequestBody) async {
-    // THIS VARIABLE IS USED TO STORE THE ID OF THE DEVICE THAT IS LOGGED IN <<<<<<<<<<<<<
-    // String mobileIds = await getId() ?? '';
-
     if (await networkInfo.isConnected) {
       try {
         final response = await apiservice.post(
@@ -77,11 +77,20 @@ class LoginRepoImpl implements LoginRepo {
             key: 'employeeId',
             value: result['value']['id'].toString(),
           );
+          ApiConstant.employeeId =
+              await SecureCache.getFromCache(key: 'employeeId');
+          final userTokens = result['value']['deviceTokens'] as List<dynamic>;
+          final currentToken = await FirebaseMessaging.instance.getToken();
+          if (!userTokens.contains(currentToken)) {
+            log('the current user Token while Login is :${currentToken} ');
+            updateUserToken(
+                UserId: ApiConstant.employeeId,
+                currentUserToken: [currentToken ?? ''] );
+          }
 
           ApiConstant.departmentId =
               await SecureCache.getFromCache(key: 'departmentId');
-          ApiConstant.employeeId =
-              await SecureCache.getFromCache(key: 'employeeId');
+
           ApiConstant.position =
               await SecureCache.getFromCache(key: 'position');
 
@@ -104,6 +113,18 @@ class LoginRepoImpl implements LoginRepo {
       }
     } else {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<void> updateUserToken(
+      {required List<String> currentUserToken, required String UserId}) async {
+    try {
+      final result = await apiservice.put(
+          endPoint: "${ApiConstant.updateUserToken}",
+          body: {"userId": UserId, "deviceTokens": currentUserToken});
+    } catch (e) {
+      Failure(404, 'there was an error try again Later');
     }
   }
 }

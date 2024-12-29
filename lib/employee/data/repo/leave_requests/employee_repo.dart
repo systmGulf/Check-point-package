@@ -15,4 +15,7 @@ abstract class EmployeeRepo {
   Future<Either<Failure, GetAllEmployeesValue>>
       getEmployeeByDepartmentId();
   Future<Either<Failure, List<GetTasData>>> getMyTasks();     
+  Future<Either<Failure, void>> changeTaskStatus(
+    {required int taskId, required String status}
+  );
 }

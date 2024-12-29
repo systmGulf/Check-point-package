@@ -15,25 +15,28 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
 
   RegisterAccountRepoImpl(this.networkInfo, {required this.apiService});
   @override
-  Future<Either<Failure, void>> registerAccount({required String name}) async {
+
+  // admin add new user
+  Future<Either<Failure, void>> registerAccount(
+      {required String name,required String deviceToken}) async {
     if (await networkInfo.isConnected) {
       try {
-        FirebaseMessaging messaging = FirebaseMessaging.instance;
-        String? deviceToken = await messaging.getToken();
         String? deviceId = await getId();
         if (deviceToken != null && deviceId != null) {
           final result = await apiService.post(
               endPoint: ApiConstant.accountRequest,
               body: RegisterAccountRequestBody(
-                      name: name, mobileId: deviceId, deviceToken: deviceToken)
-                  .toJson());
+                name: name,
+                mobileId: deviceId,
+                deviceToken: deviceToken,
+              ).toJson());
           if (result['isSuccess'] == true) {
             return const Right(null);
           } else {
             return Left(Failure(404, getResponseError(result)));
           }
         } else {
-          return Left(Failure(404, "Device token not found"));
+          return Left(Failure(404, "Device token not found "));
         }
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);

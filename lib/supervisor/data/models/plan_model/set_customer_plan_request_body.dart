@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../core/core.dart';
+
 part 'set_customer_plan_request_body.g.dart';
 
 @JsonSerializable()
@@ -22,8 +24,10 @@ class SetCustomerPlanRequestBody {
 class SetPlanByDateRequestBody {
   final String planDate;
   final String note;
+  final String departmentId;
 
-  SetPlanByDateRequestBody({required this.planDate, required this.note});
+  SetPlanByDateRequestBody(
+      {required this.planDate, required this.note, required this.departmentId});
 
   Map<String, dynamic> toJson() => _$SetPlanByDateRequestBodyToJson(this);
 }

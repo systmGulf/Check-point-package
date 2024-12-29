@@ -7,6 +7,8 @@ class ApiConstant {
   static String position = '';
   static String area = 'Customer';
   static const String login = "Auth/Login";
+  static const String updateUserToken = "Auth/updateDeviceToken";
+
   static const String employee = "Employee";
   static const String employeeCheckIn = 'Attendance/in';
   static const String employeeCheckOut = 'Attendance/out';
@@ -25,4 +27,6 @@ class ApiConstant {
   static const String accountRequest = 'AccountRequest';
   static const String Plan = 'Plan';
   static const String Task = 'Task';
+  static const String Shift = 'Shift';
+  static const String Notification = 'Notification';
 }

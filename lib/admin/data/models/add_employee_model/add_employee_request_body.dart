@@ -12,8 +12,9 @@ class AddEmployeeRequestBody {
   final String role;
   final int departmentId;
   final int branchId;
+  final List<String> deviceTokens;
 
-  AddEmployeeRequestBody(
+  AddEmployeeRequestBody(this.deviceTokens, 
       {required this.name,
       required this.username,
       required this.password,

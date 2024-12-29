@@ -164,4 +164,25 @@ class EmployeeRepoImpl implements EmployeeRepo {
       );
     }
   }
+
+  @override
+  Future<Either<Failure, void>> changeTaskStatus(
+      {required int taskId, required String status}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await apiservice.put(
+            endPoint: "${ApiConstant.Task}/updateStatus",
+            body: {"id": taskId, "status": status});
+        if (result['isSuccess'] == true) {
+          return const Right(null);
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
 }

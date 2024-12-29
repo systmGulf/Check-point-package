@@ -9,6 +9,7 @@ part of 'add_employee_request_body.dart';
 AddEmployeeRequestBody _$AddEmployeeRequestBodyFromJson(
         Map<String, dynamic> json) =>
     AddEmployeeRequestBody(
+      (json['deviceTokens'] as List<dynamic>).map((e) => e as String).toList(),
       name: json['name'] as String,
       username: json['username'] as String,
       password: json['password'] as String,
@@ -30,4 +31,5 @@ Map<String, dynamic> _$AddEmployeeRequestBodyToJson(
       'role': instance.role,
       'departmentId': instance.departmentId,
       'branchId': instance.branchId,
+      'deviceTokens': instance.deviceTokens,
     };

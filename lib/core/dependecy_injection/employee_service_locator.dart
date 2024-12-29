@@ -1,12 +1,10 @@
 import 'package:get_it/get_it.dart';
+import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
+import 'package:hr_management_system_package/core/notifications/notifications_repo_impl.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 
-import '../../admin/data/repo/customer_repo/customer_repo.dart';
-import '../../admin/data/repo/customer_repo/customer_repo_impl.dart';
-import '../../admin/data/repo/department_repo/department_repo.dart';
-import '../../admin/data/repo/department_repo/department_repo_impl.dart';
-import '../../admin/data/repo/employee_repo/admin_manage_employee_repo.dart';
-import '../../admin/data/repo/employee_repo/admin_manage_employee_repo_impl.dart';
+import '../../admin/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
+import '../../admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 import '../../employee/data/repo/attendance_repo/employee_attendance_repo.dart';
 import '../../employee/data/repo/attendance_repo/employee_attendance_repo_impl.dart';
 import '../../hr_manamgement_system_package.dart';
@@ -35,10 +33,21 @@ void setUpServiceLocator() {
       connectionChecker: getIt<InternetConnectionChecker>(),
     ),
   );
+  getIt.registerLazySingleton<NotificationRepo>(
+    () => NotificationsRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
   getIt.registerSingleton<LoginRepo>(
     LoginRepoImpl(
       apiservice: getIt<ApiService>(),
       getIt<NetworkInfo>(),
+    ),
+  );
+  getIt.registerSingleton<ShiftsAndPolicesRepo>(
+    ShiftsAndPolicesRepoImpl(
+      apiService: getIt<ApiService>(),
+      networkInfo: getIt<NetworkInfo>(),
     ),
   );
   getIt.registerSingleton<SupervisorRepo>(

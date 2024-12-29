@@ -70,6 +70,9 @@ EmployeeData _$EmployeeDataFromJson(Map<String, dynamic> json) => EmployeeData(
       userName: json['userName'] as String?,
       name: json['name'] as String?,
       mobileId: json['mobileId'] as String?,
+      deviceTokens: (json['deviceTokens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$EmployeeDataToJson(EmployeeData instance) =>
@@ -86,4 +89,5 @@ Map<String, dynamic> _$EmployeeDataToJson(EmployeeData instance) =>
       'userName': instance.userName,
       'name': instance.name,
       'mobileId': instance.mobileId,
+      'deviceTokens': instance.deviceTokens,
     };

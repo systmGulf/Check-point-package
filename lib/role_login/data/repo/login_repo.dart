@@ -7,4 +7,5 @@ abstract class LoginRepo {
   Future<Either<Failure, RoleLoginModel>> roleLogin(
       RoleLoginRequestBody roleLoginRequestBody);
   Future<Either<Failure, EmployeeData>> getEmployeeById();
+  Future<void> updateUserToken({required List<String> currentUserToken, required String UserId});
 }

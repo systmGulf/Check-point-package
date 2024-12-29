@@ -31,6 +31,7 @@ SetPlanByDateRequestBody _$SetPlanByDateRequestBodyFromJson(
     SetPlanByDateRequestBody(
       planDate: json['planDate'] as String,
       note: json['note'] as String,
+      departmentId: json['departmentId'] as String,
     );
 
 Map<String, dynamic> _$SetPlanByDateRequestBodyToJson(
@@ -38,6 +39,7 @@ Map<String, dynamic> _$SetPlanByDateRequestBodyToJson(
     <String, dynamic>{
       'planDate': instance.planDate,
       'note': instance.note,
+      'departmentId': instance.departmentId,
     };
 
 setSubPlansRequestBody _$setSubPlansRequestBodyFromJson(

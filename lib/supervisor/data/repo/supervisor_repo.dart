@@ -51,9 +51,11 @@ abstract class SupervisorRepo {
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
   Future<Either<Failure, void>> addTask(
       {required AddTaskRequestBody addTaskRequestBody});
-  Future<Either<Failure, GetTaskResponse>> getAllTasks(
+  Future<Either<Failure, GetTaskResponse>> getAllTasksById(
       {required int pageNumber});
   Future<Either<Failure, void>> deleteTaskById({required int id});
   Future<Either<Failure, void>> assignTask(
       {required int taskId, required List<String> employeeIds});
+      Future<Either<Failure, void>> changeTaskStatus(
+      {required int taskId, required String status});
 }

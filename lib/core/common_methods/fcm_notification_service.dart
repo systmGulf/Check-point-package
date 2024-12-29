@@ -24,8 +24,8 @@ abstract class FcmNotificationService {
     log(currentFCMToken.toString());
     // background And Killed Notification
     FirebaseMessaging.onBackgroundMessage(backgroundMessageHandler);
-    var accessToken = await getAccessToken();
-    log(accessToken);
+    // var accessToken = await getAccessToken();
+    // log(accessToken);
 
     // Foreground Notification
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
@@ -36,89 +36,89 @@ abstract class FcmNotificationService {
   }
 
   static Future<void> backgroundMessageHandler(RemoteMessage message) async {}
-  static Future<String> getAccessToken() async {
-    final serviceAccountJson = {
-      "type": "service_account",
-      "project_id": "employee-mangement-syste-26e0d",
-      "private_key_id": "d423f9bfb588bcd3a7d2ff72723bb1651c651501",
-      "private_key":
-          "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCiuM6FePv2NKBg\nS760+5KkK8FmAn84VQ7YhpkJTrzzEk9fnyW8pdSH6wZ5Q62+6AJybrZwQaXih8m/\n7ZPAG996yWgFifiwA2AI7EEUUJFwv1+0qbxZHESdG3HznXzVKwhT6ec7nqWjINr+\nWiB53z01c1hCODQN7dVRAxEX5kT6CeKy10aW2HS2TFcGw79M/y47VyiOBicnA5av\nc6QxCsdTtxWT8yS/ovjkMsrnCT4qMQWYrsocojoD7ZJlDZrse+zZ2SzqGJNdDX7g\nv2VROXMpTkmdQLQ7ZAXyKX2XHXoKennmv/wcw/3mpmOfdptjNQmNaCk1FhWAcVvM\n6VTwMGx3AgMBAAECggEADwYnM1WnVeUoBZwYwJcVxAiyM5v5aRcZZs6OpLhbY8oG\nABsunctl4yLFFz8zdJPxXeVw/M5i5ZaJ/ymNYchxCuI7s384se+t10URATIrK5DP\n4ltlo4ijoSnejJK26uutOio3il6shnJLJf7mTrpY6W178alEzSBveKpi0qUVK0zG\nhheVdOMyaTRiH57j3JcRYot1Q95NaXf5T3qEQ/7vq5yJMKLMPL6hqCWcVsYrvJ74\nYOWkhMv4aoV0oitGT98sV/Ib6CdLeFmx6zculRPYlpnUtSAWlkG3ysSSr4siO9rp\nhifkLAR8Lul+ltiMdjT9+fkj1Y2ltbo1SnN5ENj2eQKBgQDfC4aiHrzXdjh0MtrS\nVTXgzbFC3EUBm38cpkFyP/+vKLCkRU9tBFzsb4MT+iJ68RCeGasnU51AFkd7y6id\nyhyyPrfxfp57sVAZBkKqueuk/vr/Fo4E/XK8+UCkTXoZo9PLrpPx75IGwl9jkQK8\ngv6nMwqIDmxUBlb1ldm/29O7BQKBgQC6w50nF+qRWFQNTcvBdLjYl7U4buKkWVMy\nxY3td5I8vZFt//3AoqgOn3KPb8cjOgcFI0qm3tRFmEdQXTzcgmNzVa9OMWxQ+DlY\nnXnnIR9IHh+JWp9nmf1h/136UxSOr3SSrLXcvhyB2YjPDOx5mmL300Y96WHSmHDU\n8nLlvtu6SwKBgDVz864Co8sXH+xpC5wAo8reQK7/TuJVu57IEUMqJ0J5A+w6WBCO\nTR60krtE5OKFxy+8gxIHrdXgAP2gDybRexMUiMytRZnrIoD8yRlVOS3vlYNwilST\n0N2M9nrpvmtKocVcb0Q538sS5f1ckUVQN2smhk2Y90kjw89TPD4IlrNpAoGAbXtS\nWqJofT98NjhOo19bJIz6TNSjw5ghb3fjlTss3LJ72DHifNRdFAVgULlD0WCo0Ng5\nYMzrPsjftTqS/Ojqh6fJFltelbCNXWcjGNyPy+Tss8YN/9uDb7kVTDL7sBEmkvzv\ntzEy4OO2kTmQPlDEh2awnIZ9M8jtC8f8lrVldTUCgYEAjQ1aasDfU3srmnLBho49\nmfbTi6dXXgG/JCYt7gUlWI3I/Ed53QA794lom2qIbitGEiCZZA4MY8S7y2loA231\nXIFqjDlMHScoqbRrCd5etkJlTTAOyxB0uog6Pe/9qkiq1S2YZTL1kU2STTc9uS5Z\nvJ2phtgciD9NVkDCDHNAo4Y=\n-----END PRIVATE KEY-----\n",
-      "client_email":
-          "firebase-adminsdk-de0dg@employee-mangement-syste-26e0d.iam.gserviceaccount.com",
-      "client_id": "102540025524583792124",
-      "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-      "token_uri": "https://oauth2.googleapis.com/token",
-      "auth_provider_x509_cert_url":
-          "https://www.googleapis.com/oauth2/v1/certs",
-      "client_x509_cert_url":
-          "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-de0dg%40employee-mangement-syste-26e0d.iam.gserviceaccount.com",
-      "universe_domain": "googleapis.com"
-    };
-    List<String> scopes = [
-      "https://www.googleapis.com/auth/userinfo.email",
-      "https://www.googleapis.com/auth/firebase.database",
-      "https://www.googleapis.com/auth/firebase.messaging",
-    ];
-    http.Client clinent = await clientViaServiceAccount(
-      ServiceAccountCredentials.fromJson(serviceAccountJson),
-      scopes,
-    );
-    AccessCredentials credentials =
-        await obtainAccessCredentialsViaServiceAccount(
-            ServiceAccountCredentials.fromJson(serviceAccountJson),
-            scopes,
-            clinent);
-    clinent.close();
-    return credentials.accessToken.data;
-  }
+  // static Future<String> getAccessToken() async {
+  //   final serviceAccountJson = {
+  //     "type": "service_account",
+  //     "project_id": "employee-mangement-syste-26e0d",
+  //     "private_key_id": "d6740d5e8a25b604c71e29c21d0be0fe6a6a7e7e",
+  //     "private_key":
+  //         "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCS4gQIIafuU0Wl\n+kc81lWxN+tnc/6pSQWpobNCDwJDzTmqY6ZsCJorpt/zhDu8X48955oQMSshKxrm\nJYHhoN5AoF0UDYAUw0RgFQ2216uVbSPyUkIkGwlFxr0z6DbWu9KQfMdWvKVYkaYE\n+NmiJDATMLP6tsXUEgnryiro3uxtnzYBPUjcx39rNMf4SDEiUwxbvB25LY8dY4yH\njm05RB1EGF4Wui342YNZK1uc8FQdKI2KRLNTXPASAiFMiGLsw21gTvI49t+LFXSe\ny52zhmw0KlP1SGmzGKJsJ7yRA/Vsz34KJNFqK4yqqX/hYTxJTji4Glltr4nIlVJY\nPBtYyimXAgMBAAECggEAIhzMq+jJHBAJ4mjUZ5wtralbihzF3aIAZyuPOr3KnF2K\n0XgwO/HpgE7SvzcMOo0E8u8ZeD47Eop0xlOarQCT7XVw+InEH85T0G7DTx4akusU\niKAzDTicODDWWzpIlilr1zOrhgjs67tzz77NqJr38VUDz6voGP8Rf8nlmky/oxuX\nCjACn2XwK+55o70MqUeOf8v6g3yOlUjvvDobHOqyiZKWt/59kKvFnLUdavlOfYuM\ndi4o4DhxfgJRMIZ8iLfSYGREkqyZdIpup4qW526IoQEGpAQJAlZH5e9wz+BQRUD1\nLQDkmGAjLBa68cCY3NY1vNd3YprR/PdTjl3SfWE2XQKBgQDOnXJMHiu0DscBxA/N\nogflqJgKsjnNIAmpDCzSucXEwIY2+owoVBKX3tM02KKh0BvtoCfaw4m9SdMPpGwg\nSlYXd56yEoosYzHlvcBWMnkPqv2ljxoKZK4qfqjW165UCRbQ0X0NwdxeDqhJb8bM\nrY8DuA6NADK2IZR2QzzjiTPNvQKBgQC1/Z9cY8Y2N47j9l0ZR6it5ZDfun+RavaE\n5StwcvdcvU9TBjF6OYoFNkOP9l8DPzb1g1o17a4vA+VhNxbeYP5Z3cdV+Wm2Uuxc\nHC95wptgDxJDj70tWtLhJXkzJ75UL/BgFo2EE1X1oTqTIslpIk842diDJxYiXMhJ\nhdLb9OXX4wKBgD0i2W8sfkIJHVmoagSurSeHe3WuxuurTzB2Kc0wqxRM42nhORe1\nyMqnZFd+wqCes6Tcfu58bYVVEt7OCDCFznOjMZH/amM39svEGeVnierY7bTPYyUw\nJVjtoYfwyeSTy+x+EELB2jL6o1EXgfuOX4L6M1QFevvpc8SKoLmzH2EBAoGBALET\nWLbVoevo/RCUCxvo3JhvURpPZYaBk+HU9gJQ6pyC2qcG1Kd/SustVGnEJ8iJ/pi+\nOM1WOXAnk02XA5pWt8WLBESEDLbJUo+BITSRBQtfPr8cIc76m0tUYexDVG6nwnRM\nHWAQTEhWmx7E70JrjrfbR069fkzrCDp5iqRYUjdPAoGAQde7yuOnIUu2HvZRy+DC\nf+T9nbhUORXYPwh92sUlwFVZD0zvf7AcxEb8E3UtmyzyctQ8B8OikdhnNcePQUp7\neHSZyjTN+6gEcLLyxS5viMNFHKhCnOkQU5wJ8Bmnl6BN2cIGkWhhUGYw+fXK9+2d\nf+HzoPMqtC6ixXrPZYMTtz4=\n-----END PRIVATE KEY-----\n",
+  //     "client_email":
+  //         "firebase-adminsdk-de0dg@employee-mangement-syste-26e0d.iam.gserviceaccount.com",
+  //     "client_id": "102540025524583792124",
+  //     "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  //     "token_uri": "https://oauth2.googleapis.com/token",
+  //     "auth_provider_x509_cert_url":
+  //         "https://www.googleapis.com/oauth2/v1/certs",
+  //     "client_x509_cert_url":
+  //         "https://www.googleapis.com/robot/v1/metadata/x509/firebase-adminsdk-de0dg%40employee-mangement-syste-26e0d.iam.gserviceaccount.com",
+  //     "universe_domain": "googleapis.com"
+  //   };
+  //   List<String> scopes = [
+  //     "https://www.googleapis.com/auth/userinfo.email",
+  //     "https://www.googleapis.com/auth/firebase.database",
+  //     "https://www.googleapis.com/auth/firebase.messaging",
+  //   ];
+  //   http.Client clinent = await clientViaServiceAccount(
+  //     ServiceAccountCredentials.fromJson(serviceAccountJson),
+  //     scopes,
+  //   );
+  //   AccessCredentials credentials =
+  //       await obtainAccessCredentialsViaServiceAccount(
+  //           ServiceAccountCredentials.fromJson(serviceAccountJson),
+  //           scopes,
+  //           clinent);
+  //   clinent.close();
+  //   return credentials.accessToken.data;
+  // }
 
-  static sendNotification(
-      String token, String title, String notificationBody) async {
-    final String serverKey = await getAccessToken();
+  // static sendNotification(
+  //     String token, String title, String notificationBody) async {
+  //   final String serverKey = await getAccessToken();
 
-    // print(serverKey);
-    final currentFCMToken = await FirebaseMessaging.instance.getToken();
+  //   // print(serverKey);
+  //   final currentFCMToken = await FirebaseMessaging.instance.getToken();
 
-    log(currentFCMToken.toString());
-    if (currentFCMToken != null) {
-      String endpointFirebaseCloudMessaging =
-          "https://fcm.googleapis.com/v1/projects/employee-mangement-syste-26e0d/messages:send";
-      final Map<String, dynamic> body = {
-        "message": {
-          "token": token,
-          "data": {
-            "title": title,
-            "body": notificationBody,
-          },
-          "android": {
-            "notification": {
-              "title": title,
-              "body": notificationBody,
-            }
-          },
-          "webpush": {
-            "notification": {
-              "title": title,
-              "body": notificationBody,
-            }
-          },
-          "notification": {
-            "title": title,
-            "body": notificationBody,
-          }
-        }
-      };
-      final http.Response response = await http.post(
-        Uri.parse(endpointFirebaseCloudMessaging),
-        headers: <String, String>{
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $serverKey',
-        },
-        body: jsonEncode(body),
-      );
+  //   log(currentFCMToken.toString());
+  //   if (currentFCMToken != null) {
+  //     String endpointFirebaseCloudMessaging =
+  //         "https://fcm.googleapis.com/v1/projects/employee-mangement-syste-26e0d/messages:send";
+  //     final Map<String, dynamic> body = {
+  //       "message": {
+  //         "token": token,
+  //         "data": {
+  //           "title": title,
+  //           "body": notificationBody,
+  //         },
+  //         "android": {
+  //           "notification": {
+  //             "title": title,
+  //             "body": notificationBody,
+  //           }
+  //         },
+  //         "webpush": {
+  //           "notification": {
+  //             "title": title,
+  //             "body": notificationBody,
+  //           }
+  //         },
+  //         "notification": {
+  //           "title": title,
+  //           "body": notificationBody,
+  //         }
+  //       }
+  //     };
+  //     final http.Response response = await http.post(
+  //       Uri.parse(endpointFirebaseCloudMessaging),
+  //       headers: <String, String>{
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $serverKey',
+  //       },
+  //       body: jsonEncode(body),
+  //     );
 
-      if (response.statusCode == 200) {
-      } else {}
-    }
-  }
+  //     if (response.statusCode == 200) {
+  //     } else {}
+  //   }
+  // }
 }

@@ -4,5 +4,5 @@ import '../../core/core.dart';
 
 abstract class RegisterAccountRepo {
   Future<Either<Failure, void>> registerAccount(
-      {required String name});
+      {required String name, required String deviceToken});
 }

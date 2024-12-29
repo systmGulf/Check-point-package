@@ -468,7 +468,7 @@ class SupervisorRepoImpl implements SupervisorRepo {
   }
 
   @override
-  Future<Either<Failure, GetTaskResponse>> getAllTasks(
+  Future<Either<Failure, GetTaskResponse>> getAllTasksById(
       {required int pageNumber}) async {
     if (await networkInfo.isConnected) {
       try {
@@ -515,6 +515,27 @@ class SupervisorRepoImpl implements SupervisorRepo {
         final result = await apiservice.post(
             endPoint: "${ApiConstant.Task}/assignTask",
             body: {"employeeIds": employeeIds, "taskId": taskId});
+        if (result['isSuccess'] == true) {
+          return const Right(null);
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> changeTaskStatus(
+      {required int taskId, required String status}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await apiservice.put(
+            endPoint: "${ApiConstant.Task}/updateStatus",
+            body: {"id": taskId, "status": status});
         if (result['isSuccess'] == true) {
           return const Right(null);
         } else {
