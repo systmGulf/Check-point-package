@@ -81,11 +81,11 @@ class LoginRepoImpl implements LoginRepo {
               await SecureCache.getFromCache(key: 'employeeId');
           final userTokens = result['value']['deviceTokens'] as List<dynamic>;
           final currentToken = await FirebaseMessaging.instance.getToken();
-          if (!userTokens.contains(currentToken)) {
-            log('the current user Token while Login is :${currentToken} ');
+          if (!userTokens.contains(currentToken) && userTokens == []) {
+            log('the current user Token while Login is ==> ${currentToken} and the userTokens are ==>${userTokens}');
             updateUserToken(
                 UserId: ApiConstant.employeeId,
-                currentUserToken: [currentToken ?? ''] );
+                currentUserToken: [currentToken ?? '']);
           }
 
           ApiConstant.departmentId =
