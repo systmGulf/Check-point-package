@@ -6,9 +6,11 @@ import '../../models/shifts_and_polices_model/add_police_request_body.dart';
 import '../../models/shifts_and_polices_model/shifts_model.dart';
 
 abstract class ShiftsAndPolicesRepo {
+  // shifts
   Future<Either<Failure, void>> addShift({required String shiftName});
   Future<Either<Failure, ShiftModel>> getShifts();
   Future<Either<Failure, void>> deleteShift({required int id});
+  // police
   Future<Either<Failure, void>> addPolice(
       {required AddPoliceRequestBody addPoliceRequestBody});
   Future<Either<Failure, PoliceResponse>> getPoliceByShiftId(

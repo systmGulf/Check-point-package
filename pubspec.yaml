@@ -9,13 +9,14 @@ environment:
 dependencies:
   cupertino_icons: ^1.0.6
   dartz: ^0.10.1
-  device_info_plus: ^10.1.0
+  device_info_plus: ^11.2.0
   dio: ^5.5.0
   envied: ^0.5.4+1
   equatable: ^2.0.5
   firebase_messaging: ^15.1.5
   flutter:
     sdk: flutter
+  flutter_background_service: ^5.1.0
   flutter_local_notifications: ^18.0.1
   flutter_secure_storage: ^9.2.2
   freezed: ^2.5.2
@@ -31,9 +32,9 @@ dependencies:
   maps_toolkit: ^3.0.0
   mockito: ^5.4.4
   pretty_dio_logger: ^1.3.1
+  shared_preferences: ^2.3.5
 
 dev_dependencies:
-# flutter pub run build_runner build --delete-conflicting-outputs
   build_runner: ^2.4.13
   envied_generator: ^0.5.4+1
   flutter_lints: ^3.0.0

@@ -103,7 +103,7 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
     if (await networkInfo.isConnected) {
       try {
         final result =
-            await apiService.get(endPoint: "${ApiConstant.Policy}/$shiftId");
+            await apiService.get(endPoint: "${ApiConstant.Policy}/shift/$shiftId");
         if (result['isSuccess'] == true) {
           return Right(PoliceResponse.fromJson(result));
         } else {
@@ -123,7 +123,7 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
     if (await networkInfo.isConnected) {
       try {
         final result =
-            await apiService.delete(endPoint: "${ApiConstant.Policy}/$id");
+            await apiService.delete(endPoint: "${ApiConstant.Policy}?id=$id");
         if (result['isSuccess'] == true) {
           return const Right(null);
         } else {

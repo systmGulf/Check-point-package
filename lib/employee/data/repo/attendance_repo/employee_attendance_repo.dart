@@ -27,4 +27,5 @@ abstract class EmployeeAttendanceRepo {
   double checkAccessibleAreaForCircle(
       LatLng customerLocation, LatLng currentUserLocation);
   Future<Either<Failure, GetBranchesData>> getBranchesById();
+
 }
