@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
 
 import '../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
 import '../../../hr_manamgement_system_package.dart';
@@ -51,11 +52,14 @@ abstract class SupervisorRepo {
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
   Future<Either<Failure, void>> addTask(
       {required AddTaskRequestBody addTaskRequestBody});
-  Future<Either<Failure, GetTaskResponse>> getAllTasksById(
+  Future<Either<Failure,  List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber});
   Future<Either<Failure, void>> deleteTaskById({required int id});
   Future<Either<Failure, void>> assignTask(
       {required int taskId, required List<String> employeeIds});
       Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status});
+
+
+  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById({required String CustomerId});
 }

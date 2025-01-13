@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
 import '../models/task_model/add_task_request_body.dart';
 import '../models/task_model/get_task_response.dart';
 import '../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
@@ -468,15 +469,17 @@ class SupervisorRepoImpl implements SupervisorRepo {
   }
 
   @override
-  Future<Either<Failure, GetTaskResponse>> getAllTasksById(
+  Future<Either<Failure,  List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber}) async {
     if (await networkInfo.isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
-                "${ApiConstant.Task}?itemCount=10&index=${pageNumber * 10}");
+                "${ApiConstant.Task}/department/${ApiConstant.departmentId}");
         if (result['isSuccess'] == true) {
-          return Right(GetTaskResponse.fromJson(result));
+          return Right(
+            List<GetTasData>.from((result['value'] as List).map((e) => GetTasData.fromJson(e))),
+          );
         } else {
           return Left(Failure(404, getResponseError(result)));
         }
@@ -545,6 +548,24 @@ class SupervisorRepoImpl implements SupervisorRepo {
         return Left(ErrorHandler.handle(e).failure);
       }
     } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById({required String CustomerId}) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await apiservice.get(endPoint: "${ApiConstant.addCustomer}/$CustomerId");
+        if (result['isSuccess'] == true) {
+          return Right(GetCustomerByIdModel.fromJson(result));
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else{
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
