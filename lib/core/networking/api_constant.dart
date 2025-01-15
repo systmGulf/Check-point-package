@@ -30,5 +30,5 @@ class ApiConstant {
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';
   static const String Policy = 'Policy';
-
+  static const String planFeedback = 'Feedback';
 }

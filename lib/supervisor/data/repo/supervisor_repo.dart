@@ -8,29 +8,30 @@ import '../models/employees_attendance_model/get_employee_attendance.dart';
 import '../models/plan_model/customer_plan_model.dart';
 import '../models/plan_model/get_plan_by_id_model.dart';
 import '../models/plan_model/get_plan_model.dart';
+import '../models/plan_model/plan_feed_back_request_body.dart';
 import '../models/plan_model/set_customer_plan_request_body.dart';
 import '../models/task_model/add_task_request_body.dart';
 import '../models/task_model/get_task_response.dart';
 
 abstract class SupervisorRepo {
+  // Attendance
   Future<Either<Failure, List<GetLeaveRequestModel>>>
       supervisorGetEmployeeLeaveRequest();
-  Future<Either<Failure, void>> approveOrRejectLeaveRequest(
-      {required String status, required int id});
   Future<Either<Failure, List<SupervisorGetAllEmployeesAttendanceModel>>>
       supervisorGetAllEmployeesAttendance();
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       getEmployeeAttendanceByDepartmentId({required String attendanceDate});
   Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees();
+
+  // requests
+  Future<Either<Failure, void>> approveOrRejectLeaveRequest(
+      {required String status, required int id});
   Future<Either<Failure, GetLeaveRequestValue>>
       getLeaveRequestsByTypeForDepartment({
     required String type,
   });
   Future<Either<Failure, GetAllEmployeesValue>> getEmployeeByDepartmentId();
-  Future<Either<Failure, void>> setCustomerPlan(
-      SetCustomerPlanRequestBody setCustomerPlanRequestBody);
-  // NEED IT GET PLANS WITH DEPARTMENT ID /// it will ready soon inshallah
-  Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans();
+
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody);
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckOut(
@@ -41,25 +42,34 @@ abstract class SupervisorRepo {
       supervisorGetLateComers({required String day});
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetEarlyLeavers({required String day});
+
+  // plans
+  Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans();
   Future<Either<Failure, void>> setPlanByDate(
       SetPlanByDateRequestBody setPlanByDateRequestBody);
 
   Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
   Future<Either<Failure, void>> deletePlanById({required int id});
+  Future<Either<Failure, void>> setCustomerPlan(
+      SetCustomerPlanRequestBody setCustomerPlanRequestBody);
   Future<Either<Failure, void>> setSubPlan(
       {required setSubPlansRequestBody setSubPlansRequestBody});
   Future<Either<Failure, void>> deleteSubPlanById({required int id});
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
+
+
+  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
+      {required String CustomerId});
+
+  // tasks
   Future<Either<Failure, void>> addTask(
       {required AddTaskRequestBody addTaskRequestBody});
-  Future<Either<Failure,  List<GetTasData>>> getAllTasksByDepartmentId(
+  Future<Either<Failure, List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber});
   Future<Either<Failure, void>> deleteTaskById({required int id});
   Future<Either<Failure, void>> assignTask(
       {required int taskId, required List<String> employeeIds});
-      Future<Either<Failure, void>> changeTaskStatus(
+  Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status});
 
-
-  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById({required String CustomerId});
 }

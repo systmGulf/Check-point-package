@@ -6,6 +6,7 @@ import '../../../../core/core.dart';
 import '../../../../core/errors/internet_checker.dart';
 import '../../../../core/networking/check_accessiable_area_service.dart';
 import '../../../../supervisor/data/models/plan_model/get_plan_by_id_model.dart';
+import '../../../../supervisor/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/user_attendace_model/employee_check_in_request_body.dart';
 import '../../models/user_attendace_model/get_plan_by_employee_id_model.dart';
 import '../../models/user_attendace_model/user_attendace_model.dart';
@@ -159,6 +160,24 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
           pointLatNong, area);
     } else {
       return false;
+    }
+  }
+   @override
+  Future<Either<Failure, void>> addPlanFeedBack({required PlanFeedBackRequestBody planFeedBackRequestBody}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await apiservice.post(
+            endPoint: ApiConstant.planFeedback, body: planFeedBackRequestBody.toJson());
+        if (result['isSuccess'] == true) {
+          return const Right(null);
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
 }
