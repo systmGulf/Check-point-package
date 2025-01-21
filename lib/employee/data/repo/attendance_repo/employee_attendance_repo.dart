@@ -4,6 +4,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import '../../../../admin/data/models/branches/get_branches_models.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../../../supervisor/data/models/plan_model/get_plan_by_id_model.dart';
+import '../../../../supervisor/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/user_attendace_model/employee_check_in_request_body.dart';
 import '../../models/user_attendace_model/get_plan_by_employee_id_model.dart';
 import '../employee_data.dart';
@@ -27,5 +28,7 @@ abstract class EmployeeAttendanceRepo {
   double checkAccessibleAreaForCircle(
       LatLng customerLocation, LatLng currentUserLocation);
   Future<Either<Failure, GetBranchesData>> getBranchesById();
-
+  // feedback for attendace in customer or site
+  Future<Either<Failure, void>> addPlanFeedBack(
+      {required PlanFeedBackRequestBody planFeedBackRequestBody});
 }

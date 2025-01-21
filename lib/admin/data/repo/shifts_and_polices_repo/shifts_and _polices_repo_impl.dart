@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/add_police_request_body.dart';
+import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/shifts_model.dart';
 import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
@@ -147,6 +148,25 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
         final result = await apiService.put(
             endPoint: "${ApiConstant.Policy}/$id",
             body: addPoliceRequestBody.toJson());
+        if (result['isSuccess'] == true) {
+          return const Right(null);
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> assignShift({required AssignShiftsRequestBody assignShiftsRequestBody})async {
+    if (await networkInfo.isConnected) {
+      try {
+        final result = await apiService.post(
+            endPoint: "${ApiConstant.Shift}/assignShift", body: assignShiftsRequestBody.toJson());
         if (result['isSuccess'] == true) {
           return const Right(null);
         } else {

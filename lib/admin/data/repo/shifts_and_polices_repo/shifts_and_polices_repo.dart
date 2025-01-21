@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
 import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
 import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
@@ -10,6 +11,7 @@ abstract class ShiftsAndPolicesRepo {
   Future<Either<Failure, void>> addShift({required String shiftName});
   Future<Either<Failure, ShiftModel>> getShifts();
   Future<Either<Failure, void>> deleteShift({required int id});
+  Future<Either<Failure, void>> assignShift({required AssignShiftsRequestBody assignShiftsRequestBody});
   // police
   Future<Either<Failure, void>> addPolice(
       {required AddPoliceRequestBody addPoliceRequestBody});
