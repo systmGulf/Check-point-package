@@ -5,8 +5,8 @@ import 'package:internet_connection_checker/internet_connection_checker.dart';
 
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
-import '../../employee/data/repo/attendance_repo/employee_attendance_repo.dart';
-import '../../employee/data/repo/attendance_repo/employee_attendance_repo_impl.dart';
+import '../../employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import '../../employee/data/repo/employee_attendance_repo/employee_attendance_repo_impl.dart';
 import '../../hr_manamgement_system_package.dart';
 import '../../register_account/repo/register_account_repo.dart';
 import '../../register_account/repo/register_account_repo_impl.dart';
