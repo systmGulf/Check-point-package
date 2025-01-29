@@ -17,11 +17,12 @@ class CustomerRepoImpl implements CustomerRepo {
   @override
   Future<Either<Failure, void>> addCustomer(
       AddOrEditCustomerRequestBody departmentValue) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiService.post(
             endPoint: ApiConstant.addCustomer, body: departmentValue.toJson());
-        if (result['isSuccess'] == true) {
+        if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
           return Left(Failure(404, getResponseError(result)));
@@ -36,11 +37,12 @@ class CustomerRepoImpl implements CustomerRepo {
 
   @override
   Future<Either<Failure, void>> deleteCustomer({required String id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiService.delete(
             endPoint: "${ApiConstant.addCustomer}?id=$id");
-        if (result['isSuccess'] == true) {
+        if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
           return Left(Failure(404, getResponseError(result)));
@@ -57,12 +59,13 @@ class CustomerRepoImpl implements CustomerRepo {
   Future<Either<Failure, void>> editCustomer(
       AddOrEditCustomerRequestBody departmentValue,
       {required String id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiService.put(
             endPoint: "${ApiConstant.addCustomer}/$id",
             body: departmentValue.toJson());
-        if (result['isSuccess'] == true) {
+        if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
           return Left(Failure(404, getResponseError(result)));
@@ -78,11 +81,12 @@ class CustomerRepoImpl implements CustomerRepo {
   @override
   Future<Either<Failure, CustomerValue>> getCustomersByType(
       {required String type}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiService.get(
             endPoint: ApiConstant.addCustomer + "/customerType/$type");
-        if (result['isSuccess'] == true) {
+        if (result[ApiConstant.successApiKey] == true) {
           return Right(CustomerValue.fromJson(result['value']));
         } else {
           return Left(Failure(404, getResponseError(result)));

@@ -8,12 +8,14 @@ part of 'env.dart';
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: .env.dev
 final class _EnvDev {
   static const String baseUrl = 'http://ems.runasp.net/api/';
 }
 
 // coverage:ignore-file
 // ignore_for_file: type=lint
+// generated_from: .env.prod
 final class _EnvProd {
   static const String baseUrl = 'http://ems.runasp.net/api/';
 }

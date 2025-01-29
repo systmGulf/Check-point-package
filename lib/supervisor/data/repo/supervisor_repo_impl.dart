@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
-import 'package:hr_management_system_package/supervisor/data/models/plan_model/plan_feed_back_request_body.dart';
+import '../../../employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
 import '../models/task_model/add_task_request_body.dart';
 import '../models/task_model/get_task_response.dart';
 import '../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
@@ -23,7 +23,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, List<GetLeaveRequestModel>>>
       supervisorGetEmployeeLeaveRequest() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(endPoint: ApiConstant.leaveRequest);
         if (result['isSuccess'] == true) {
@@ -44,7 +45,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> approveOrRejectLeaveRequest(
       {required String status, required int id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.put(
             endPoint: "${ApiConstant.leaveRequest}/$id/status/$status",
@@ -65,7 +67,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, List<SupervisorGetAllEmployeesAttendanceModel>>>
       supervisorGetAllEmployeesAttendance() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result =
             await apiservice.get(endPoint: ApiConstant.getEmployeeAttendance);
@@ -86,7 +89,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(endPoint: ApiConstant.employee);
         if (result['isSuccess'] == true) {
@@ -105,15 +109,16 @@ class SupervisorRepoImpl implements SupervisorRepo {
   }
 
   @override
-  Future<Either<Failure, GetLeaveRequestValue>>
+  Future<Either<Failure, GetLeaveRequestModel>>
       getLeaveRequestsByTypeForDepartment({required String type}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.leaveRequest}/departmentId/${ApiConstant.departmentId}/leaveType/$type");
         if (result['isSuccess'] == true) {
-          return Right(GetLeaveRequestValue.fromJson(result['value']));
+          return Right(GetLeaveRequestModel.fromJson(result));
         } else {
           return Left(Failure(404, getResponseError(result)));
         }
@@ -129,7 +134,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       getEmployeeAttendanceByDepartmentId(
           {required String attendanceDate}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -151,7 +157,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, GetAllEmployeesValue>>
       getEmployeeByDepartmentId() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -172,7 +179,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> setCustomerPlan(
       SetCustomerPlanRequestBody setCustomerPlanRequestBody) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.post(
             endPoint: ApiConstant.plan,
@@ -192,7 +200,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -215,7 +224,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         if (employeeCheckInRequestBody.employeeImage != null) {
           final result = await apiservice.post(
@@ -240,7 +250,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckOut(
       String employeeId, String? employeeImage) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         if (employeeImage != null) {
           final result = await apiservice.post(
@@ -267,7 +278,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
       {required String employeeId,
       required int month,
       required int year}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -288,7 +300,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetLateComers({required String day}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.getEmployeeAttendance}/lateComers/$day");
@@ -309,7 +322,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetEarlyLeavers({required String day}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.getEmployeeAttendance}/earlyLeavers/$day");
@@ -330,7 +344,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> setPlanByDate(
       SetPlanByDateRequestBody setPlanByDateRequestBody) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.post(
             endPoint: ApiConstant.Plan,
@@ -351,7 +366,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, GetPlanByIdValue>> getPlanById(
       {required int id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result =
             await apiservice.get(endPoint: "${ApiConstant.Plan}/$id");
@@ -371,7 +387,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> setSubPlan(
       {required setSubPlansRequestBody setSubPlansRequestBody}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.post(
             endPoint: ApiConstant.Plan + "/" + ApiConstant.plan,
@@ -391,7 +408,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId() async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -413,7 +431,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, void>> deletePlanById({required int id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result =
             await apiservice.delete(endPoint: "${ApiConstant.Plan}/$id");
@@ -432,7 +451,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, void>> deleteSubPlanById({required int id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.delete(
             endPoint: ApiConstant.Plan + "/" + ApiConstant.plan + "?id=$id");
@@ -452,7 +472,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> addTask(
       {required AddTaskRequestBody addTaskRequestBody}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.post(
             endPoint: ApiConstant.Task, body: addTaskRequestBody.toJson());
@@ -472,7 +493,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure,  List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint:
@@ -494,7 +516,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, void>> deleteTaskById({required int id}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result =
             await apiservice.delete(endPoint: "${ApiConstant.Task}?id=$id");
@@ -514,7 +537,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> assignTask(
       {required int taskId, required List<String> employeeIds}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.post(
             endPoint: "${ApiConstant.Task}/assignTask",
@@ -535,7 +559,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
   @override
   Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status}) async {
-    if (await networkInfo.isConnected) {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.put(
             endPoint: "${ApiConstant.Task}/updateStatus",
@@ -555,7 +580,8 @@ class SupervisorRepoImpl implements SupervisorRepo {
 
   @override
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById({required String CustomerId}) async{
-    if (await networkInfo.isConnected) {
+     final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
       try {
         final result = await apiservice.get(endPoint: "${ApiConstant.addCustomer}/$CustomerId");
         if (result['isSuccess'] == true) {
@@ -570,6 +596,23 @@ class SupervisorRepoImpl implements SupervisorRepo {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
-
+  @override
+  Future<Either<Failure, UserTrackingSummaryResponseBody>> getTrackingSummaryForEmployee({required String data, required String employeeId})async {
+   final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
+      try {
+        final result = await apiservice.get(endPoint: "${ApiConstant.getTrackingSummaryForEmployee}?employeeId=${employeeId}&date=$data");
+        if (result[ApiConstant.successApiKey] == true) {
+          return Right(UserTrackingSummaryResponseBody.fromJson(result));
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
  
 }

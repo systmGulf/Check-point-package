@@ -1,28 +1,29 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:device_info_plus/device_info_plus.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
 
 import '../../core/errors/internet_checker.dart';
 import '../../hr_manamgement_system_package.dart';
 import '../models/register_account_request_body.dart';
-import 'register_account_repo.dart';
+import 'register_account_repo.dart'; // Adjust the import path
 
 class RegisterAccountRepoImpl implements RegisterAccountRepo {
   final ApiService apiService;
   final NetworkInfo networkInfo;
 
   RegisterAccountRepoImpl(this.networkInfo, {required this.apiService});
-  @override
 
-  // admin add new user
+  @override
+  // Admin add new user
   Future<Either<Failure, void>> registerAccount(
-      {required String name,required String deviceToken}) async {
-    if (await networkInfo.isConnected) {
+      {required String name, required String deviceToken}) async {
+    final isConnected = networkInfo.isConnected.value;
+
+    if (isConnected) {
       try {
         String? deviceId = await getId();
-        if (deviceToken != null && deviceId != null) {
+        if (deviceId != null) {
           final result = await apiService.post(
               endPoint: ApiConstant.accountRequest,
               body: RegisterAccountRequestBody(
@@ -30,7 +31,7 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
                 mobileId: deviceId,
                 deviceToken: deviceToken,
               ).toJson());
-          if (result['isSuccess'] == true) {
+          if (result[ApiConstant.successApiKey] == true) {
             return const Right(null);
           } else {
             return Left(Failure(404, getResponseError(result)));
@@ -51,10 +52,10 @@ Future<String?> getId() async {
   var deviceInfo = DeviceInfoPlugin();
   if (Platform.isIOS) {
     var iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor; // unique ID on iOS
+    return iosDeviceInfo.identifierForVendor; 
   } else if (Platform.isAndroid) {
     var androidDeviceInfo = await deviceInfo.androidInfo;
-    return androidDeviceInfo.id; // unique ID on Android
+    return androidDeviceInfo.id; 
   }
   return null;
 }

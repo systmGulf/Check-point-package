@@ -20,4 +20,5 @@ abstract class ShiftsAndPolicesRepo {
   Future<Either<Failure, void>> deletePolice({required int id});
   Future<Either<Failure, void>> editPolice(
       {required AddPoliceRequestBody addPoliceRequestBody, required int id});
+      Future<Either<Failure, void>> assignPolice({required AssignPoliceRequestBody assignShiftsRequestBody});
 }

@@ -8,6 +8,7 @@ class ApiConstant {
   static String area = 'Customer';
   static const String login = "Auth/Login";
   static const String updateUserToken = "Auth/updateDeviceToken";
+  static const successApiKey = "isSuccess";
 
   static const String employee = "Employee";
   static const String employeeCheckIn = 'Attendance/in';
@@ -30,5 +31,8 @@ class ApiConstant {
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';
   static const String Policy = 'Policy';
+
+  static const String trackEmployeeLocation = 'Employee/trackEmployee';
   static const String planFeedback = 'Feedback';
+  static const String getTrackingSummaryForEmployee = 'Employee/getEmployeeTracking';
 }

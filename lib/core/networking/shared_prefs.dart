@@ -13,6 +13,11 @@ class SecureCache {
 
     return await localStorage.read(key: key) ?? '';
   }
+  static Future deleteFromCacheByKey({required String key}) async {
+    const localStorage = FlutterSecureStorage();
+
+    return  localStorage.delete(key: key) ?? '';
+  }
 
   static Future deleteFromCache() {
     const localStorage = FlutterSecureStorage();

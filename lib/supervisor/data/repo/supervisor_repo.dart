@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:hr_management_system_package/supervisor/data/models/customers/get_customer_by_id_model.dart';
 
 import '../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
+import '../../../employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
 import '../../../hr_manamgement_system_package.dart';
 import '../models/employee_summary_model/employee_summary_model.dart';
 import '../models/employees_attendance_model/get_employee_attendance.dart';
@@ -21,14 +22,6 @@ abstract class SupervisorRepo {
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       getEmployeeAttendanceByDepartmentId({required String attendanceDate});
   Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees();
-
-  // requests
-  Future<Either<Failure, void>> approveOrRejectLeaveRequest(
-      {required String status, required int id});
-  Future<Either<Failure, GetLeaveRequestValue>>
-      getLeaveRequestsByTypeForDepartment({
-    required String type,
-  });
   Future<Either<Failure, GetAllEmployeesValue>> getEmployeeByDepartmentId();
 
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
@@ -41,6 +34,17 @@ abstract class SupervisorRepo {
       supervisorGetLateComers({required String day});
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetEarlyLeavers({required String day});
+  Future<Either<Failure, UserTrackingSummaryResponseBody>>
+      getTrackingSummaryForEmployee(
+          {required String data, required String employeeId});
+
+  // requests
+  Future<Either<Failure, void>> approveOrRejectLeaveRequest(
+      {required String status, required int id});
+  Future<Either<Failure, GetLeaveRequestModel>>
+      getLeaveRequestsByTypeForDepartment({
+    required String type,
+  });
 
   // plans
   Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans();
@@ -56,7 +60,6 @@ abstract class SupervisorRepo {
   Future<Either<Failure, void>> deleteSubPlanById({required int id});
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
 
-
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
       {required String CustomerId});
 
@@ -70,7 +73,6 @@ abstract class SupervisorRepo {
       {required int taskId, required List<String> employeeIds});
   Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status});
-
 }
 
 // 26 FUN /// PLease refact All Supervisor Repo Methods

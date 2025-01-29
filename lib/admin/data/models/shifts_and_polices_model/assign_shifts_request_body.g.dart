@@ -21,3 +21,19 @@ Map<String, dynamic> _$AssignShiftsRequestBodyToJson(
       'shiftId': instance.shiftId,
       'branchesIds': instance.branchesIds,
     };
+
+AssignPoliceRequestBody _$AssignPoliceRequestBodyFromJson(
+        Map<String, dynamic> json) =>
+    AssignPoliceRequestBody(
+      policyId: (json['policyId'] as num).toInt(),
+      employeeIds: (json['employeeIds'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
+    );
+
+Map<String, dynamic> _$AssignPoliceRequestBodyToJson(
+        AssignPoliceRequestBody instance) =>
+    <String, dynamic>{
+      'policyId': instance.policyId,
+      'employeeIds': instance.employeeIds,
+    };

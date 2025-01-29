@@ -1,14 +1,14 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'get_leave_request_model.dart';
+part of 'user_tracking_summary_response_model.dart';
 
 // **************************************************************************
 // JsonSerializableGenerator
 // **************************************************************************
 
-GetLeaveRequestModel _$GetLeaveRequestModelFromJson(
+UserTrackingSummaryResponseBody _$UserTrackingSummaryResponseBodyFromJson(
         Map<String, dynamic> json) =>
-    GetLeaveRequestModel(
+    UserTrackingSummaryResponseBody(
       value: json['value'] == null
           ? null
           : Value.fromJson(json['value'] as Map<String, dynamic>),
@@ -20,8 +20,8 @@ GetLeaveRequestModel _$GetLeaveRequestModelFromJson(
       validationErrors: json['validationErrors'] as List<dynamic>?,
     );
 
-Map<String, dynamic> _$GetLeaveRequestModelToJson(
-        GetLeaveRequestModel instance) =>
+Map<String, dynamic> _$UserTrackingSummaryResponseBodyToJson(
+        UserTrackingSummaryResponseBody instance) =>
     <String, dynamic>{
       'value': instance.value,
       'status': instance.status,
@@ -56,14 +56,9 @@ Map<String, dynamic> _$ValueToJson(Value instance) => <String, dynamic>{
 
 Data _$DataFromJson(Map<String, dynamic> json) => Data(
       id: (json['id'] as num?)?.toInt(),
-      startDate: json['startDate'] as String?,
-      endDate: json['endDate'] as String?,
-      reason: json['reason'] as String?,
-      remark: json['remark'] as String?,
-      status: json['status'] as String?,
-      leaveRequestType: json['leaveRequestType'] as String?,
-      createdDate: json['createdDate'] as String?,
-      createdBy: json['createdBy'] as String?,
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => Coordinates.fromJson(e as Map<String, dynamic>))
+          .toList(),
       employee: json['employee'] == null
           ? null
           : Employee.fromJson(json['employee'] as Map<String, dynamic>),
@@ -71,15 +66,19 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'id': instance.id,
-      'startDate': instance.startDate,
-      'endDate': instance.endDate,
-      'reason': instance.reason,
-      'remark': instance.remark,
-      'status': instance.status,
-      'leaveRequestType': instance.leaveRequestType,
-      'createdDate': instance.createdDate,
-      'createdBy': instance.createdBy,
+      'coordinates': instance.coordinates,
       'employee': instance.employee,
+    };
+
+Coordinates _$CoordinatesFromJson(Map<String, dynamic> json) => Coordinates(
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CoordinatesToJson(Coordinates instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };
 
 Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(

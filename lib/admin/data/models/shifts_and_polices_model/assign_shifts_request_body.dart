@@ -9,3 +9,11 @@ class AssignShiftsRequestBody {
   AssignShiftsRequestBody({required this.shiftId, required this.branchesIds});
   Map<String, dynamic> toJson() => _$AssignShiftsRequestBodyToJson(this);
 }
+@JsonSerializable()
+class AssignPoliceRequestBody {
+  final int policyId;
+  final List<String> employeeIds;
+
+  AssignPoliceRequestBody({required this.policyId, required this.employeeIds});
+  Map<String, dynamic> toJson() => _$AssignPoliceRequestBodyToJson(this);
+}

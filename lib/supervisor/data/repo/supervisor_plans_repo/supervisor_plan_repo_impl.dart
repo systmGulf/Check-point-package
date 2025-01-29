@@ -1,30 +1,56 @@
 import 'package:dartz/dartz.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/add_police_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/assign_shifts_request_body.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/get_police_by_shift_id.dart';
-import 'package:hr_management_system_package/admin/data/models/shifts_and_polices_model/shifts_model.dart';
-import 'package:hr_management_system_package/admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
-import 'package:hr_management_system_package/hr_manamgement_system_package.dart';
 
+import '../../../../core/errors/error_handler.dart';
 import '../../../../core/errors/internet_checker.dart';
+import '../../../../core/networking/api_constant.dart';
+import '../../../../core/networking/api_service.dart';
+import '../../models/customers/get_customer_by_id_model.dart';
+import '../../models/plan_model/customer_plan_model.dart';
+import '../../models/plan_model/get_plan_by_id_model.dart';
+import '../../models/plan_model/get_plan_model.dart';
+import '../../models/plan_model/set_customer_plan_request_body.dart';
+import 'supervisor_plan_repo.dart';
 
-class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
-  final ApiService apiService;
+class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
+  final ApiService apiservice;
   final NetworkInfo networkInfo;
 
-  ShiftsAndPolicesRepoImpl(
-      {required this.apiService, required this.networkInfo});
+  SupervisorPlanRepoImpl({required this.apiservice, required this.networkInfo});
 
   @override
-
-  // Add new shift
-
-  Future<Either<Failure, void>> addShift({required String shiftName}) async {
+  // get customer plans
+  Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans() async {
    final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
-        final result = await apiService
-            .post(endPoint: ApiConstant.Shift, body: {"name": shiftName});
+        final result = await apiservice.get(
+            endPoint:
+                "${ApiConstant.plan}/departmentId/${ApiConstant.departmentId}");
+        if (result[ApiConstant.successApiKey] == true) {
+          return Right((result['value'] as List)
+              .map((e) => CustomerPlanModel.fromJson(e))
+              .toList());
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  // set customer plan
+  Future<Either<Failure, void>> setPlanByDate(
+      SetPlanByDateRequestBody setPlanByDateRequestBody) async {
+    final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
+      try {
+        final result = await apiservice.post(
+            endPoint: ApiConstant.Plan,
+            body: setPlanByDateRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
@@ -39,35 +65,16 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
-  // get all shifts
-  Future<Either<Failure, ShiftModel>> getShifts() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
-        final result = await apiService.get(endPoint: ApiConstant.Shift);
-        if (result[ApiConstant.successApiKey] == true) {
-          return Right(ShiftModel.fromJson(result));
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
-      }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
-  }
-
-  @override
-  // delete shift
-  Future<Either<Failure, void>> deleteShift({required int id}) async {
+  // get plan by id
+  Future<Either<Failure, GetPlanByIdValue>> getPlanById(
+      {required int id}) async {
    final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
         final result =
-            await apiService.delete(endPoint: "${ApiConstant.Shift}?id=$id");
+            await apiservice.get(endPoint: "${ApiConstant.Plan}/$id");
         if (result[ApiConstant.successApiKey] == true) {
-          return const Right(null);
+          return Right(GetPlanByIdValue.fromJson(result['value']));
         } else {
           return Left(Failure(404, getResponseError(result)));
         }
@@ -80,57 +87,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
-  // add new police
-  Future<Either<Failure, void>> addPolice(
-      {required AddPoliceRequestBody addPoliceRequestBody}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
-        final result = await apiService.post(
-            endPoint: ApiConstant.Policy, body: addPoliceRequestBody.toJson());
-        if (result[ApiConstant.successApiKey] == true) {
-          return const Right(null);
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
-      }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
-  }
-
-  @override
-  // get police by shift id
-  Future<Either<Failure, PoliceResponse>> getPoliceByShiftId(
-      {required int shiftId}) async {
+  // delete plan
+  Future<Either<Failure, void>> deletePlanById({required int id}) async {
    final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
         final result =
-            await apiService.get(endPoint: "${ApiConstant.Policy}/shift/$shiftId");
-        if (result[ApiConstant.successApiKey] == true) {
-          return Right(PoliceResponse.fromJson(result));
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
-      }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
-  }
-
-  @override
-  // delete police
-  Future<Either<Failure, void>> deletePolice({required int id}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
-        final result =
-            await apiService.delete(endPoint: "${ApiConstant.Policy}?id=$id");
+            await apiservice.delete(endPoint: "${ApiConstant.Plan}/$id");
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
@@ -145,16 +108,15 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
-  // edit police
-  Future<Either<Failure, void>> editPolice(
-      {required AddPoliceRequestBody addPoliceRequestBody,
-      required int id}) async {
-   final isConnected = networkInfo.isConnected.value;
+  // set customer plan
+  Future<Either<Failure, void>> setCustomerPlan(
+      SetCustomerPlanRequestBody setCustomerPlanRequestBody) async {
+    final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
-        final result = await apiService.put(
-            endPoint: "${ApiConstant.Policy}/$id",
-            body: addPoliceRequestBody.toJson());
+        final result = await apiservice.post(
+            endPoint: ApiConstant.plan,
+            body: setCustomerPlanRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
@@ -169,12 +131,15 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
-  Future<Either<Failure, void>> assignShift({required AssignShiftsRequestBody assignShiftsRequestBody})async {
+  // set sub plan
+  Future<Either<Failure, void>> setSubPlan(
+      {required setSubPlansRequestBody setSubPlansRequestBody}) async {
    final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
-        final result = await apiService.post(
-            endPoint: "${ApiConstant.Shift}/assignShift", body: assignShiftsRequestBody.toJson());
+        final result = await apiservice.post(
+            endPoint: ApiConstant.Plan + "/" + ApiConstant.plan,
+            body: setSubPlansRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
@@ -187,20 +152,66 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
     }
   }
-  
+
   @override
-  Future<Either<Failure, void>> assignPolice({required AssignPoliceRequestBody assignShiftsRequestBody})async {
-   final isConnected = networkInfo.isConnected.value;
+  // delete sub plan
+  Future<Either<Failure, void>> deleteSubPlanById({required int id}) async {
+     final isConnected = networkInfo.isConnected.value;
     if (isConnected) {
       try {
-        final result = await apiService.post(
-            endPoint: "${ApiConstant.Policy}/assignPolicy", body: assignShiftsRequestBody.toJson());
+        final result = await apiservice.delete(
+            endPoint: ApiConstant.Plan + "/" + ApiConstant.plan + "?id=$id");
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
           return Left(Failure(404, getResponseError(result)));
         }
-    } on Exception catch (e) {
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, PlanValue>> getPlanByDepartmentId() async {
+    final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
+      try {
+        final result = await apiservice.get(
+            endPoint:
+                "${ApiConstant.Plan}/department/${ApiConstant.departmentId}");
+        if (result[ApiConstant.successApiKey] == true) {
+          return Right(
+            PlanValue.fromJson(result['value']),
+          );
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+    } else {
+      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
+    }
+  }
+
+  @override
+  // get customer by id
+  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
+      {required String CustomerId}) async {
+     final isConnected = networkInfo.isConnected.value;
+    if (isConnected) {
+      try {
+        final result = await apiservice.get(
+            endPoint: "${ApiConstant.addCustomer}/$CustomerId");
+        if (result[ApiConstant.successApiKey] == true) {
+          return Right(GetCustomerByIdModel.fromJson(result));
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
     } else {

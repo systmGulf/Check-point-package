@@ -9,18 +9,23 @@ import '../../../hr_manamgement_system_package.dart';
 class LoginRepoImpl implements LoginRepo {
   final ApiService apiservice;
   final NetworkInfo networkInfo;
+
   LoginRepoImpl(this.networkInfo, {required this.apiservice});
+
   @override
   Future<Either<Failure, RoleLoginModel>> roleLogin(
       RoleLoginRequestBody roleLoginRequestBody) async {
-    if (await networkInfo.isConnected) {
+    // Listen to the connectivity status using isConnected.value
+    final isConnected = networkInfo.isConnected.value;
+
+    if (isConnected) {
       try {
         final response = await apiservice.post(
           endPoint: ApiConstant.login,
           body: roleLoginRequestBody.toJson(),
         );
 
-        if (response['isSuccess'] == true) {
+        if (response[ApiConstant.successApiKey] == true) {
           List<dynamic> roles = response['value']['roles'] ?? [];
           if (roles.contains(roleLoginRequestBody.role)) {
             await SecureCache.insertToCache(
@@ -59,12 +64,15 @@ class LoginRepoImpl implements LoginRepo {
 
   @override
   Future<Either<Failure, EmployeeData>> getEmployeeById() async {
-    if (await networkInfo.isConnected) {
+    // Listen to the connectivity status using isConnected.value
+    final isConnected = networkInfo.isConnected.value;
+
+    if (isConnected) {
       try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.employee}/${ApiConstant.employeeId}");
 
-        if (result['isSuccess'] == true) {
+        if (result[ApiConstant.successApiKey] == true) {
           await SecureCache.insertToCache(
             key: 'departmentId',
             value: result['value']['departmentId'].toString(),
@@ -124,7 +132,7 @@ class LoginRepoImpl implements LoginRepo {
           endPoint: "${ApiConstant.updateUserToken}",
           body: {"userId": UserId, "deviceTokens": currentUserToken});
     } catch (e) {
-      Failure(404, 'there was an error try again Later');
+      Failure(404, 'There was an error, try again later');
     }
   }
 }

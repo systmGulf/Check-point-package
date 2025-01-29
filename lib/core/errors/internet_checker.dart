@@ -1,13 +1,27 @@
-import 'package:internet_connection_checker/internet_connection_checker.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:flutter/material.dart';
 
 abstract class NetworkInfo {
-  Future<bool> get isConnected;
+  ValueNotifier<bool> get isConnected;
+  Future<void> init();
 }
 
 class NetworkInfoImpl implements NetworkInfo {
-  final InternetConnectionChecker connectionChecker;
+  final ValueNotifier<bool> isConnected = ValueNotifier(true);
 
-  NetworkInfoImpl({required this.connectionChecker});
   @override
-  Future<bool> get isConnected async => await connectionChecker.hasConnection;
+  Future<void> init() async {
+    final result = await Connectivity().checkConnectivity();
+    _isInternetConnected(result);
+    Connectivity().onConnectivityChanged.listen(_isInternetConnected);
+  }
+
+  /// Handle connectivity changes
+  void _isInternetConnected(List<ConnectivityResult>? result) {
+    if (result == ConnectivityResult.none) {
+      isConnected.value = false;
+    } else if (result == ConnectivityResult.mobile || result == ConnectivityResult.wifi) {
+      isConnected.value = true;
+    }
+  }
 }
