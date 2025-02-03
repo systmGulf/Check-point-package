@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
+import '../../../../core/common_methods/network_checker.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../../../core/errors/internet_checker.dart';
 import '../../../../core/networking/api_constant.dart';
 import '../../../../core/networking/api_service.dart';
 import '../../models/customers/get_customer_by_id_model.dart';
@@ -13,16 +13,14 @@ import 'supervisor_plan_repo.dart';
 
 class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
   final ApiService apiservice;
-  final NetworkInfo networkInfo;
 
-  SupervisorPlanRepoImpl({required this.apiservice, required this.networkInfo});
+
+  SupervisorPlanRepoImpl({required this.apiservice, });
 
   @override
   // get customer plans
   Future<Either<Failure, List<CustomerPlanModel>>> getCustomerPlans() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.plan}/departmentId/${ApiConstant.departmentId}");
@@ -36,18 +34,14 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+  
   }
 
   @override
   // set customer plan
   Future<Either<Failure, void>> setPlanByDate(
       SetPlanByDateRequestBody setPlanByDateRequestBody) async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.post(
             endPoint: ApiConstant.Plan,
             body: setPlanByDateRequestBody.toJson());
@@ -59,18 +53,14 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+   
   }
 
   @override
   // get plan by id
   Future<Either<Failure, GetPlanByIdValue>> getPlanById(
       {required int id}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+ try {
         final result =
             await apiservice.get(endPoint: "${ApiConstant.Plan}/$id");
         if (result[ApiConstant.successApiKey] == true) {
@@ -81,17 +71,13 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+ 
   }
 
   @override
   // delete plan
   Future<Either<Failure, void>> deletePlanById({required int id}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result =
             await apiservice.delete(endPoint: "${ApiConstant.Plan}/$id");
         if (result[ApiConstant.successApiKey] == true) {
@@ -102,18 +88,14 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+   
   }
 
   @override
   // set customer plan
   Future<Either<Failure, void>> setCustomerPlan(
       SetCustomerPlanRequestBody setCustomerPlanRequestBody) async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+     try {
         final result = await apiservice.post(
             endPoint: ApiConstant.plan,
             body: setCustomerPlanRequestBody.toJson());
@@ -125,18 +107,13 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // set sub plan
   Future<Either<Failure, void>> setSubPlan(
       {required setSubPlansRequestBody setSubPlansRequestBody}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.post(
             endPoint: ApiConstant.Plan + "/" + ApiConstant.plan,
             body: setSubPlansRequestBody.toJson());
@@ -148,17 +125,13 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+ 
   }
 
   @override
   // delete sub plan
   Future<Either<Failure, void>> deleteSubPlanById({required int id}) async {
-     final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+try {
         final result = await apiservice.delete(
             endPoint: ApiConstant.Plan + "/" + ApiConstant.plan + "?id=$id");
         if (result[ApiConstant.successApiKey] == true) {
@@ -169,16 +142,12 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+   
   }
 
   @override
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId() async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.Plan}/department/${ApiConstant.departmentId}");
@@ -192,18 +161,13 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // get customer by id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
       {required String CustomerId}) async {
-     final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+     try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.addCustomer}/$CustomerId");
         if (result[ApiConstant.successApiKey] == true) {
@@ -214,8 +178,5 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 }

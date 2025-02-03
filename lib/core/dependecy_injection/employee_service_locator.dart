@@ -1,6 +1,9 @@
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/core/notifications/notifications_repo_impl.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo_impl.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo_impl.dart';
+import 'package:hr_management_system_package/supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo_impl.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
@@ -9,28 +12,55 @@ import '../../employee/data/repo/employee_attendance_repo/employee_attendance_re
 import '../../hr_manamgement_system_package.dart';
 import '../../register_account/repo/register_account_repo.dart';
 import '../../register_account/repo/register_account_repo_impl.dart';
-import '../errors/internet_checker.dart';
+import '../../supervisor/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import '../../supervisor/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import '../../supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
+import '../../supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
+import '../../supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo_impl.dart';
+import '../common_methods/network_checker.dart';
 import '../networking/check_accessiable_area_service.dart';
-import 'package:connectivity_plus/connectivity_plus.dart';  // Add this import for Connectivity
+import 'package:connectivity_plus/connectivity_plus.dart'; // Add this import for Connectivity
 
 final getIt = GetIt.instance;
 
 void setUpServiceLocator() {
   // Register ApiService
+  getIt.registerLazySingleton<NetworkChecker>(
+    () => NetworkChecker(),
+  );
   getIt.registerLazySingleton<ApiService>(
-    () => ApiService(dio: DioFactory.getDio()),
+    () => ApiService(
+    
+      dio: DioFactory.getDio(),
+    ),
+  );
+  getIt.registerLazySingleton<SupervisorTasksRepo>(
+    () => SupervisorTasksRepoImpl(
+      apiservice: getIt<ApiService>(),
+      networkInfo: getIt<NetworkChecker>(),
+    ),
   );
 
-  // Register NetworkInfo with Connectivity
-  getIt.registerLazySingleton<NetworkInfo>(
-    () => NetworkInfoImpl()..init(),
+  getIt.registerLazySingleton<SupervisorPlanRepo>(
+    () => SupervisorPlanRepoImpl(
+      apiservice: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton<SupervisorLeaveRequestsRepo>(
+    () => SupervisorLeaveRequestsRepoImpl(
+      apiservice: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton<SupervisorAttendanceRepo>(
+    () => SupervisorAttendanceRepoImpl(
+      apiservice: getIt<ApiService>(),
+    ),
   );
 
   // Register other repositories and services
   getIt.registerLazySingleton<RegisterAccountRepo>(
     () => RegisterAccountRepoImpl(
       apiService: getIt<ApiService>(),
-      getIt<NetworkInfo>(),
     ),
   );
 
@@ -47,23 +77,16 @@ void setUpServiceLocator() {
   getIt.registerSingleton<LoginRepo>(
     LoginRepoImpl(
       apiservice: getIt<ApiService>(),
-      getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<ShiftsAndPolicesRepo>(
     ShiftsAndPolicesRepoImpl(
       apiService: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
     ),
   );
 
-  getIt.registerSingleton<SupervisorRepo>(
-    SupervisorRepoImpl(
-      apiservice: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
-    ),
-  );
+  
 
   getIt.registerSingleton<CheckAccessibleAreaService>(
     CheckAccessibleAreaService(),
@@ -73,42 +96,36 @@ void setUpServiceLocator() {
     EmployeeAttendanceRepoImpl(
       getIt<CheckAccessibleAreaService>(),
       apiservice: getIt<ApiService>(),
-      getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<EmployeeRepo>(
     EmployeeRepoImpl(
       apiservice: getIt<ApiService>(),
-      getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<BranchesRepo>(
     AdminRepoImpl(
       apiService: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<CustomerRepo>(
     CustomerRepoImpl(
       apiService: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<DepartmentRepo>(
     DepartmentRepoImpl(
       apiService: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
     ),
   );
 
   getIt.registerSingleton<AdminManageEmployeeRepo>(
     AdminManageEmployeeRepoImpl(
       apiService: getIt<ApiService>(),
-      networkInfo: getIt<NetworkInfo>(),
     ),
   );
 }

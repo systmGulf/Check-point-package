@@ -3,7 +3,9 @@ import 'package:dartz/dartz.dart';
 import '../../../../admin/data/models/all_employees_model/all_employees_model.dart';
 import '../../../../core/core.dart';
 import '../../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
+import '../../../../employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
 import '../../../supervisor_data.dart';
+import '../../models/customers/get_customer_by_id_model.dart';
 import '../../models/employee_summary_model/employee_summary_model.dart';
 import '../../models/employees_attendance_model/get_employee_attendance.dart';
 
@@ -34,4 +36,9 @@ abstract class SupervisorAttendanceRepo {
       // Supervisor Get Early Leavers
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetEarlyLeavers({required String day});
+       Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
+      {required String CustomerId});
+       Future<Either<Failure, UserTrackingSummaryResponseBody>>
+      getTrackingSummaryForEmployee(
+          {required String data, required String employeeId});
 }

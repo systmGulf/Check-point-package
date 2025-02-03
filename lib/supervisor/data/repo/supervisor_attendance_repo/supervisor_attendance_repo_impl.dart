@@ -2,27 +2,26 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../admin/data/models/all_employees_model/all_employees_model.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../../../core/errors/internet_checker.dart';
 import '../../../../core/networking/api_constant.dart';
 import '../../../../core/networking/api_service.dart';
 import '../../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
+import '../../../../employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
+import '../../models/customers/get_customer_by_id_model.dart';
 import '../../models/employee_summary_model/employee_summary_model.dart';
 import '../../models/employees_attendance_model/get_employee_attendance.dart';
 import 'supervisor_attendance_repo.dart';
 
 class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   final ApiService apiservice;
-  final NetworkInfo networkInfo;
 
   SupervisorAttendanceRepoImpl(
-      {required this.apiservice, required this.networkInfo});
+      {required this.apiservice,});
   @override
   // Get all employees attendance
   Future<Either<Failure, List<SupervisorGetAllEmployeesAttendanceModel>>>
       supervisorGetAllEmployeesAttendance() async {
-         final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+       
+    try {
         final result =
             await apiservice.get(endPoint: ApiConstant.getEmployeeAttendance);
         if (result[ApiConstant.successApiKey] == true) {
@@ -35,9 +34,6 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
@@ -45,9 +41,7 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       getEmployeeAttendanceByDepartmentId(
           {required String attendanceDate}) async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+     try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.getEmployeeAttendance}/departmentId/${ApiConstant.departmentId}?attendenceDate=$attendanceDate");
@@ -60,18 +54,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Get employee by department
   Future<Either<Failure, GetAllEmployeesValue>>
       getEmployeeByDepartmentId() async {
-     final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.employee}/departmentId/${ApiConstant.departmentId}");
@@ -83,17 +72,12 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Get all employees
   Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees() async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.get(endPoint: ApiConstant.employee);
         if (result[ApiConstant.successApiKey] == true) {
           return Right((result['value'] as List)
@@ -105,18 +89,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Attend some employee
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         if (employeeCheckInRequestBody.employeeImage != null) {
           final result = await apiservice.post(
               endPoint: ApiConstant.employeeCheckIn,
@@ -132,18 +111,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Attend some employee
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckOut(
       String employeeId, String? employeeImage) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         if (employeeImage != null) {
           final result = await apiservice.post(
               endPoint: "${ApiConstant.employeeCheckOut}",
@@ -159,9 +133,6 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
@@ -170,9 +141,7 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       {required String employeeId,
       required int month,
       required int year}) async {
- final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.getEmployeeAttendance}/attendanceSummary?employeeId=$employeeId&year=$year&month=$month");
@@ -184,18 +153,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Get late comers
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetLateComers({required String day}) async {
-    final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.getEmployeeAttendance}/lateComers/$day");
         if (result[ApiConstant.successApiKey] == true) {
@@ -207,18 +171,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   // Get early leavers
   Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
       supervisorGetEarlyLeavers({required String day}) async {
-     final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.getEmployeeAttendance}/earlyLeavers/$day");
         if (result[ApiConstant.successApiKey] == true) {
@@ -230,8 +189,31 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
+  }
+  @override
+  Future<Either<Failure, GetCustomerByIdModel>> getCustomerById({required String CustomerId}) async{
+     try {
+        final result = await apiservice.get(endPoint: "${ApiConstant.addCustomer}/$CustomerId");
+        if (result['isSuccess'] == true) {
+          return Right(GetCustomerByIdModel.fromJson(result));
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
+  }
+   @override
+  Future<Either<Failure, UserTrackingSummaryResponseBody>> getTrackingSummaryForEmployee({required String data, required String employeeId})async {
+   try {
+        final result = await apiservice.get(endPoint: "${ApiConstant.getTrackingSummaryForEmployee}?employeeId=${employeeId}&date=$data");
+        if (result[ApiConstant.successApiKey] == true) {
+          return Right(UserTrackingSummaryResponseBody.fromJson(result));
+        } else {
+          return Left(Failure(404, getResponseError(result)));
+        }
+      } on Exception catch (e) {
+        return Left(ErrorHandler.handle(e).failure);
+      }
   }
 }

@@ -8,7 +8,7 @@ class ApiConstant {
   static String area = 'Customer';
   static const String login = "Auth/Login";
   static const String updateUserToken = "Auth/updateDeviceToken";
-  static const successApiKey = "isSuccess";
+  static const successApiKey = 'isSuccess';
 
   static const String employee = "Employee";
   static const String employeeCheckIn = 'Attendance/in';

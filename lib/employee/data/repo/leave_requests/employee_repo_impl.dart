@@ -1,23 +1,20 @@
 import 'package:dartz/dartz.dart';
 
-import '../../../../core/errors/internet_checker.dart';
 import '../../../../hr_manamgement_system_package.dart';
 import '../../../../supervisor/data/models/task_model/get_task_response.dart';
 
 class EmployeeRepoImpl implements EmployeeRepo {
   final ApiService apiservice;
-  final NetworkInfo networkInfo;
+  
   EmployeeRepoImpl(
-    this.networkInfo, {
+   {
     required this.apiservice,
   });
 
   @override
   Future<Either<Failure, UserAttendanceModel>> createLeaveRequest(
       LeaveRequestRequestBody leaveRequestRequestBody) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         final result = await apiservice.post(
             endPoint: ApiConstant.leaveRequest,
             body: leaveRequestRequestBody.toJson());
@@ -29,17 +26,12 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, EmployeeLeaveRequestsValue>>
       getAllLeaveRequestsForEmployee() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}");
@@ -51,17 +43,12 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, void>> employeeChangePassword(
       ChangePasswordRequestBody changePasswordRequestBody) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.put(
             endPoint: ApiConstant.employeeChangePassword,
             body: changePasswordRequestBody.toJson());
@@ -73,9 +60,6 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
@@ -96,9 +80,7 @@ class EmployeeRepoImpl implements EmployeeRepo {
   @override
   Future<Either<Failure, EmployeeLeaveRequestsValue>>
       getLeaveRequestsByTypeForEmployee({required String type}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}/leaveType/$type");
@@ -110,17 +92,12 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, GetAllEmployeesValue>>
       getEmployeeByDepartmentId() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.employee}/departmentId/${ApiConstant.departmentId}");
@@ -132,16 +109,11 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, List<GetTasData>>> getMyTasks() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.get(
             endPoint:
                 "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
@@ -164,19 +136,12 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(
-        DataSource.NO_INTERNET_CONNECTION.getFailure(),
-      );
-    }
   }
 
   @override
   Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.put(
             endPoint: "${ApiConstant.Task}/updateStatus",
             body: {"id": taskId, "status": status});
@@ -188,8 +153,5 @@ class EmployeeRepoImpl implements EmployeeRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 }

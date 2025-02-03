@@ -3,23 +3,20 @@ import 'dart:developer';
 import 'package:dartz/dartz.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
-import '../../../core/errors/internet_checker.dart';
+
 import '../../../hr_manamgement_system_package.dart';
 
 class LoginRepoImpl implements LoginRepo {
   final ApiService apiservice;
-  final NetworkInfo networkInfo;
 
-  LoginRepoImpl(this.networkInfo, {required this.apiservice});
+
+  LoginRepoImpl( {required this.apiservice});
 
   @override
   Future<Either<Failure, RoleLoginModel>> roleLogin(
       RoleLoginRequestBody roleLoginRequestBody) async {
     // Listen to the connectivity status using isConnected.value
-    final isConnected = networkInfo.isConnected.value;
-
-    if (isConnected) {
-      try {
+     try {
         final response = await apiservice.post(
           endPoint: ApiConstant.login,
           body: roleLoginRequestBody.toJson(),
@@ -57,18 +54,12 @@ class LoginRepoImpl implements LoginRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, EmployeeData>> getEmployeeById() async {
     // Listen to the connectivity status using isConnected.value
-    final isConnected = networkInfo.isConnected.value;
-
-    if (isConnected) {
-      try {
+     try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.employee}/${ApiConstant.employeeId}");
 
@@ -119,9 +110,6 @@ class LoginRepoImpl implements LoginRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override

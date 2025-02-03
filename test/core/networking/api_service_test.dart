@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:hr_management_system_package/core/common_methods/network_checker.dart';
 import 'package:hr_management_system_package/core/core.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
@@ -11,9 +12,11 @@ void main() {
   group('ApiService', () {
     late MockDio mockDio;
     late ApiService apiService;
+    late NetworkChecker networkInfo;
     setUp(() {
       mockDio = MockDio();
-      apiService = ApiService(dio: mockDio);
+      networkInfo = NetworkChecker();
+      apiService = ApiService( dio: mockDio);
     });
 
     test('Test Post Method Should Return Map of Data', () async {

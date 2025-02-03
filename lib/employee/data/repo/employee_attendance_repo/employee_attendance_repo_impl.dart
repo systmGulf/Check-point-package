@@ -6,7 +6,6 @@ import 'package:hr_management_system_package/employee/data/models/user_attendace
 
 import '../../../../admin/data/models/branches/get_branches_models.dart';
 import '../../../../core/core.dart';
-import '../../../../core/errors/internet_checker.dart';
 import '../../../../core/networking/check_accessiable_area_service.dart';
 import '../../../../supervisor/data/models/plan_model/get_plan_by_id_model.dart';
 import '../../../../supervisor/data/models/plan_model/plan_feed_back_request_body.dart';
@@ -18,16 +17,13 @@ import 'employee_attendance_repo.dart';
 class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   final ApiService apiservice;
   final CheckAccessibleAreaService checkAccessibleAreaService;
-  final NetworkInfo networkInfo;
 
-  EmployeeAttendanceRepoImpl(this.checkAccessibleAreaService, this.networkInfo,
+  EmployeeAttendanceRepoImpl(this.checkAccessibleAreaService,
       {required this.apiservice});
 
   @override
   Future<Either<Failure, GetBranchesData>> getBranchesById() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.branches}/${ApiConstant.branchId}");
         if (result[ApiConstant.successApiKey] == true) {
@@ -38,17 +34,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, GetPlanByEmployeeIdValue>>
       getCustomerPlanForEmployee() async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
             endPoint: "${ApiConstant.Plan}/employee/${ApiConstant.employeeId}");
         if (result[ApiConstant.successApiKey] == true) {
@@ -59,9 +50,6 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   // CHECK IN
@@ -75,9 +63,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   @override
   Future<Either<Failure, UserAttendanceModel>> employeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+    try {
         final result = await apiservice.post(
             endPoint: ApiConstant.employeeCheckIn,
             body: employeeCheckInRequestBody.toJson());
@@ -89,18 +75,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   // CHECK OUT
   @override
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
       {required String employeeId}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.post(
             endPoint: "${ApiConstant.employeeCheckOut}",
             body: {"employeeId": employeeId, "employeeImage": null});
@@ -112,17 +93,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, UserAttendanceValue>> getAllEmployeeAttendance(
       {int pageNumber = 0}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+  try {
         final result = await apiservice.get(
           endPoint:
               "${ApiConstant.getEmployeeAttendanceHistory}/${ApiConstant.employeeId}?itemCount=10&index=${pageNumber * 10}",
@@ -135,17 +111,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, GetPlanByIdValue>> getPlanById(
       {required int id}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result =
             await apiservice.get(endPoint: "${ApiConstant.Plan}/$id");
         if (result[ApiConstant.successApiKey] == true) {
@@ -156,27 +127,17 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<bool> checkAccessibleAreaForPloygon(
       LatLng pointLatNong, List<LatLng> area) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      return await checkAccessibleAreaService.checkAccessibleAreaForPloygon(
+  return await checkAccessibleAreaService.checkAccessibleAreaForPloygon(
           pointLatNong, area);
-    } else {
-      return false;
-    }
   }
    @override
   Future<Either<Failure, void>> addPlanFeedBack({required PlanFeedBackRequestBody planFeedBackRequestBody}) async {
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.post(
             endPoint: ApiConstant.planFeedback, body: planFeedBackRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
@@ -187,16 +148,11 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
   @override
   Future<Either<Failure, void>> trackEmployeeLocation({required TrackUserRequestBody trackUserRequestBody}) async{
-   final isConnected = networkInfo.isConnected.value;
-    if (isConnected) {
-      try {
+   try {
         final result = await apiservice.post(
             endPoint: ApiConstant.trackEmployeeLocation, body: trackUserRequestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
@@ -207,9 +163,6 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       } on Exception catch (e) {
         return Left(ErrorHandler.handle(e).failure);
       }
-    } else {
-      return Left(DataSource.NO_INTERNET_CONNECTION.getFailure());
-    }
   }
 
 
