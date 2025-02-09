@@ -4,8 +4,8 @@ import '../../../../admin/data/models/all_employees_model/all_employees_model.da
 import '../../../../core/errors/error_handler.dart';
 import '../../../../core/networking/api_constant.dart';
 import '../../../../core/networking/api_service.dart';
-import '../../../../employee/data/models/user_attendace_model/employee_check_in_request_body.dart';
-import '../../../../employee/data/models/user_attendace_model/user_tracking_summary_response_model.dart';
+import '../../../../employee_infrastructure/data/models/employee_attendace_model/employee_check_in_request_body.dart';
+import '../../../../employee_infrastructure/data/models/employee_attendace_model/user_tracking_summary_response_model.dart';
 import '../../models/customers/get_customer_by_id_model.dart';
 import '../../models/employee_summary_model/employee_summary_model.dart';
 import '../../models/employees_attendance_model/get_employee_attendance.dart';

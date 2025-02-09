@@ -6,9 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hr_management_system_package/core/core.dart';
-import 'package:hr_management_system_package/core/dependecy_injection/employee_service_locator.dart';
-import 'package:hr_management_system_package/employee/data/models/employee_leave_requests_models/track_user_request_body.dart';
-import 'package:hr_management_system_package/employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import 'package:hr_management_system_package/core/dependecy_injection/service_locator.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendace_model/track_user_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,16 +29,12 @@ Future<void> initializeServiceBackground() async {
   );
 }
 
-
 Future<bool> handleLocationPermissionAndGPS() async {
-  // Request location permissions
   if (!await _requestLocationPermission()) {
     return false;
   }
 
-  // Check if GPS is enabled
   if (!await _isGPSEnabled()) {
-    // Prompt the user to enable GPS
     return false;
   }
 
@@ -52,9 +48,7 @@ Future<bool> _requestLocationPermission() async {
     if (!status.isGranted) {
       if (status.isPermanentlyDenied) {
         await openAppSettings();
-      } else {
-      
-      }
+      } else {}
       return false;
     }
   }
@@ -65,9 +59,7 @@ Future<bool> _requestLocationPermission() async {
     if (!status.isGranted) {
       if (status.isPermanentlyDenied) {
         await openAppSettings();
-      } else {
-      
-      }
+      } else {}
       return false;
     }
   }
@@ -75,7 +67,7 @@ Future<bool> _requestLocationPermission() async {
   return true;
 }
 
-Future<bool>  _isGPSEnabled() async {
+Future<bool> _isGPSEnabled() async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -97,11 +89,11 @@ Future<bool> onIosBackground(ServiceInstance service) async {
   await preferences.setStringList('log', log);
   return true;
 }
+
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
-   setUpServiceLocator();
-   ApiConstant.employeeId =
-              await SecureCache.getFromCache(key: 'employeeId');
+  setUpServiceLocator();
+  ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
   DartPluginRegistrant.ensureInitialized();
 
   if (service is AndroidServiceInstance) {
@@ -118,29 +110,25 @@ void onStart(ServiceInstance service) async {
     });
   }
   Timer.periodic(const Duration(minutes: 1), (timer) async {
-     
-      Position? position;
-        try {
-      position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+    Position? position;
+    try {
+      position = await Geolocator.getCurrentPosition();
     } catch (e) {
       print('Failed to get location: $e');
     }
     if (position != null) {
       log('${position.latitude} , ${position.longitude}');
-       getIt<EmployeeAttendanceRepo>()..trackEmployeeLocation(trackUserRequestBody: TrackUserRequestBody(
-      employeeId: ApiConstant.employeeId,
-      coordinates: [
-        {
-      "latitude": position.latitude,
-      "longitude": position.longitude 
-    }
-      ],
-     ));
+      getIt<EmployeeAttendanceRepo>()
+        ..trackEmployeeLocation(
+            trackUserRequestBody: TrackUserRequestBody(
+          employeeId: ApiConstant.employeeId,
+          coordinates: [
+            {"latitude": position.latitude, "longitude": position.longitude}
+          ],
+        ));
     }
   });
- 
+
   service.on('stop').listen((event) async {
     service.stopSelf();
   });

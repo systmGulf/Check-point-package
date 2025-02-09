@@ -1,11 +1,13 @@
 import 'package:dartz/dartz.dart';
-import '../model/employee_login_model/role_login_model.dart';
 import '../../../hr_manamgement_system_package.dart';
-import '../model/employee_login_model/role_login_request_body.dart';
 
 abstract class LoginRepo {
+  // Role login 
   Future<Either<Failure, RoleLoginModel>> roleLogin(
       RoleLoginRequestBody roleLoginRequestBody);
+      // Role Employee 
   Future<Either<Failure, EmployeeData>> getEmployeeById();
-  Future<void> updateUserToken({required List<String> currentUserToken, required String UserId});
+  // Update User Token if user delete the app and redownload
+  Future<void> updateUserToken(
+      {required List<String> currentUserToken, required String UserId});
 }

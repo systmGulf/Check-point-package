@@ -6,7 +6,7 @@ import 'package:maps_toolkit/maps_toolkit.dart' as map_tool;
 class CheckAccessibleAreaService {
   double checkAccessibleAreaForCircle(
       LatLng customerLocation, LatLng currentUserLocation) {
-    const double earthRadius = 6371000; // Radius of the Earth in meters
+    const double earthRadius = 6371000;
     double lat1 = customerLocation.latitude * pi / 180;
     double lon1 = customerLocation.longitude * pi / 180;
     double lat2 = currentUserLocation.latitude * pi / 180;
@@ -22,14 +22,14 @@ class CheckAccessibleAreaService {
     return earthRadius * c;
   }
 
-  Future<bool> checkAccessibleAreaForPloygon(
-    LatLng pointLatNong,
+  Future<bool> checkAccessibleAreaForPolygon(
+    LatLng pointLatLong,
     List<LatLng> area,
   ) async {
     List<map_tool.LatLng> conventedPolyGonsPoints =
         area.map((e) => map_tool.LatLng(e.latitude, e.longitude)).toList();
     return map_tool.PolygonUtil.containsLocation(
-        map_tool.LatLng(pointLatNong.latitude, pointLatNong.longitude),
+        map_tool.LatLng(pointLatLong.latitude, pointLatLong.longitude),
         conventedPolyGonsPoints,
         false);
   }

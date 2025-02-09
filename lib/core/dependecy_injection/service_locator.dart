@@ -7,8 +7,8 @@ import 'package:hr_management_system_package/supervisor/data/repo/supervisor_pla
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
 import '../../admin/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
-import '../../employee/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
-import '../../employee/data/repo/employee_attendance_repo/employee_attendance_repo_impl.dart';
+import '../../employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
+import '../../employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo_impl.dart';
 import '../../hr_manamgement_system_package.dart';
 import '../../register_account/repo/register_account_repo.dart';
 import '../../register_account/repo/register_account_repo_impl.dart';
@@ -18,8 +18,7 @@ import '../../supervisor/data/repo/supervisor_plans_repo/supervisor_plan_repo.da
 import '../../supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 import '../../supervisor/data/repo/supervisor_tasks_repo/supervisor_tasks_repo_impl.dart';
 import '../common_methods/network_checker.dart';
-import '../networking/check_accessiable_area_service.dart';
-import 'package:connectivity_plus/connectivity_plus.dart'; // Add this import for Connectivity
+import '../common_methods/check_accessiable_area_service.dart';
 
 final getIt = GetIt.instance;
 
@@ -30,7 +29,6 @@ void setUpServiceLocator() {
   );
   getIt.registerLazySingleton<ApiService>(
     () => ApiService(
-    
       dio: DioFactory.getDio(),
     ),
   );
@@ -86,8 +84,6 @@ void setUpServiceLocator() {
     ),
   );
 
-  
-
   getIt.registerSingleton<CheckAccessibleAreaService>(
     CheckAccessibleAreaService(),
   );
@@ -99,9 +95,9 @@ void setUpServiceLocator() {
     ),
   );
 
-  getIt.registerSingleton<EmployeeRepo>(
-    EmployeeRepoImpl(
-      apiservice: getIt<ApiService>(),
+  getIt.registerSingleton<EmployeeActionRepo>(
+    EmployeeActionRepoImpl(
+      apiService: getIt<ApiService>(),
     ),
   );
 

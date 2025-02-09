@@ -39,6 +39,7 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
   }
 }
 
+// Get Device Id this Id is Unit for any device
 Future<String?> getId() async {
   var deviceInfo = DeviceInfoPlugin();
   if (Platform.isIOS) {

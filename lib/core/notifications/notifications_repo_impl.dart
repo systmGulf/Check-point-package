@@ -13,7 +13,8 @@ class NotificationsRepoImpl implements NotificationRepo {
       required String body}) async {
     try {
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Notification}/sendMulti",
+          endPoint:
+              "${ApiConstant.Notification}/${ApiConstant.multiNotification}",
           body: {"deviceTokens": tokens, "title": title, "body": body});
       if (result['isSuccess'] == true) {
         return const Right(null);
@@ -32,7 +33,8 @@ class NotificationsRepoImpl implements NotificationRepo {
       required String body}) async {
     try {
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Notification}/sendSingle",
+          endPoint:
+              "${ApiConstant.Notification}/${ApiConstant.singleNotification}",
           body: {"deviceToken": token, "title": title, "body": body});
       if (result['isSuccess'] == true) {
         return const Right(null);

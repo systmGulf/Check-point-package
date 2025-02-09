@@ -21,7 +21,7 @@ class LocalNotificationService {
         onDidReceiveBackgroundNotificationResponse: ontap);
   }
 
-  static showbasicNotification(
+  static showBasicNotification(
       {required String massBody, required String title}) async {
     NotificationDetails notificationDetails = const NotificationDetails(
       iOS: DarwinNotificationDetails(),
@@ -36,7 +36,7 @@ class LocalNotificationService {
     );
   }
 
-  static showReapetedNotification() async {
+  static showRepeatedNotification() async {
     NotificationDetails notificationDetails = const NotificationDetails(
       iOS: DarwinNotificationDetails(),
       android: AndroidNotificationDetails('channel_id', 'channel_name',
@@ -47,7 +47,7 @@ class LocalNotificationService {
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 
-  static void delectNotification(int id) {
+  static void deleteNotification(int id) {
     flutterLocalNotificationsPlugin.cancel(id);
   }
 }
