@@ -1,29 +1,29 @@
 import 'package:dartz/dartz.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendace_model/track_user_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/track_user_request_body.dart';
 
-import '../../../../admin/data/models/branches/get_branches_models.dart';
+import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
 import '../../../../core/core.dart';
 import '../../../../core/common_methods/check_accessiable_area_service.dart';
-import '../../../../supervisor/data/models/plan_model/get_plan_by_id_model.dart';
-import '../../../../supervisor/data/models/plan_model/plan_feed_back_request_body.dart';
-import '../../models/employee_attendace_model/employee_check_in_request_body.dart';
-import '../../models/employee_attendace_model/get_plan_by_employee_id_model.dart';
-import '../../models/employee_attendace_model/user_attendace_model.dart';
+import '../../../../supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
+import '../../models/employee_attendance_model/employee_check_in_request_body.dart';
+import '../../models/employee_attendance_model/get_plan_by_employee_id_model.dart';
+import '../../models/employee_attendance_model/user_attendace_model.dart';
 import 'employee_attendance_repo.dart';
 
 class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
-  final ApiService apiservice;
+  final ApiService apiService;
   final CheckAccessibleAreaService checkAccessibleAreaService;
 
   EmployeeAttendanceRepoImpl(this.checkAccessibleAreaService,
-      {required this.apiservice});
+      {required this.apiService});
 
   @override
   // Get Branch By Id for the User
   Future<Either<Failure, GetBranchesData>> getBranchesById() async {
     try {
-      final result = await apiservice.get(
+      final result = await apiService.get(
           endPoint: "${ApiConstant.branches}/${ApiConstant.branchId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetBranchesData.fromJson(result['value']));
@@ -40,7 +40,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, GetPlanByEmployeeIdValue>>
       getCustomerPlanForEmployee() async {
     try {
-      final result = await apiservice.get(
+      final result = await apiService.get(
           endPoint: "${ApiConstant.Plan}/employee/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetPlanByEmployeeIdValue.fromJson(result['value']));
@@ -65,7 +65,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
     try {
-      final result = await apiservice.post(
+      final result = await apiService.post(
           endPoint: ApiConstant.employeeCheckIn,
           body: employeeCheckInRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
@@ -83,7 +83,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
       {required String employeeId}) async {
     try {
-      final result = await apiservice.post(
+      final result = await apiService.post(
           endPoint: "${ApiConstant.employeeCheckOut}",
           body: {"employeeId": employeeId, "employeeImage": null});
       if (result[ApiConstant.successApiKey] == true) {
@@ -101,7 +101,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceValue>> getAllEmployeeAttendance(
       {int pageNumber = 0}) async {
     try {
-      final result = await apiservice.get(
+      final result = await apiService.get(
         endPoint:
             "${ApiConstant.getEmployeeAttendanceHistory}/${ApiConstant.employeeId}?itemCount=10&index=${pageNumber * 10}",
       );
@@ -120,7 +120,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, GetPlanByIdValue>> getPlanById(
       {required int id}) async {
     try {
-      final result = await apiservice.get(endPoint: "${ApiConstant.Plan}/$id");
+      final result = await apiService.get(endPoint: "${ApiConstant.Plan}/$id");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetPlanByIdValue.fromJson(result['value']));
       } else {
@@ -144,7 +144,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, void>> addPlanFeedBack(
       {required PlanFeedBackRequestBody planFeedBackRequestBody}) async {
     try {
-      final result = await apiservice.post(
+      final result = await apiService.post(
           endPoint: ApiConstant.planFeedback,
           body: planFeedBackRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
@@ -162,7 +162,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, void>> trackEmployeeLocation(
       {required TrackUserRequestBody trackUserRequestBody}) async {
     try {
-      final result = await apiservice.post(
+      final result = await apiService.post(
           endPoint: ApiConstant.trackEmployeeLocation,
           body: trackUserRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {

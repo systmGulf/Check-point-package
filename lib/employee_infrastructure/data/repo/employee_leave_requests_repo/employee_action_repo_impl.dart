@@ -1,7 +1,7 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
-import '../../../../supervisor/data/models/task_model/get_task_response.dart';
+import '../../../../supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 
 class EmployeeActionRepoImpl implements EmployeeActionRepo {
   final ApiService apiService;

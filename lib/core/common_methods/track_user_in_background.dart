@@ -7,7 +7,7 @@ import 'package:flutter_background_service/flutter_background_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:hr_management_system_package/core/core.dart';
 import 'package:hr_management_system_package/core/dependecy_injection/service_locator.dart';
-import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendace_model/track_user_request_body.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/track_user_request_body.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
