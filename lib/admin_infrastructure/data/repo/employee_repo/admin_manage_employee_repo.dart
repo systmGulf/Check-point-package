@@ -10,7 +10,7 @@ import '../../models/department_model/get_employees_in_department.dart';
 abstract class AdminManageEmployeeRepo {
   // get all employees
   Future<Either<Failure, GetAllEmployeesValue>> getAllEmployees(
-      {required int pageNumber});
+      {required int pageNumber, required int itemCount , });
   // add employee
   Future<Either<Failure, void>> addEmployee(AddEmployeeRequestBody request);
   //  Delete employee Account

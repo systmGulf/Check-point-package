@@ -73,11 +73,11 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
   @override
   // get All Employee
   Future<Either<Failure, GetAllEmployeesValue>> getAllEmployees(
-      {required int pageNumber}) async {
+      {required int pageNumber, required int itemCount}) async {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.employee}?itemCount=10&index=${pageNumber * 10}");
+              "${ApiConstant.employee}?itemCount=${itemCount}&index=${pageNumber * 10}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetAllEmployeesValue.fromJson(result['value']));
       } else {
