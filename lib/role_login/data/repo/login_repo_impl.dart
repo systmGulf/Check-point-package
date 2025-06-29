@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 
 
 import '../../../hr_manamgement_system_package.dart';
@@ -79,7 +79,8 @@ class LoginRepoImpl implements LoginRepo {
           ApiConstant.employeeId =
               await SecureCache.getFromCache(key: 'employeeId');
           final userTokens = result['value']['deviceTokens'] as List<dynamic>;
-          final currentToken = await FirebaseMessaging.instance.getToken();
+          final currentToken = await "123";
+          //  FirebaseMessaging.instance.getToken();
           if (!userTokens.contains(currentToken) && userTokens == []) {
             log('the current user Token while Login is ==> ${currentToken} and the userTokens are ==>${userTokens}');
             updateUserToken(

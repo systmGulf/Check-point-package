@@ -1,12 +1,15 @@
 import 'package:connectivity_plus/connectivity_plus.dart';
 
+import 'dart:io';
+
 class NetworkChecker {
   checkConnectivity(
       {required Function onSuccess, required Function onFailure}) async {
     List<ConnectivityResult> conmnectivityReult =
         await Connectivity().checkConnectivity();
     if (conmnectivityReult.contains(ConnectivityResult.mobile) ||
-        conmnectivityReult.contains(ConnectivityResult.wifi)) {
+        conmnectivityReult.contains(ConnectivityResult.wifi) ||
+        Platform.isIOS) {
       onSuccess();
     } else {
       onFailure();
