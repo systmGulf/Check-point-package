@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import '../../../../supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 import '../../../../hr_manamgement_system_package.dart';
+import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 abstract class EmployeeActionRepo {
   // Create Leave Request
@@ -20,7 +21,9 @@ abstract class EmployeeActionRepo {
   // Get Employee By Department Id
   Future<Either<Failure, GetAllEmployeesValue>> getEmployeeByDepartmentId();
   // Get Employee Task
-  Future<Either<Failure, List<GetTasData>>> getEmployeeTasks();
+
+  /// THE MODEL HERE IS WRONG NOW WE WANT TO CREATE A NEW MODEL FOR EMPLOYEE TASKS
+  Future<Either<Failure, List<EmployeeTasks>>> getEmployeeTasks();
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
       {required int taskId, required String status});

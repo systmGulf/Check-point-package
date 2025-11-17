@@ -1,6 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import '../../../../core/core.dart';
 
 part 'set_customer_plan_request_body.g.dart';
 

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
 import '../../../../supervisor_infrastructure/data/models/task_model/get_task_response.dart';
+import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 class EmployeeActionRepoImpl implements EmployeeActionRepo {
   final ApiService apiService;
@@ -118,14 +119,14 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get Employee Tasks
-  Future<Either<Failure, List<GetTasData>>> getEmployeeTasks() async {
+  Future<Either<Failure, List<EmployeeTasks>>> getEmployeeTasks() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-          List<GetTasData>.from(
+          List<EmployeeTasks>.from(
             result['value'].map(
               (x) => GetTasData.fromJson(x),
             ),
