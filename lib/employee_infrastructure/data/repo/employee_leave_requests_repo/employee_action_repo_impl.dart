@@ -119,18 +119,14 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get Employee Tasks
-  Future<Either<Failure, List<EmployeeTasks>>> getEmployeeTasks() async {
+  Future<Either<Failure,EmployeeTasksResponseBody>> getEmployeeTasks() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-          List<EmployeeTasks>.from(
-            result['value'].map(
-              (x) => GetTasData.fromJson(x),
-            ),
-          ),
+          EmployeeTasksResponseBody.fromJson(result)
         );
       } else {
         return Left(

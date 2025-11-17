@@ -23,7 +23,7 @@ abstract class EmployeeActionRepo {
   // Get Employee Task
 
   /// THE MODEL HERE IS WRONG NOW WE WANT TO CREATE A NEW MODEL FOR EMPLOYEE TASKS
-  Future<Either<Failure, List<EmployeeTasks>>> getEmployeeTasks();
+  Future<Either<Failure, EmployeeTasksResponseBody>> getEmployeeTasks();
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
       {required int taskId, required String status});
