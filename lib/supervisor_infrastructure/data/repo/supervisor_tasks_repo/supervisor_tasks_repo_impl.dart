@@ -40,7 +40,7 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
           List<GetTasData>.from(
-              (result['value'] as List).map((e) => GetTasData.fromJson(e))),
+              (result['value']['data'] as List).map((e) => GetTasData.fromJson(e))),
         );
       } else {
         return Left(Failure(404, getResponseError(result)));
