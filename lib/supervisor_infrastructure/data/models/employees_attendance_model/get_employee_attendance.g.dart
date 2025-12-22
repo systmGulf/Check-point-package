@@ -78,6 +78,8 @@ SupervisorGetAllEmployeesAttendanceData
           employeeId: json['employeeId'] as String?,
           customerId: json['customerId'] as String?,
           employeeImage: json['employeeImage'] as String?,
+          isEarly: json['isEarly'] as bool?,
+          isLate: json['isLate'] as bool?,
         );
 
 Map<String, dynamic> _$SupervisorGetAllEmployeesAttendanceDataToJson(
@@ -95,4 +97,6 @@ Map<String, dynamic> _$SupervisorGetAllEmployeesAttendanceDataToJson(
       'employeeId': instance.employeeId,
       'customerId': instance.customerId,
       'employeeImage': instance.employeeImage,
+      'isEarly': instance.isEarly,
+      'isLate': instance.isLate,
     };

@@ -10,7 +10,7 @@ part of 'env.dart';
 // ignore_for_file: type=lint
 // generated_from: .env.dev
 final class _EnvDev {
-  static const String baseUrl = 'http://ems.runasp.net//api/';
+  static const String baseUrl = 'http://emsdemo.runasp.net/api/';
 }
 
 // coverage:ignore-file

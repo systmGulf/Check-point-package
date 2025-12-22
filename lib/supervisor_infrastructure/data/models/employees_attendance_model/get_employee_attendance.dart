@@ -64,6 +64,8 @@ class SupervisorGetAllEmployeesAttendanceData {
   String? employeeId;
   String? customerId;
   String? employeeImage;
+  bool? isEarly;
+  bool? isLate;
 
   SupervisorGetAllEmployeesAttendanceData(
       {this.id,
@@ -76,7 +78,7 @@ class SupervisorGetAllEmployeesAttendanceData {
       this.location,
       this.area,
       this.employeeId,
-      this.customerId, this.employeeImage});
+      this.customerId, this.employeeImage, this.isEarly, this.isLate});
   factory SupervisorGetAllEmployeesAttendanceData.fromJson(
           Map<String, dynamic> json) =>
       _$SupervisorGetAllEmployeesAttendanceDataFromJson(json);
