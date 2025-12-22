@@ -69,6 +69,10 @@ UserAttendanceData _$UserAttendanceDataFromJson(Map<String, dynamic> json) =>
       area: json['area'] as String?,
       employeeId: json['employeeId'] as String?,
       customerId: json['customerId'] as String?,
+      customerName: json['customerName'] as String?,
+      employeeImage: json['employeeImage'] as String?,
+      isEarly: json['isEarly'] as bool?,
+      isLate: json['isLate'] as bool?,
     );
 
 Map<String, dynamic> _$UserAttendanceDataToJson(UserAttendanceData instance) =>
@@ -84,4 +88,8 @@ Map<String, dynamic> _$UserAttendanceDataToJson(UserAttendanceData instance) =>
       'area': instance.area,
       'employeeId': instance.employeeId,
       'customerId': instance.customerId,
+      'customerName': instance.customerName,
+      'employeeImage': instance.employeeImage,
+      'isEarly': instance.isEarly,
+      'isLate': instance.isLate,
     };

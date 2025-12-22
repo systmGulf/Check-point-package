@@ -58,6 +58,9 @@ class UserAttendanceData {
   String? area;
   String? employeeId;
   String? customerId;
+  String? customerName;
+  String? employeeImage;
+  bool? isEarly, isLate;
 
   UserAttendanceData(
       {this.id,
@@ -70,7 +73,7 @@ class UserAttendanceData {
       this.location,
       this.area,
       this.employeeId,
-      this.customerId});
+      this.customerId, this.customerName, this.employeeImage, this.isEarly, this.isLate});
 
  factory UserAttendanceData.fromJson(Map<String, dynamic> json) => _$UserAttendanceDataFromJson(json);
 }

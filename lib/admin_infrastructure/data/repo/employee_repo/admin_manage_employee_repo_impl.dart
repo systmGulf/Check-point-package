@@ -176,4 +176,20 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
+  
+  @override
+  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({required String searchKey, }) async {
+    try {
+      final result = await apiService.get(
+          endPoint:
+              "${ApiConstant.employee}/search/$searchKey");
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(GetAllEmployeesValue.fromJson(result['value']));
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
 }

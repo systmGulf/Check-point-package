@@ -13,6 +13,11 @@ abstract class AdminManageEmployeeRepo {
     required int pageNumber,
     required int itemCount,
   });
+  // search employees
+  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({
+    required String searchKey,
+   
+  });
   // add employee
   Future<Either<Failure, void>> addEmployee(AddEmployeeRequestBody request);
   //  Delete employee Account

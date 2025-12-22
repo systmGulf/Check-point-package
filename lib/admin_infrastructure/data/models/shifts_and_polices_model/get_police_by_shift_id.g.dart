@@ -62,6 +62,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
       shift: json['shift'] == null
           ? null
           : Shift.fromJson(json['shift'] as Map<String, dynamic>),
+      employees: (json['employees'] as List<dynamic>?)
+          ?.map((e) => Employee.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
@@ -72,6 +75,7 @@ Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
       'clockOutTime': instance.clockOutTime,
       'area': instance.area,
       'shift': instance.shift,
+      'employees': instance.employees,
     };
 
 Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
@@ -82,4 +86,24 @@ Shift _$ShiftFromJson(Map<String, dynamic> json) => Shift(
 Map<String, dynamic> _$ShiftToJson(Shift instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+    };
+
+Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
+      position: json['position'] as String?,
+      departmentName: json['departmentName'] as String?,
+      branchName: json['branchName'] as String?,
+      branchId: (json['branchId'] as num?)?.toInt(),
+      role: json['role'] as String?,
+      name: json['name'] as String?,
+      imageUrl: json['imageUrl'] as String?,
+    );
+
+Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
+      'position': instance.position,
+      'departmentName': instance.departmentName,
+      'branchName': instance.branchName,
+      'branchId': instance.branchId,
+      'role': instance.role,
+      'name': instance.name,
+      'imageUrl': instance.imageUrl,
     };

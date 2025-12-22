@@ -93,8 +93,10 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
+    } catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
     }
-  }
+  } 
 
   @override
   // delete police
