@@ -1,6 +1,7 @@
 import 'dart:io';
+import 'package:client_information/client_information.dart';
 import 'package:dartz/dartz.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+// import 'package:device_info_plus/device_info_plus.dart';
 
 import '../../hr_manamgement_system_package.dart';
 import '../models/register_account_request_body.dart';
@@ -41,13 +42,14 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
 
 // Get Device Id this Id is Unit for any device
 Future<String?> getId() async {
-  var deviceInfo = DeviceInfoPlugin();
-  if (Platform.isIOS) {
-    var iosDeviceInfo = await deviceInfo.iosInfo;
-    return iosDeviceInfo.identifierForVendor;
-  } else if (Platform.isAndroid) {
-    var androidDeviceInfo = await deviceInfo.androidInfo;
-    return androidDeviceInfo.id;
-  }
-  return null;
+ return (await ClientInformation.fetch()).deviceId;
+  // var deviceInfo = DeviceInfoPlugin();
+  // if (Platform.isIOS) {
+  //   var iosDeviceInfo = await deviceInfo.iosInfo;
+  //   return iosDeviceInfo.identifierForVendor;
+  // } else if (Platform.isAndroid) {
+  //   var androidDeviceInfo = await deviceInfo.androidInfo;
+  //   return androidDeviceInfo.id;
+  // }
+  // return null;
 }
