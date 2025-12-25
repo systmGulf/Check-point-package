@@ -61,6 +61,7 @@ class GetEmployeesInDepartmentData {
   String? userName;
   String? name;
   String? mobileId;
+  String? imageUrl;
 
   GetEmployeesInDepartmentData(
       {this.position,
@@ -74,7 +75,7 @@ class GetEmployeesInDepartmentData {
       this.id,
       this.userName,
       this.name,
-      this.mobileId});
+      this.mobileId, this.imageUrl});
 
   factory GetEmployeesInDepartmentData.fromJson(Map<String, dynamic> json) =>
       _$GetEmployeesInDepartmentDataFromJson(json);

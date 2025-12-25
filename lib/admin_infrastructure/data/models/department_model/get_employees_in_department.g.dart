@@ -75,6 +75,7 @@ GetEmployeesInDepartmentData _$GetEmployeesInDepartmentDataFromJson(
       userName: json['userName'] as String?,
       name: json['name'] as String?,
       mobileId: json['mobileId'] as String?,
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$GetEmployeesInDepartmentDataToJson(
@@ -92,4 +93,5 @@ Map<String, dynamic> _$GetEmployeesInDepartmentDataToJson(
       'userName': instance.userName,
       'name': instance.name,
       'mobileId': instance.mobileId,
+      'imageUrl': instance.imageUrl,
     };

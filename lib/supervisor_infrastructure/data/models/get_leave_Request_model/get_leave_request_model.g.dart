@@ -98,6 +98,7 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       deviceTokens: (json['deviceTokens'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
@@ -114,4 +115,5 @@ Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'name': instance.name,
       'mobileId': instance.mobileId,
       'deviceTokens': instance.deviceTokens,
+      'imageUrl': instance.imageUrl,
     };

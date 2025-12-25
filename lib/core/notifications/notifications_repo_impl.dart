@@ -10,12 +10,12 @@ class NotificationsRepoImpl implements NotificationRepo {
   Future<Either<Failure, void>> sendMultipleNotification(
       {required List<String> tokens,
       required String title,
-      required String body}) async {
+      required String body, required String topic}) async {
     try {
       final result = await apiService.post(
           endPoint:
               "${ApiConstant.Notification}/${ApiConstant.multiNotification}",
-          body: {"deviceTokens": tokens, "title": title, "body": body});
+          body: {"deviceTokens": tokens, "title": title, "body": body, "topic": topic});
       if (result['isSuccess'] == true) {
         return const Right(null);
       } else {
@@ -30,7 +30,7 @@ class NotificationsRepoImpl implements NotificationRepo {
   Future<Either<Failure, void>> sendSingleNotification(
       {required String token,
       required String title,
-      required String body}) async {
+      required String body, }) async {
     try {
       final result = await apiService.post(
           endPoint:

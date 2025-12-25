@@ -82,6 +82,10 @@ Employees _$EmployeesFromJson(Map<String, dynamic> json) => Employees(
       userName: json['userName'] as String?,
       name: json['name'] as String?,
       mobileId: json['mobileId'] as String?,
+      deviceTokens: (json['deviceTokens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      imageUrl: json['imageUrl'] as String?,
     );
 
 Map<String, dynamic> _$EmployeesToJson(Employees instance) => <String, dynamic>{
@@ -97,6 +101,8 @@ Map<String, dynamic> _$EmployeesToJson(Employees instance) => <String, dynamic>{
       'userName': instance.userName,
       'name': instance.name,
       'mobileId': instance.mobileId,
+      'deviceTokens': instance.deviceTokens,
+      'imageUrl': instance.imageUrl,
     };
 
 Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(

@@ -8,5 +8,5 @@ abstract class NotificationRepo {
   Future<Either<Failure, void>> sendMultipleNotification(
       {required List<String> tokens,
       required String title,
-      required String body});
+      required String body, required String topic});
 }

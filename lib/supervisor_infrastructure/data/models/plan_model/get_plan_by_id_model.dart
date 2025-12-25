@@ -72,6 +72,8 @@ class Employees {
   String? userName;
   String? name;
   String? mobileId;
+  List<String>? deviceTokens;
+  String? imageUrl;
 
   Employees(
       {this.position,
@@ -85,7 +87,7 @@ class Employees {
       this.id,
       this.userName,
       this.name,
-      this.mobileId});
+      this.mobileId, this.deviceTokens, this.imageUrl});
 
   factory Employees.fromJson(Map<String, dynamic> json) =>
       _$EmployeesFromJson(json);

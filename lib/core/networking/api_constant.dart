@@ -9,7 +9,7 @@ class ApiConstant {
   static const String login = "Auth/Login";
   static const String updateUserToken = "Auth/updateDeviceToken";
   static const successApiKey = 'isSuccess';
-  static const singleNotification = 'sendMulti';
+  static const singleNotification = 'sendSingle';
  static const multiNotification = 'sendMulti';
 
   static const String employee = "Employee";
