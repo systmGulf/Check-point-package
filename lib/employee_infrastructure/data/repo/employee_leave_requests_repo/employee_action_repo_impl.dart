@@ -158,4 +158,21 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
+  
+  @override
+  // Delete Task
+  Future<Either<Failure, void>> deleteTask({required int id})async {
+    try {
+      // ?id=1
+      final result = await apiService.delete(endPoint: "${ApiConstant.Task}?id=$id");
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  } 
+  
 }

@@ -27,4 +27,6 @@ abstract class EmployeeActionRepo {
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
       {required int taskId, required String status});
+      // delete task
+   Future<Either<Failure, void>> deleteTask({required int id});   
 }
