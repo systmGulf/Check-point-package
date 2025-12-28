@@ -28,7 +28,12 @@ class LocalAuthApi {
         options: const AuthenticationOptions(
           useErrorDialogs: true,
           stickyAuth: true,
+          biometricOnly: false,
         ),
+        authMessages: [
+         
+          
+        ],
         localizedReason: 'Systm Gulf Authenticate',
       );
     } on PlatformException {
@@ -40,9 +45,11 @@ class LocalAuthApi {
     final authPermission = await LocalAuthApi.hasBiometrics();
     final biometrics = await LocalAuthApi.getBiometrics();
 
-    final authenticate = await LocalAuthApi.authenticate();
+    final authenticate = await LocalAuthApi.authenticate(
+        
+    );
     if (authPermission && biometrics.contains(BiometricType.fingerprint) ||
-        biometrics.contains(BiometricType.face)) {
+        biometrics.contains(BiometricType.face ) || biometrics.contains(BiometricType.iris) || biometrics.contains(BiometricType.strong) || biometrics.contains(BiometricType.weak)) {
       if (authenticate) {
         return true;
       }
@@ -57,7 +64,7 @@ class LocalAuthApi {
     final authenticate = await LocalAuthApi.authenticate();
     if (authPermission ||
         biometrics.contains(BiometricType.fingerprint) ||
-        biometrics.contains(BiometricType.face)) {
+        biometrics.contains(BiometricType.face) || biometrics.contains(BiometricType.iris) || biometrics.contains(BiometricType.strong) || biometrics.contains(BiometricType.weak)) {
       if (authenticate) {
         return true;
       } else {

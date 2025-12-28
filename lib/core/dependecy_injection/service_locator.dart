@@ -1,6 +1,7 @@
 import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/core/notifications/notifications_repo_impl.dart';
+import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo_impl.dart';
@@ -19,6 +20,7 @@ import '../../supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervis
 import '../../supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo_impl.dart';
 import '../common_methods/network_checker.dart';
 import '../common_methods/check_accessiable_area_service.dart';
+import '../repos/shared_repo_impl.dart';
 
 final getIt = GetIt.instance;
 
@@ -40,6 +42,11 @@ void setUpServiceLocator() {
 
   getIt.registerLazySingleton<SupervisorPlanRepo>(
     () => SupervisorPlanRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton<SharedRepo>(
+    () => SharedRepoImpl(
       apiService: getIt<ApiService>(),
     ),
   );

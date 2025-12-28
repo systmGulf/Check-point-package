@@ -77,9 +77,13 @@ SupervisorGetAllEmployeesAttendanceData
           area: json['area'] as String?,
           employeeId: json['employeeId'] as String?,
           customerId: json['customerId'] as String?,
+          customerName: json['customerName'] as String?,
           employeeImage: json['employeeImage'] as String?,
           isEarly: json['isEarly'] as bool?,
           isLate: json['isLate'] as bool?,
+          customerPlans: (json['customerPlans'] as List<dynamic>?)
+              ?.map((e) => CustomerPlan.fromJson(e as Map<String, dynamic>))
+              .toList(),
         );
 
 Map<String, dynamic> _$SupervisorGetAllEmployeesAttendanceDataToJson(
@@ -96,7 +100,135 @@ Map<String, dynamic> _$SupervisorGetAllEmployeesAttendanceDataToJson(
       'area': instance.area,
       'employeeId': instance.employeeId,
       'customerId': instance.customerId,
+      'customerName': instance.customerName,
       'employeeImage': instance.employeeImage,
       'isEarly': instance.isEarly,
       'isLate': instance.isLate,
+      'customerPlans': instance.customerPlans,
+    };
+
+CustomerPlan _$CustomerPlanFromJson(Map<String, dynamic> json) => CustomerPlan(
+      id: (json['id'] as num?)?.toInt(),
+      note: json['note'] as String?,
+      employees: (json['employees'] as List<dynamic>?)
+          ?.map((e) => CustomerPlanEmployee.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      customer: json['customer'] == null
+          ? null
+          : CustomerInfo.fromJson(json['customer'] as Map<String, dynamic>),
+      visited: json['visited'] as bool?,
+      feedbacks: (json['feedbacks'] as List<dynamic>?)
+          ?.map((e) => FeedbackModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CustomerPlanToJson(CustomerPlan instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'note': instance.note,
+      'employees': instance.employees,
+      'customer': instance.customer,
+      'visited': instance.visited,
+      'feedbacks': instance.feedbacks,
+    };
+
+CustomerPlanEmployee _$CustomerPlanEmployeeFromJson(
+        Map<String, dynamic> json) =>
+    CustomerPlanEmployee(
+      position: json['position'] as String?,
+      departmentName: json['departmentName'] as String?,
+      departmentId: (json['departmentId'] as num?)?.toInt(),
+      branchName: json['branchName'] as String?,
+      branchId: (json['branchId'] as num?)?.toInt(),
+      role: json['role'] as String?,
+      canAddAttendance: json['canAddAttendance'] as bool?,
+      canAddPlan: json['canAddPlan'] as bool?,
+      shiftName: json['shiftName'] as String?,
+      month: (json['month'] as num?)?.toInt(),
+      year: (json['year'] as num?)?.toInt(),
+      clockInTime: json['clockInTime'] as String?,
+      clockOutTime: json['clockOutTime'] as String?,
+      area: json['area'] as String?,
+      id: json['id'] as String?,
+      userName: json['userName'] as String?,
+      name: json['name'] as String?,
+      mobileId: json['mobileId'] as String?,
+      deviceTokens: (json['deviceTokens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      imageUrl: json['imageUrl'] as String?,
+    );
+
+Map<String, dynamic> _$CustomerPlanEmployeeToJson(
+        CustomerPlanEmployee instance) =>
+    <String, dynamic>{
+      'position': instance.position,
+      'departmentName': instance.departmentName,
+      'departmentId': instance.departmentId,
+      'branchName': instance.branchName,
+      'branchId': instance.branchId,
+      'role': instance.role,
+      'canAddAttendance': instance.canAddAttendance,
+      'canAddPlan': instance.canAddPlan,
+      'shiftName': instance.shiftName,
+      'month': instance.month,
+      'year': instance.year,
+      'clockInTime': instance.clockInTime,
+      'clockOutTime': instance.clockOutTime,
+      'area': instance.area,
+      'id': instance.id,
+      'userName': instance.userName,
+      'name': instance.name,
+      'mobileId': instance.mobileId,
+      'deviceTokens': instance.deviceTokens,
+      'imageUrl': instance.imageUrl,
+    };
+
+CustomerInfo _$CustomerInfoFromJson(Map<String, dynamic> json) => CustomerInfo(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      workesAs: json['workesAs'] as String?,
+      location: json['location'] as String?,
+      customerType: json['customerType'] as String?,
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => CustomerCoordinate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CustomerInfoToJson(CustomerInfo instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'workesAs': instance.workesAs,
+      'location': instance.location,
+      'customerType': instance.customerType,
+      'coordinates': instance.coordinates,
+    };
+
+CustomerCoordinate _$CustomerCoordinateFromJson(Map<String, dynamic> json) =>
+    CustomerCoordinate(
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CustomerCoordinateToJson(CustomerCoordinate instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+    };
+
+FeedbackModel _$FeedbackModelFromJson(Map<String, dynamic> json) =>
+    FeedbackModel(
+      id: (json['id'] as num?)?.toInt(),
+      imageUrl: json['imageUrl'] as String?,
+      notes: json['notes'] as String?,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$FeedbackModelToJson(FeedbackModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'imageUrl': instance.imageUrl,
+      'notes': instance.notes,
+      'status': instance.status,
     };

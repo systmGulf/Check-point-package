@@ -28,6 +28,7 @@ class EmployeeSummaryValue {
   String? date;
   String? employeeId;
   String? employeeName;
+  String? employeeImage;
   double? totalHoursWorked;
   int? totalDaysWorked;
   int? totalLateDays;
@@ -41,6 +42,7 @@ class EmployeeSummaryValue {
       this.totalHoursWorked,
       this.totalDaysWorked,
       this.totalLateDays,
+      this.employeeImage,
       this.totalEarlyLeaveDays,
       this.totalAbsentDays});
       factory EmployeeSummaryValue.fromJson(Map<String, dynamic> json) => _$EmployeeSummaryValueFromJson(json);

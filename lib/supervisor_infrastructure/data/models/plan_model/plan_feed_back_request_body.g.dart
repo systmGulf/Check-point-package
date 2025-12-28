@@ -11,6 +11,7 @@ PlanFeedBackRequestBody _$PlanFeedBackRequestBodyFromJson(
     PlanFeedBackRequestBody(
       imageUrl: json['imageUrl'] as String,
       notes: json['notes'] as String,
+      status: json['status'] as String,
       customerPlanId: (json['customerPlanId'] as num).toInt(),
     );
 
@@ -19,5 +20,6 @@ Map<String, dynamic> _$PlanFeedBackRequestBodyToJson(
     <String, dynamic>{
       'imageUrl': instance.imageUrl,
       'notes': instance.notes,
+      'status': instance.status,
       'customerPlanId': instance.customerPlanId,
     };

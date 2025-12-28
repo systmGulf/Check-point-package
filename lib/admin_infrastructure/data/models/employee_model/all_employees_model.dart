@@ -51,6 +51,7 @@ class GetAllEmployeesValue {
 class EmployeeData {
   String? position;
   String? departmentName;
+  String? shiftName;
   int? departmentId;
   String? branchName;
   int? branchId;
@@ -67,6 +68,7 @@ class EmployeeData {
   EmployeeData(
       {this.position,
       this.departmentName,
+      this.shiftName,
       this.departmentId,
       this.branchName,
       this.branchId,

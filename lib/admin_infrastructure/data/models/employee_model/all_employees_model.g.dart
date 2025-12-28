@@ -60,6 +60,7 @@ Map<String, dynamic> _$GetAllEmployeesValueToJson(
 EmployeeData _$EmployeeDataFromJson(Map<String, dynamic> json) => EmployeeData(
       position: json['position'] as String?,
       departmentName: json['departmentName'] as String?,
+      shiftName: json['shiftName'] as String?,
       departmentId: (json['departmentId'] as num?)?.toInt(),
       branchName: json['branchName'] as String?,
       branchId: (json['branchId'] as num?)?.toInt(),
@@ -80,6 +81,7 @@ Map<String, dynamic> _$EmployeeDataToJson(EmployeeData instance) =>
     <String, dynamic>{
       'position': instance.position,
       'departmentName': instance.departmentName,
+      'shiftName': instance.shiftName,
       'departmentId': instance.departmentId,
       'branchName': instance.branchName,
       'branchId': instance.branchId,

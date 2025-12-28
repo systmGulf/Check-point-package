@@ -23,16 +23,18 @@ class ApiService {
       return response.data;
     } on Exception catch (e) {
       if (e is DioException) {
-           _handleDioException(e);
+        _handleDioException(e);
       } else {
-       return ErrorHandler.handle(e).failure;
+        return ErrorHandler.handle(e).failure;
       }
     }
   }
 
-  Future<dynamic> get({required String endPoint}) async {
+  Future<dynamic> get(
+      {required String endPoint, Map<String, dynamic>? body}) async {
     try {
       var response = await _dio.get(endPoint,
+          data: body,
           options: Options(
             headers: {
               'Accept': 'application/json',
@@ -43,9 +45,9 @@ class ApiService {
       return response.data;
     } on Exception catch (e) {
       if (e is DioException) {
-           _handleDioException(e);
+        _handleDioException(e);
       } else {
-       return ErrorHandler.handle(e).failure;
+        return ErrorHandler.handle(e).failure;
       }
     }
   }
@@ -65,9 +67,9 @@ class ApiService {
       return response.data;
     } on Exception catch (e) {
       if (e is DioException) {
-           _handleDioException(e);
+        _handleDioException(e);
       } else {
-       return ErrorHandler.handle(e).failure;
+        return ErrorHandler.handle(e).failure;
       }
     }
   }
@@ -91,7 +93,6 @@ class ApiService {
       }
     }
   }
-
 
   dynamic _handleDioException(DioException error) {
     switch (error.type) {
@@ -126,4 +127,3 @@ class ApiService {
     }
   }
 }
-

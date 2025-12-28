@@ -143,14 +143,16 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       required int year}) async {
     try {
       final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.getEmployeeAttendance}/attendanceSummary?employeeId=$employeeId&year=$year&month=$month");
+          body: {"employeeId": employeeId, "month": month, "year": year},
+          endPoint: "${ApiConstant.getEmployeeAttendance}/attendanceSummary");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeSummaryValue.fromJson(result['value']));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
     } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

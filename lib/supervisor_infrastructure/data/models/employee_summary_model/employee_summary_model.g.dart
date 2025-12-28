@@ -40,6 +40,7 @@ EmployeeSummaryValue _$EmployeeSummaryValueFromJson(
       totalHoursWorked: (json['totalHoursWorked'] as num?)?.toDouble(),
       totalDaysWorked: (json['totalDaysWorked'] as num?)?.toInt(),
       totalLateDays: (json['totalLateDays'] as num?)?.toInt(),
+      employeeImage: json['employeeImage'] as String?,
       totalEarlyLeaveDays: (json['totalEarlyLeaveDays'] as num?)?.toInt(),
       totalAbsentDays: (json['totalAbsentDays'] as num?)?.toInt(),
     );
@@ -50,6 +51,7 @@ Map<String, dynamic> _$EmployeeSummaryValueToJson(
       'date': instance.date,
       'employeeId': instance.employeeId,
       'employeeName': instance.employeeName,
+      'employeeImage': instance.employeeImage,
       'totalHoursWorked': instance.totalHoursWorked,
       'totalDaysWorked': instance.totalDaysWorked,
       'totalLateDays': instance.totalLateDays,

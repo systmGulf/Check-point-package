@@ -5,8 +5,11 @@ class ApiConstant {
   static String departmentId = '';
   static String branchId = '';
   static String position = '';
+  static String imageUrl = '';
+  static String shiftName = '';
   static String area = 'Customer';
   static const String login = "Auth/Login";
+  static const String uploadUserImage = "employeeImage";
   static const String updateUserToken = "Auth/updateDeviceToken";
   static const successApiKey = 'isSuccess';
   static const singleNotification = 'sendSingle';
