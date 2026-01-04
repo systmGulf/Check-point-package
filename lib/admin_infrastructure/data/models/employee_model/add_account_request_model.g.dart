@@ -67,6 +67,9 @@ AddAccountRequestData _$AddAccountRequestDataFromJson(
       name: json['name'] as String?,
       mobileId: json['mobileId'] as String?,
       deviceToken: json['deviceToken'] as String?,
+      createdDate: json['createdDate'] == null
+          ? null
+          : DateTime.parse(json['createdDate'] as String),
     );
 
 Map<String, dynamic> _$AddAccountRequestDataToJson(
@@ -76,4 +79,5 @@ Map<String, dynamic> _$AddAccountRequestDataToJson(
       'name': instance.name,
       'mobileId': instance.mobileId,
       'deviceToken': instance.deviceToken,
+      'createdDate': instance.createdDate?.toIso8601String(),
     };

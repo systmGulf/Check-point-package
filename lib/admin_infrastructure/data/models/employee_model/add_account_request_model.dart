@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_account_request_model.g.dart';
+
 @JsonSerializable()
 class AddAccountRequestModel {
   AddAccountRequestValue? value;
@@ -20,10 +21,11 @@ class AddAccountRequestModel {
       this.errors,
       this.validationErrors});
 
- factory AddAccountRequestModel.fromJson(Map<String, dynamic> json) => _$AddAccountRequestModelFromJson(json);
+  factory AddAccountRequestModel.fromJson(Map<String, dynamic> json) =>
+      _$AddAccountRequestModelFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class AddAccountRequestValue {
   List<AddAccountRequestData>? data;
   int? totalCount;
@@ -41,17 +43,21 @@ class AddAccountRequestValue {
       this.hasPreviousPage,
       this.start,
       this.end});
-factory AddAccountRequestValue.fromJson(Map<String, dynamic> json) => _$AddAccountRequestValueFromJson(json);
+  factory AddAccountRequestValue.fromJson(Map<String, dynamic> json) =>
+      _$AddAccountRequestValueFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class AddAccountRequestData {
   int? id;
   String? name;
   String? mobileId;
   String? deviceToken;
+  DateTime? createdDate;
 
-  AddAccountRequestData({this.id, this.name, this.mobileId, this.deviceToken});
+  AddAccountRequestData(
+      {this.id, this.name, this.mobileId, this.deviceToken, this.createdDate});
 
- factory AddAccountRequestData.fromJson(Map<String, dynamic> json) => _$AddAccountRequestDataFromJson(json);
+  factory AddAccountRequestData.fromJson(Map<String, dynamic> json) =>
+      _$AddAccountRequestDataFromJson(json);
 }
