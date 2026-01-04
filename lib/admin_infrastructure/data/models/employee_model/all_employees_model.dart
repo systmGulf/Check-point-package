@@ -51,13 +51,18 @@ class GetAllEmployeesValue {
 class EmployeeData {
   String? position;
   String? departmentName;
-  String? shiftName;
   int? departmentId;
   String? branchName;
   int? branchId;
   String? role;
   bool? canAddAttendance;
   bool? canAddPlan;
+  String? shiftName;
+  int? month;
+  int? year;
+  String? clockInTime;
+  String? clockOutTime;
+  String? area;
   String? id;
   String? userName;
   String? name;
@@ -68,17 +73,24 @@ class EmployeeData {
   EmployeeData(
       {this.position,
       this.departmentName,
-      this.shiftName,
       this.departmentId,
       this.branchName,
       this.branchId,
       this.role,
       this.canAddAttendance,
       this.canAddPlan,
+      this.shiftName,
+      this.month,
+      this.year,
+      this.clockInTime,
+      this.clockOutTime,
+      this.area,
       this.id,
       this.userName,
       this.name,
-      this.mobileId, this.deviceTokens, this.imageUrl});
+      this.mobileId,
+      this.deviceTokens,
+      this.imageUrl});
 
   factory EmployeeData.fromJson(Map<String, dynamic> json) =>
       _$EmployeeDataFromJson(json);
