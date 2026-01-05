@@ -33,4 +33,8 @@ abstract class ShiftsAndPolicesRepo {
   // assign police
   Future<Either<Failure, void>> assignPolice(
       {required AssignPoliceRequestBody assignShiftsRequestBody});
+
+  // Remove Assign Police
+  Future<Either<Failure, void>> removeAssignPolice(
+      {required RemoveAssignPolicyRequestBody remove});
 }

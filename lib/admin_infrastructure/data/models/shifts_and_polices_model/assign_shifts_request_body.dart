@@ -17,3 +17,13 @@ class AssignPoliceRequestBody {
   AssignPoliceRequestBody({required this.policyId, required this.employeeIds});
   Map<String, dynamic> toJson() => _$AssignPoliceRequestBodyToJson(this);
 }
+
+
+@JsonSerializable()
+class RemoveAssignPolicyRequestBody {
+  final String employeeId;
+  final int policyId;
+
+  RemoveAssignPolicyRequestBody({required this.employeeId, required this.policyId});
+  Map<String, dynamic> toJson() => _$RemoveAssignPolicyRequestBodyToJson(this);
+}

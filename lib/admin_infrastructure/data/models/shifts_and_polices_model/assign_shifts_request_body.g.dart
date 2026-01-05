@@ -37,3 +37,17 @@ Map<String, dynamic> _$AssignPoliceRequestBodyToJson(
       'policyId': instance.policyId,
       'employeeIds': instance.employeeIds,
     };
+
+RemoveAssignPolicyRequestBody _$RemoveAssignPolicyRequestBodyFromJson(
+        Map<String, dynamic> json) =>
+    RemoveAssignPolicyRequestBody(
+      employeeId: json['employeeId'] as String,
+      policyId: (json['policyId'] as num).toInt(),
+    );
+
+Map<String, dynamic> _$RemoveAssignPolicyRequestBodyToJson(
+        RemoveAssignPolicyRequestBody instance) =>
+    <String, dynamic>{
+      'employeeId': instance.employeeId,
+      'policyId': instance.policyId,
+    };

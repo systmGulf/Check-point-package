@@ -13,7 +13,7 @@ class ApiConstant {
   static const String updateUserToken = "Auth/updateDeviceToken";
   static const successApiKey = 'isSuccess';
   static const singleNotification = 'sendSingle';
- static const multiNotification = 'sendMulti';
+  static const multiNotification = 'sendMulti';
 
   static const String employee = "Employee";
   static const String employeeCheckIn = 'Attendance/in';
@@ -39,5 +39,7 @@ class ApiConstant {
 
   static const String trackEmployeeLocation = 'Employee/trackEmployee';
   static const String planFeedback = 'Feedback';
-  static const String getTrackingSummaryForEmployee = 'Employee/getEmployeeTracking';
+  static const String getTrackingSummaryForEmployee =
+      'Employee/getEmployeeTracking';
+  static const String removeAsignPolicy = "Employee/removeAssignPolicy";
 }

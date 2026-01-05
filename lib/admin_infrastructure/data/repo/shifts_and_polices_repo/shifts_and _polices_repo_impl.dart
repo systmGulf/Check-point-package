@@ -96,7 +96,7 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
-  } 
+  }
 
   @override
   // delete police
@@ -163,6 +163,23 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
         return const Right(null);
       } else {
         return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeAssignPolice(
+      {required RemoveAssignPolicyRequestBody remove}) async {
+    try {
+      final response = await apiService.post(
+          endPoint: ApiConstant.removeAsignPolicy, body: remove.toJson());
+
+      if (response[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(response)));
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);

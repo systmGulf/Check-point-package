@@ -1,7 +1,8 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+
+// import 'package:firebase_messaging/firebase_messaging.dart';
 // import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../../hr_manamgement_system_package.dart';
@@ -94,8 +95,7 @@ class LoginRepoImpl implements LoginRepo {
         if (!userTokens.contains(currentToken) && userTokens == []) {
           log('the current user Token while Login is ==> ${currentToken} and the userTokens are ==>${userTokens}');
           updateUserToken(
-              UserId: ApiConstant.employeeId,
-              currentUserToken: [currentToken ?? '']);
+              UserId: ApiConstant.employeeId, currentUserToken: [currentToken]);
         }
 
         ApiConstant.departmentId =
