@@ -96,14 +96,42 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       role: json['role'] as String?,
       name: json['name'] as String?,
       imageUrl: json['imageUrl'] as String?,
-    );
+    )
+      ..departmentId = (json['departmentId'] as num?)?.toInt()
+      ..canAddAttendance = json['canAddAttendance'] as bool?
+      ..canAddPlan = json['canAddPlan'] as bool?
+      ..shiftName = json['shiftName'] as String?
+      ..month = (json['month'] as num?)?.toInt()
+      ..year = (json['year'] as num?)?.toInt()
+      ..clockInTime = json['clockInTime'] as String?
+      ..clockOutTime = json['clockOutTime'] as String?
+      ..area = json['area'] as String?
+      ..id = json['id'] as String?
+      ..userName = json['userName'] as String?
+      ..mobileId = json['mobileId'] as String?
+      ..deviceTokens = (json['deviceTokens'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList();
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'position': instance.position,
       'departmentName': instance.departmentName,
+      'departmentId': instance.departmentId,
       'branchName': instance.branchName,
       'branchId': instance.branchId,
       'role': instance.role,
+      'canAddAttendance': instance.canAddAttendance,
+      'canAddPlan': instance.canAddPlan,
+      'shiftName': instance.shiftName,
+      'month': instance.month,
+      'year': instance.year,
+      'clockInTime': instance.clockInTime,
+      'clockOutTime': instance.clockOutTime,
+      'area': instance.area,
+      'id': instance.id,
+      'userName': instance.userName,
       'name': instance.name,
+      'mobileId': instance.mobileId,
+      'deviceTokens': instance.deviceTokens,
       'imageUrl': instance.imageUrl,
     };

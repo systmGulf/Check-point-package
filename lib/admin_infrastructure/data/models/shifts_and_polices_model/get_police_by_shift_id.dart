@@ -99,13 +99,23 @@ class Shift {
 class Employee {
   String? position;
   String? departmentName;
-
+  int? departmentId;
   String? branchName;
   int? branchId;
   String? role;
-
+  bool? canAddAttendance;
+  bool? canAddPlan;
+  String? shiftName;
+  int? month;
+  int? year;
+  String? clockInTime;
+  String? clockOutTime;
+  String? area;
+  String? id;
+  String? userName;
   String? name;
-
+  String? mobileId;
+  List<String>? deviceTokens;
   String? imageUrl;
 
   Employee({
@@ -116,6 +126,18 @@ class Employee {
     this.role,
     this.name,
     this.imageUrl,
+    this.canAddAttendance,
+    this.canAddPlan,
+    this.shiftName,
+    this.month,
+    this.year,
+    this.clockInTime,
+    this.clockOutTime,
+    this.area,
+    this.id,
+    this.userName,
+    this.mobileId,
+    this.deviceTokens,
   });
 
   factory Employee.fromJson(Map<String, dynamic> json) =>
