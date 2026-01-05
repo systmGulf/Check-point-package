@@ -170,14 +170,14 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
-  Future<Either<Failure, void>> removeAssignPolice(
+  Future<Either<Failure, String>> removeAssignPolice(
       {required RemoveAssignPolicyRequestBody remove}) async {
     try {
       final response = await apiService.post(
           endPoint: ApiConstant.removeAsignPolicy, body: remove.toJson());
 
       if (response[ApiConstant.successApiKey] == true) {
-        return const Right(null);
+        return  Right(response['successMessage']);
       } else {
         return Left(Failure(404, getResponseError(response)));
       }
