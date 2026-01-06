@@ -96,22 +96,21 @@ Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
       role: json['role'] as String?,
       name: json['name'] as String?,
       imageUrl: json['imageUrl'] as String?,
-    )
-      ..departmentId = (json['departmentId'] as num?)?.toInt()
-      ..canAddAttendance = json['canAddAttendance'] as bool?
-      ..canAddPlan = json['canAddPlan'] as bool?
-      ..shiftName = json['shiftName'] as String?
-      ..month = (json['month'] as num?)?.toInt()
-      ..year = (json['year'] as num?)?.toInt()
-      ..clockInTime = json['clockInTime'] as String?
-      ..clockOutTime = json['clockOutTime'] as String?
-      ..area = json['area'] as String?
-      ..id = json['id'] as String?
-      ..userName = json['userName'] as String?
-      ..mobileId = json['mobileId'] as String?
-      ..deviceTokens = (json['deviceTokens'] as List<dynamic>?)
+      canAddAttendance: json['canAddAttendance'] as bool?,
+      canAddPlan: json['canAddPlan'] as bool?,
+      shiftName: json['shiftName'] as String?,
+      month: (json['month'] as num?)?.toInt(),
+      year: (json['year'] as num?)?.toInt(),
+      clockInTime: json['clockInTime'] as String?,
+      clockOutTime: json['clockOutTime'] as String?,
+      area: json['area'] as String?,
+      id: json['id'] as String?,
+      userName: json['userName'] as String?,
+      mobileId: json['mobileId'] as String?,
+      deviceTokens: (json['deviceTokens'] as List<dynamic>?)
           ?.map((e) => e as String)
-          .toList();
+          .toList(),
+    )..departmentId = (json['departmentId'] as num?)?.toInt();
 
 Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
       'position': instance.position,

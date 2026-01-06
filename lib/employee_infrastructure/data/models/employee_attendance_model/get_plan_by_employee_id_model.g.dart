@@ -64,14 +64,89 @@ GetPlanByEmployeeIdData _$GetPlanByEmployeeIdDataFromJson(
         Map<String, dynamic> json) =>
     GetPlanByEmployeeIdData(
       id: (json['id'] as num?)?.toInt(),
-      planDate: json['planDate'] as String?,
       note: json['note'] as String?,
+      customer: json['customer'] == null
+          ? null
+          : Customer.fromJson(json['customer'] as Map<String, dynamic>),
+      plan: json['plan'] == null
+          ? null
+          : Plan.fromJson(json['plan'] as Map<String, dynamic>),
+      visited: json['visited'] as bool?,
+      feedbacks: (json['feedbacks'] as List<dynamic>?)
+          ?.map((e) => FeedbackModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
+      createdDate: json['createdDate'] as String?,
     );
 
 Map<String, dynamic> _$GetPlanByEmployeeIdDataToJson(
         GetPlanByEmployeeIdData instance) =>
     <String, dynamic>{
       'id': instance.id,
+      'note': instance.note,
+      'customer': instance.customer,
+      'plan': instance.plan,
+      'visited': instance.visited,
+      'feedbacks': instance.feedbacks,
+      'createdDate': instance.createdDate,
+    };
+
+Customer _$CustomerFromJson(Map<String, dynamic> json) => Customer(
+      id: json['id'] as String?,
+      name: json['name'] as String?,
+      workesAs: json['workesAs'] as String?,
+      location: json['location'] as String?,
+      customerType: json['customerType'] as String?,
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => Coordinate.fromJson(e as Map<String, dynamic>))
+          .toList(),
+    );
+
+Map<String, dynamic> _$CustomerToJson(Customer instance) => <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'workesAs': instance.workesAs,
+      'location': instance.location,
+      'customerType': instance.customerType,
+      'coordinates': instance.coordinates,
+    };
+
+Coordinate _$CoordinateFromJson(Map<String, dynamic> json) => Coordinate(
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+    );
+
+Map<String, dynamic> _$CoordinateToJson(Coordinate instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+    };
+
+Plan _$PlanFromJson(Map<String, dynamic> json) => Plan(
+      id: (json['id'] as num?)?.toInt(),
+      planDate: json['planDate'] as String?,
+      note: json['note'] as String?,
+      departmentName: json['departmentName'] as String?,
+    );
+
+Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
+      'id': instance.id,
       'planDate': instance.planDate,
       'note': instance.note,
+      'departmentName': instance.departmentName,
+    };
+
+FeedbackModel _$FeedbackModelFromJson(Map<String, dynamic> json) =>
+    FeedbackModel(
+      id: (json['id'] as num?)?.toInt(),
+      imageUrl: json['imageUrl'] as String?,
+      notes: json['notes'] as String?,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$FeedbackModelToJson(FeedbackModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'imageUrl': instance.imageUrl,
+      'notes': instance.notes,
+      'status': instance.status,
     };
