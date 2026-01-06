@@ -26,7 +26,7 @@ class ApiConstant {
   static const String employeeChangePassword = 'Auth/ChangePassword';
   static const String deleteEmployee = 'Auth/DeleteUser';
   static const String department = 'Department';
-
+  static const String removeTaskFromEmployee = "Employee/removeAssignTask";
   static const String addCustomer = 'Customer';
   static const String plan = 'customerPlan';
   static const String branches = 'Branch';
@@ -36,7 +36,6 @@ class ApiConstant {
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';
   static const String Policy = 'Policy';
-
   static const String trackEmployeeLocation = 'Employee/trackEmployee';
   static const String planFeedback = 'Feedback';
   static const String getTrackingSummaryForEmployee =

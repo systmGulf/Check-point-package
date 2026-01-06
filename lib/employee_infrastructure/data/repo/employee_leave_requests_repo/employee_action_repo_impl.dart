@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
-import '../../../../supervisor_infrastructure/data/models/task_model/get_task_response.dart';
 import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 class EmployeeActionRepoImpl implements EmployeeActionRepo {
@@ -119,15 +118,13 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get Employee Tasks
-  Future<Either<Failure,EmployeeTasksResponseBody>> getEmployeeTasks() async {
+  Future<Either<Failure, EmployeeTasksResponseBody>> getEmployeeTasks() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(
-          EmployeeTasksResponseBody.fromJson(result)
-        );
+        return Right(EmployeeTasksResponseBody.fromJson(result));
       } else {
         return Left(
           Failure(
@@ -158,13 +155,18 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
-  
+
   @override
   // Delete Task
-  Future<Either<Failure, void>> deleteTask({required int id})async {
+  Future<Either<Failure, void>> deleteTask(
+      {required int taskId, required String employeeId}) async {
+    final requestBody = {
+      "employeeId": employeeId,
+      "taskId": taskId,
+    };
     try {
-      // ?id=1
-      final result = await apiService.delete(endPoint: "${ApiConstant.Task}?id=$id");
+      final result = await apiService.post(
+          endPoint: ApiConstant.removeTaskFromEmployee, body: requestBody);
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
@@ -173,6 +175,5 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
-  } 
-  
+  }
 }

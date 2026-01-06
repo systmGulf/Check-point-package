@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+
 import '../../../../hr_manamgement_system_package.dart';
 import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
@@ -26,6 +27,7 @@ abstract class EmployeeActionRepo {
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
       {required int taskId, required String status});
-      // delete task
-   Future<Either<Failure, void>> deleteTask({required int id});   
+  // delete task
+  Future<Either<Failure, void>> deleteTask(
+      {required int taskId, required String employeeId});
 }
