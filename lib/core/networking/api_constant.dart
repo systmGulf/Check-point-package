@@ -28,10 +28,10 @@ class ApiConstant {
   static const String department = 'Department';
 
   static const String addCustomer = 'Customer';
-  static const String plan = 'customerPlan';
+  static const String customerplan = 'customerPlan';
   static const String branches = 'Branch';
   static const String accountRequest = 'AccountRequest';
-  static const String Plan = 'Plan';
+  static const String plan = 'Plan';
   static const String Task = 'Task';
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';

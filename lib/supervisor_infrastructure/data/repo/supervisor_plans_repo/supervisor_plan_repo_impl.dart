@@ -23,7 +23,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.plan}/departmentId/${ApiConstant.departmentId}");
+              "${ApiConstant.customerplan}/departmentId/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right((result['value'] as List)
             .map((e) => CustomerPlanModel.fromJson(e))
@@ -42,7 +42,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       SetPlanByDateRequestBody setPlanByDateRequestBody) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.Plan, body: setPlanByDateRequestBody.toJson());
+          endPoint: ApiConstant.plan, body: setPlanByDateRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
@@ -58,7 +58,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
   Future<Either<Failure, GetPlanByIdValue>> getPlanById(
       {required int id}) async {
     try {
-      final result = await apiService.get(endPoint: "${ApiConstant.Plan}/$id");
+      final result = await apiService.get(endPoint: "${ApiConstant.plan}/$id");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetPlanByIdValue.fromJson(result['value']));
       } else {
@@ -74,7 +74,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
   Future<Either<Failure, void>> deletePlanById({required int id}) async {
     try {
       final result =
-          await apiService.delete(endPoint: "${ApiConstant.Plan}/$id");
+          await apiService.delete(endPoint: "${ApiConstant.plan}/$id");
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
@@ -91,7 +91,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       SetCustomerPlanRequestBody setCustomerPlanRequestBody) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.plan,
+          endPoint: ApiConstant.customerplan,
           body: setCustomerPlanRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
@@ -109,7 +109,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       {required setSubPlansRequestBody setSubPlansRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.Plan + "/" + ApiConstant.plan,
+          endPoint: ApiConstant.plan + "/" + ApiConstant.customerplan,
           body: setSubPlansRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
@@ -126,7 +126,8 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
   Future<Either<Failure, void>> deleteSubPlanById({required int id}) async {
     try {
       final result = await apiService.delete(
-          endPoint: ApiConstant.Plan + "/" + ApiConstant.plan + "?id=$id");
+          endPoint:
+              ApiConstant.plan + "/" + ApiConstant.customerplan + "?id=$id");
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
@@ -142,7 +143,7 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.Plan}/department/${ApiConstant.departmentId}");
+              "${ApiConstant.plan}/department/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
           PlanValue.fromJson(result['value']),

@@ -37,13 +37,13 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
 
   @override
   // Get Customer Plan For Employee
-  Future<Either<Failure, GetPlanByEmployeeIdValue>>
+  Future<Either<Failure, EmployeePlansModel>>
       getCustomerPlanForEmployee() async {
     try {
       final result = await apiService.get(
-          endPoint: "${ApiConstant.Plan}/employee/${ApiConstant.employeeId}");
+          endPoint: "${ApiConstant.plan}/employee/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetPlanByEmployeeIdValue.fromJson(result['value']));
+        return Right(EmployeePlansModel.fromJson(result));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -115,21 +115,21 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
     }
   }
 
-  @override
-  // get plan by id
-  Future<Either<Failure, GetPlanByIdValue>> getPlanById(
-      {required int id}) async {
-    try {
-      final result = await apiService.get(endPoint: "${ApiConstant.Plan}/$id");
-      if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetPlanByIdValue.fromJson(result['value']));
-      } else {
-        return Left(Failure(404, getResponseError(result)));
-      }
-    } on Exception catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
-    }
-  }
+  // @override
+  // // get plan by id
+  // Future<Either<Failure, GetPlanByIdValue>> getPlanById(
+  //     {required int id}) async {
+  //   try {
+  //     final result = await apiService.get(endPoint: "${ApiConstant.plan}/$id");
+  //     if (result[ApiConstant.successApiKey] == true) {
+  //       return Right(GetPlanByIdValue.fromJson(result['value']));
+  //     } else {
+  //       return Left(Failure(404, getResponseError(result)));
+  //     }
+  //   } on Exception catch (e) {
+  //     return Left(ErrorHandler.handle(e).failure);
+  //   }
+  // }
 
   @override
   // check if the user in the right zoon for site

@@ -1,9 +1,9 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-part 'get_plan_by_employee_id_model.g.dart';
 
+part 'get_plan_by_employee_id_model.g.dart';
 @JsonSerializable()
-class GetPlanByEmployeeIdModel {
-  GetPlanByEmployeeIdValue? value;
+class EmployeePlansModel {
+  Value? value;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -11,7 +11,7 @@ class GetPlanByEmployeeIdModel {
   List<dynamic>? errors;
   List<dynamic>? validationErrors;
 
-  GetPlanByEmployeeIdModel(
+  EmployeePlansModel(
       {this.value,
       this.status,
       this.isSuccess,
@@ -19,12 +19,16 @@ class GetPlanByEmployeeIdModel {
       this.correlationId,
       this.errors,
       this.validationErrors});
-factory GetPlanByEmployeeIdModel.fromJson(Map<String, dynamic> json) => _$GetPlanByEmployeeIdModelFromJson(json);
+
+ 
+  factory EmployeePlansModel.fromJson(Map<String, dynamic> json) =>
+      _$EmployeePlansModelFromJson(json);
+
+
 }
 @JsonSerializable()
-
-class GetPlanByEmployeeIdValue {
-  List<GetPlanByEmployeeIdData>? data;
+class Value {
+  List<Data>? data;
   int? totalCount;
   int? pageCount;
   bool? hasNextPage;
@@ -32,7 +36,7 @@ class GetPlanByEmployeeIdValue {
   int? start;
   int? end;
 
-  GetPlanByEmployeeIdValue(
+  Value(
       {this.data,
       this.totalCount,
       this.pageCount,
@@ -41,16 +45,67 @@ class GetPlanByEmployeeIdValue {
       this.start,
       this.end});
 
-  factory GetPlanByEmployeeIdValue.fromJson(Map<String, dynamic> json) => _$GetPlanByEmployeeIdValueFromJson(json);
+  factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
+}
+  @JsonSerializable()
+class Data {
+  int? id;
+  String? note;
+  Customer? customer;
+  Plan? plan;
+  bool? visited;
+  List<dynamic>? feedbacks;
+  String? createdDate;
+
+  Data(
+      {this.id,
+      this.note,
+      this.customer,
+      this.plan,
+      this.visited,
+      this.feedbacks,
+      this.createdDate});
+
+  factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
+} 
+@JsonSerializable()
+class Customer {
+  String? id;
+  String? name;
+  String? workesAs;
+  String? location;
+  String? customerType;
+  List<Coordinates>? coordinates;
+
+  Customer(
+      {this.id,
+      this.name,
+      this.workesAs,
+      this.location,
+      this.customerType,
+      this.coordinates});
+  factory Customer.fromJson(Map<String, dynamic> json) =>
+      _$CustomerFromJson(json);
+}
+  @JsonSerializable()
+class Coordinates {
+  double? latitude;
+  double? longitude;
+
+  Coordinates({this.latitude, this.longitude});
+
+  factory Coordinates.fromJson(Map<String, dynamic> json) =>
+      _$CoordinatesFromJson(json);
+
 }
 @JsonSerializable()
-
-class GetPlanByEmployeeIdData {
+class Plan {
   int? id;
   String? planDate;
   String? note;
+  String? departmentName;
 
-  GetPlanByEmployeeIdData({this.id, this.planDate, this.note});
+  Plan  ({this.id, this.planDate, this.note, this.departmentName});
 
-  factory GetPlanByEmployeeIdData.fromJson(Map<String, dynamic> json) => _$GetPlanByEmployeeIdDataFromJson(json);
+  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
 }
