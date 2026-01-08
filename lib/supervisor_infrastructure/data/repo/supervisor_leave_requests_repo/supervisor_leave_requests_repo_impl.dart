@@ -5,61 +5,60 @@ import 'supervisor_leave_requests_repo.dart';
 
 class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   final ApiService apiservice;
- 
 
-  SupervisorLeaveRequestsRepoImpl(
-      {required this.apiservice,});
+  SupervisorLeaveRequestsRepoImpl({
+    required this.apiservice,
+  });
   @override
   // approve Or Reject LeaveRequest
   Future<Either<Failure, void>> approveOrRejectLeaveRequest(
       {required String status, required int id}) async {
-     try {
-        final result = await apiservice.put(
-            endPoint: "${ApiConstant.leaveRequest}/$id/status/$status",
-            body: {});
-        if (result[ApiConstant.successApiKey] == true) {
-          return const Right(null);
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
+    try {
+      final result = await apiservice.put(
+          endPoint: "${ApiConstant.leaveRequest}/$id/status/$status", body: {});
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
       }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
   }
 
   @override
   // get LeaveRequests By Type
   Future<Either<Failure, GetLeaveRequestModel>>
       getLeaveRequestsByTypeForDepartment({required String type}) async {
- try {
-        final result = await apiservice.get(
-            endPoint:
-                "${ApiConstant.leaveRequest}/departmentId/${ApiConstant.departmentId}/leaveType/$type");
-        if (result[ApiConstant.successApiKey] == true) {
-          return Right(GetLeaveRequestModel.fromJson(result));
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
+    try {
+      final result = await apiservice.get(
+          endPoint:
+              "${ApiConstant.leaveRequest}/department/${ApiConstant.departmentId}/leaveType/$type");
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(GetLeaveRequestModel.fromJson(result));
+      } else {
+        return Left(Failure(404, getResponseError(result)));
       }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
   }
 
   @override
   // get LeaveRequests
   Future<Either<Failure, List<GetLeaveRequestModel>>>
       supervisorGetEmployeeLeaveRequest() async {
-   try {
-        final result = await apiservice.get(endPoint: ApiConstant.leaveRequest);
-        if (result[ApiConstant.successApiKey] == true) {
-          return Right((result['value'] as List)
-              .map((e) => GetLeaveRequestModel.fromJson(e))
-              .toList());
-        } else {
-          return Left(Failure(404, getResponseError(result)));
-        }
-      } on Exception catch (e) {
-        return Left(ErrorHandler.handle(e).failure);
+    try {
+      final result = await apiservice.get(endPoint: ApiConstant.leaveRequest);
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right((result['value'] as List)
+            .map((e) => GetLeaveRequestModel.fromJson(e))
+            .toList());
+      } else {
+        return Left(Failure(404, getResponseError(result)));
       }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
   }
 }
