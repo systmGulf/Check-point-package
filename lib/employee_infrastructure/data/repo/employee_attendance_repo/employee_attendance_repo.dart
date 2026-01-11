@@ -25,9 +25,8 @@ abstract class EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceValue>> getAllEmployeeAttendance(
       {int pageNumber = 0});
   // Get Customer plan To attend on it
-  Future<Either<Failure, GetPlanByEmployeeIdValue>>
-      getCustomerPlanForEmployee();
-  Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
+  Future<Either<Failure, EmployeePlansModel>> getCustomerPlanForEmployee();
+  // Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
   // Check user if he in the right location or no for Polygon
   Future<bool> checkAccessibleAreaForPolygon(
     LatLng pointLatLong,
