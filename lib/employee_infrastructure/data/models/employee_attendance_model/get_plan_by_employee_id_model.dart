@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+
 part 'get_plan_by_employee_id_model.g.dart';
 
 @JsonSerializable()
@@ -19,10 +20,11 @@ class GetPlanByEmployeeIdModel {
       this.correlationId,
       this.errors,
       this.validationErrors});
-factory GetPlanByEmployeeIdModel.fromJson(Map<String, dynamic> json) => _$GetPlanByEmployeeIdModelFromJson(json);
+  factory GetPlanByEmployeeIdModel.fromJson(Map<String, dynamic> json) =>
+      _$GetPlanByEmployeeIdModelFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class GetPlanByEmployeeIdValue {
   List<GetPlanByEmployeeIdData>? data;
   int? totalCount;
@@ -41,8 +43,10 @@ class GetPlanByEmployeeIdValue {
       this.start,
       this.end});
 
-  factory GetPlanByEmployeeIdValue.fromJson(Map<String, dynamic> json) => _$GetPlanByEmployeeIdValueFromJson(json);
+  factory GetPlanByEmployeeIdValue.fromJson(Map<String, dynamic> json) =>
+      _$GetPlanByEmployeeIdValueFromJson(json);
 }
+
 @JsonSerializable()
 class GetPlanByEmployeeIdData {
   final int? id;
@@ -68,6 +72,7 @@ class GetPlanByEmployeeIdData {
 
   Map<String, dynamic> toJson() => _$GetPlanByEmployeeIdDataToJson(this);
 }
+
 @JsonSerializable()
 class Customer {
   final String? id;
@@ -91,6 +96,7 @@ class Customer {
 
   Map<String, dynamic> toJson() => _$CustomerToJson(this);
 }
+
 @JsonSerializable()
 class Coordinate {
   final double? latitude;
@@ -106,12 +112,13 @@ class Coordinate {
 
   Map<String, dynamic> toJson() => _$CoordinateToJson(this);
 }
+
 @JsonSerializable()
 class Plan {
-  final int? id;
-  final String? planDate;
-  final String? note;
-  final String? departmentName;
+  int? id;
+  DateTime? planDate;
+  String? note;
+  String? departmentName;
 
   Plan({
     this.id,
@@ -120,11 +127,11 @@ class Plan {
     this.departmentName,
   });
 
-  factory Plan.fromJson(Map<String, dynamic> json) =>
-      _$PlanFromJson(json);
+  factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
 
   Map<String, dynamic> toJson() => _$PlanToJson(this);
 }
+
 @JsonSerializable()
 class FeedbackModel {
   final int? id;

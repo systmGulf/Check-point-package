@@ -123,14 +123,16 @@ Map<String, dynamic> _$CoordinateToJson(Coordinate instance) =>
 
 Plan _$PlanFromJson(Map<String, dynamic> json) => Plan(
       id: (json['id'] as num?)?.toInt(),
-      planDate: json['planDate'] as String?,
+      planDate: json['planDate'] == null
+          ? null
+          : DateTime.parse(json['planDate'] as String),
       note: json['note'] as String?,
       departmentName: json['departmentName'] as String?,
     );
 
 Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
       'id': instance.id,
-      'planDate': instance.planDate,
+      'planDate': instance.planDate?.toIso8601String(),
       'note': instance.note,
       'departmentName': instance.departmentName,
     };
