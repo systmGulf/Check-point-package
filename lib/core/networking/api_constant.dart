@@ -41,4 +41,6 @@ class ApiConstant {
   static const String getTrackingSummaryForEmployee =
       'Employee/getEmployeeTracking';
   static const String removeAsignPolicy = "Employee/removeAssignPolicy";
+  static const String removeAsignCustomerPlan =
+      "Employee/removeAssignCustomerPlan";
 }
