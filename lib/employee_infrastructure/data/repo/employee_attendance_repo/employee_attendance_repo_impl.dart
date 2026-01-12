@@ -2,11 +2,9 @@ import 'package:dartz/dartz.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/track_user_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
-
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
 import '../../../../core/core.dart';
 import '../../../../core/common_methods/check_accessiable_area_service.dart';
-import '../../../../supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/employee_attendance_model/employee_check_in_request_body.dart';
 import '../../models/employee_attendance_model/get_plan_by_employee_id_model.dart';

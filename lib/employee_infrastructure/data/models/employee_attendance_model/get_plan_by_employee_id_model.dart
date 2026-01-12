@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'get_plan_by_employee_id_model.g.dart';
+
 @JsonSerializable()
 class EmployeePlansModel {
   Value? value;
@@ -20,11 +21,8 @@ class EmployeePlansModel {
       this.errors,
       this.validationErrors});
 
- 
   factory EmployeePlansModel.fromJson(Map<String, dynamic> json) =>
       _$EmployeePlansModelFromJson(json);
-
-
 }
 
 @JsonSerializable()
@@ -48,7 +46,8 @@ class Value {
 
   factory Value.fromJson(Map<String, dynamic> json) => _$ValueFromJson(json);
 }
-  @JsonSerializable()
+
+@JsonSerializable()
 class Data {
   int? id;
   String? note;
@@ -68,7 +67,8 @@ class Data {
       this.createdDate});
 
   factory Data.fromJson(Map<String, dynamic> json) => _$DataFromJson(json);
-} 
+}
+
 @JsonSerializable()
 class Customer {
   String? id;
@@ -88,7 +88,8 @@ class Customer {
   factory Customer.fromJson(Map<String, dynamic> json) =>
       _$CustomerFromJson(json);
 }
-  @JsonSerializable()
+
+@JsonSerializable()
 class Coordinates {
   double? latitude;
   double? longitude;
@@ -97,7 +98,6 @@ class Coordinates {
 
   factory Coordinates.fromJson(Map<String, dynamic> json) =>
       _$CoordinatesFromJson(json);
-
 }
 
 @JsonSerializable()
@@ -107,7 +107,7 @@ class Plan {
   String? note;
   String? departmentName;
 
-  Plan  ({this.id, this.planDate, this.note, this.departmentName});
+  Plan({this.id, this.planDate, this.note, this.departmentName});
 
   factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
 }
