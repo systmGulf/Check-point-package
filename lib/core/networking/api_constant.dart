@@ -20,8 +20,7 @@ class ApiConstant {
   static const String employeeCheckOut = 'Attendance/out';
   static const String getEmployeeAttendanceHistory = 'Attendance/employeeId';
   static const String leaveRequest = 'LeaveRequest';
-  static const String getAllLeaveRequestsForEmployee =
-      'LeaveRequest/employee';
+  static const String getAllLeaveRequestsForEmployee = 'LeaveRequest/employee';
   static const String getEmployeeAttendance = 'Attendance';
   static const String employeeChangePassword = 'Auth/ChangePassword';
   static const String deleteEmployee = 'Auth/DeleteUser';
@@ -43,4 +42,5 @@ class ApiConstant {
   static const String removeAsignPolicy = "Employee/removeAssignPolicy";
   static const String removeAsignCustomerPlan =
       "Employee/removeAssignCustomerPlan";
+  static const String feedBackStatus = "Feedback/feedbackStatus";
 }

@@ -4,7 +4,6 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/mode
 
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
 import '../../../../core/errors/error_handler.dart';
-import '../../../../supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/employee_attendance_model/employee_check_in_request_body.dart';
 import '../../models/employee_attendance_model/get_plan_by_employee_id_model.dart';
@@ -43,4 +42,6 @@ abstract class EmployeeAttendanceRepo {
 
   Future<Either<Failure, void>> removeAssignCustomerPlan(
       {required RemoveAssignCustomerPlanBody removeAssignPlan});
+
+  Future<Either<Failure, List<String>>> getFeedBackStatus();
 }
