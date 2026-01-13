@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/change_request_leave_status.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
 import 'supervisor_leave_requests_repo.dart';
@@ -12,10 +13,10 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   @override
   // approve Or Reject LeaveRequest
   Future<Either<Failure, void>> approveOrRejectLeaveRequest(
-      {required String status, required int id}) async {
+      {required ChangeRequestLeaveStatus body}) async {
     try {
       final result = await apiservice.put(
-          endPoint: "${ApiConstant.leaveRequest}/$id/status/$status", body: {});
+          endPoint: "${ApiConstant.leaveRequest}", body: {});
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
