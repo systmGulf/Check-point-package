@@ -198,7 +198,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       final response =
           await apiService.get(endPoint: ApiConstant.feedBackStatus);
       if (response[ApiConstant.successApiKey] == true) {
-        return Right(response['value']);
+        final List<String> statusList = List<String>.from(response['value']);
+
+        return Right(statusList);
       } else {
         return Left(Failure(404, getResponseError(response)));
       }
