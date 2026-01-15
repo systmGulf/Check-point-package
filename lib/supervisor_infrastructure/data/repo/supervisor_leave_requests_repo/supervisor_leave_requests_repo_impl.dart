@@ -16,7 +16,9 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
       {required ChangeRequestLeaveStatus body}) async {
     try {
       final result = await apiservice.put(
-          endPoint: "${ApiConstant.leaveRequest}", body: {});
+        endPoint: "${ApiConstant.leaveRequest}/leaveRequestStatus",
+        body: body.toJson(),
+      );
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
