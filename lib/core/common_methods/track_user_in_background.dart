@@ -88,13 +88,10 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 void onStart(ServiceInstance service) async {
   setUpServiceLocator();
   ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
-  // init
   DartPluginRegistrant.ensureInitialized();
 
-  // علامة تشغيل الخدمة
   bool running = true;
 
-  // كل مرة يحتاج تحديث الحالة
   service.on('get_status').listen((event) {
     service.invoke('service_status', {'running': running});
   });
@@ -105,7 +102,6 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   });
 
-  // إرسال الموقع كل 5 ثواني (يمكنك تعديل المدة حسب الحاجة)
   Timer.periodic(const Duration(seconds: 5), (timer) async {
     try {
       final position = await Geolocator.getCurrentPosition();
