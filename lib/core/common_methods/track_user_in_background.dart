@@ -48,7 +48,7 @@ Future<bool> _requestLocationPermission() async {
     if (!status.isGranted) {
       if (status.isPermanentlyDenied) {
         await openAppSettings();
-      } else {}
+      }
       return false;
     }
   }
@@ -59,7 +59,7 @@ Future<bool> _requestLocationPermission() async {
     if (!status.isGranted) {
       if (status.isPermanentlyDenied) {
         await openAppSettings();
-      } else {}
+      }
       return false;
     }
   }
@@ -68,14 +68,8 @@ Future<bool> _requestLocationPermission() async {
 }
 
 Future<bool> _isGPSEnabled() async {
-  bool serviceEnabled;
-  LocationPermission permission;
-
-  serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  if (!serviceEnabled) {
-    return false;
-  }
-  return true;
+  bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  return serviceEnabled;
 }
 
 @pragma('vm:entry-point')
@@ -94,42 +88,38 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 void onStart(ServiceInstance service) async {
   setUpServiceLocator();
   ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
+  // init
   DartPluginRegistrant.ensureInitialized();
 
-  if (service is AndroidServiceInstance) {
-    service.on('setAsForeground').listen((event) {
-      service.setAsForegroundService();
-    });
+  // علامة تشغيل الخدمة
+  bool running = true;
 
-    service.on('setAsBackground').listen((event) {
-      service.setAsBackgroundService();
-    });
+  // كل مرة يحتاج تحديث الحالة
+  service.on('get_status').listen((event) {
+    service.invoke('service_status', {'running': running});
+  });
 
-    service.on('stop').listen((event) {
-      service.stopSelf();
-    });
-  }
-  Timer.periodic(const Duration(minutes: 1), (timer) async {
-    Position? position;
+  service.on('stop').listen((event) {
+    running = false;
+    service.invoke('service_status', {'running': running});
+    service.stopSelf();
+  });
+
+  // إرسال الموقع كل 5 ثواني (يمكنك تعديل المدة حسب الحاجة)
+  Timer.periodic(const Duration(seconds: 5), (timer) async {
     try {
-      position = await Geolocator.getCurrentPosition();
-    } catch (e) {
-      print('Failed to get location: $e');
-    }
-    if (position != null) {
+      final position = await Geolocator.getCurrentPosition();
       log('${position.latitude} , ${position.longitude}');
-      getIt<EmployeeAttendanceRepo>()
-        ..trackEmployeeLocation(
-            trackUserRequestBody: TrackUserRequestBody(
+      getIt<EmployeeAttendanceRepo>().trackEmployeeLocation(
+        trackUserRequestBody: TrackUserRequestBody(
           employeeId: ApiConstant.employeeId,
           coordinates: [
             {"latitude": position.latitude, "longitude": position.longitude}
           ],
-        ));
+        ),
+      );
+    } catch (e) {
+      log('Location error: $e');
     }
-  });
-
-  service.on('stop').listen((event) async {
-    service.stopSelf();
   });
 }
