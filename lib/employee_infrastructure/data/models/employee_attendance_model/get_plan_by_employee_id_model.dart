@@ -54,7 +54,7 @@ class Data {
   Customer? customer;
   Plan? plan;
   bool? visited;
-  List<dynamic>? feedbacks;
+  List<FeedbackModel>? feedbacks;
   String? createdDate;
 
   Data(
@@ -110,4 +110,21 @@ class Plan {
   Plan({this.id, this.planDate, this.note, this.departmentName});
 
   factory Plan.fromJson(Map<String, dynamic> json) => _$PlanFromJson(json);
+}
+@JsonSerializable()
+class FeedbackModel {
+  int? id;
+  String? imageUrl;
+  String? notes;
+  String? status;
+
+  FeedbackModel({
+    this.id,
+    this.imageUrl,
+    this.notes,
+    this.status,
+  });
+
+  factory FeedbackModel.fromJson(Map<String, dynamic> json) =>
+      _$FeedbackModelFromJson(json);
 }

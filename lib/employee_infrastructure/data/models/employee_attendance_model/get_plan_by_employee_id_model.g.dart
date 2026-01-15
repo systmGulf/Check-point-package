@@ -62,7 +62,9 @@ Data _$DataFromJson(Map<String, dynamic> json) => Data(
           ? null
           : Plan.fromJson(json['plan'] as Map<String, dynamic>),
       visited: json['visited'] as bool?,
-      feedbacks: json['feedbacks'] as List<dynamic>?,
+      feedbacks: (json['feedbacks'] as List<dynamic>?)
+          ?.map((e) => FeedbackModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       createdDate: json['createdDate'] as String?,
     );
 
@@ -121,4 +123,20 @@ Map<String, dynamic> _$PlanToJson(Plan instance) => <String, dynamic>{
       'planDate': instance.planDate?.toIso8601String(),
       'note': instance.note,
       'departmentName': instance.departmentName,
+    };
+
+FeedbackModel _$FeedbackModelFromJson(Map<String, dynamic> json) =>
+    FeedbackModel(
+      id: (json['id'] as num?)?.toInt(),
+      imageUrl: json['imageUrl'] as String?,
+      notes: json['notes'] as String?,
+      status: json['status'] as String?,
+    );
+
+Map<String, dynamic> _$FeedbackModelToJson(FeedbackModel instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'imageUrl': instance.imageUrl,
+      'notes': instance.notes,
+      'status': instance.status,
     };
