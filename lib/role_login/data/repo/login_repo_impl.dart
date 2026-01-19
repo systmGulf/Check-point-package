@@ -77,6 +77,14 @@ class LoginRepoImpl implements LoginRepo {
           value: result['value']['id'].toString(),
         );
         await SecureCache.insertToCache(
+          key: 'employeeCheckinTime',
+          value: result['value']['clockInTime'].toString(),
+        );
+        await SecureCache.insertToCache(
+          key: 'employeeCheckoutTime',
+          value: result['value']['clockOutTime'].toString(),
+        );
+        await SecureCache.insertToCache(
           key: 'imageUrl',
           value: result['value']['imageUrl'].toString(),
         );
@@ -84,6 +92,10 @@ class LoginRepoImpl implements LoginRepo {
           key: 'shiftName',
           value: result['value']['shiftName'].toString(),
         );
+        ApiConstant.employeeCheckinTime =
+            await SecureCache.getFromCache(key: 'employeeCheckinTime');
+        ApiConstant.employeeCheckoutTime =
+            await SecureCache.getFromCache(key: 'employeeCheckoutTime');
         ApiConstant.imageUrl = await SecureCache.getFromCache(key: 'imageUrl');
         ApiConstant.shiftName =
             await SecureCache.getFromCache(key: 'shiftName');
