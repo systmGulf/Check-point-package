@@ -50,9 +50,12 @@ class DepartmentRepoImpl implements DepartmentRepo {
 
   @override
   // Get all Department
-  Future<Either<Failure, DepartmentValue>> getAllDepartments() async {
+  Future<Either<Failure, DepartmentValue>> getAllDepartments(
+      {required int pageKey, required int pageSize}) async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.department);
+      final result = await apiService.get(
+          endPoint: ApiConstant.department +
+              "?itemCount=${pageSize}&index=${pageKey * 10}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(DepartmentValue.fromJson(result['value']));
       } else {

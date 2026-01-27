@@ -105,7 +105,6 @@ class LoginRepoImpl implements LoginRepo {
         final currentToken = await "123";
         //  FirebaseMessaging.instance.getToken();
         if (!userTokens.contains(currentToken) && userTokens == []) {
-          log('the current user Token while Login is ==> ${currentToken} and the userTokens are ==>${userTokens}');
           updateUserToken(
               UserId: ApiConstant.employeeId, currentUserToken: [currentToken]);
         }

@@ -13,6 +13,9 @@ abstract class SupervisorTasksRepo {
       {required int pageNumber});
   // Delete Task by id
   Future<Either<Failure, void>> deleteTaskById({required int id});
+  Future<Either<Failure, void>> removeSomeEmployeesFromTask(
+    {required int taskId, required String employeeIds}
+  );
 
   // Assign Task to employees
   Future<Either<Failure, void>> assignTask(

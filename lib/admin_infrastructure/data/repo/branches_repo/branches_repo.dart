@@ -10,4 +10,5 @@ abstract class BranchesRepo {
       {required AddBrachRequestBody AddBrachRequestBody});
   // Delete branch
   Future<Either<Failure, void>> deleteBranch({required int id});
+
 }
