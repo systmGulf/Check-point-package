@@ -172,4 +172,21 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
+
+  @override
+  Future<Either<Failure, void>> deleteSomeEmployeesFromPlan(
+      {required int planId, required String employeeIds}) async {
+    try {
+      final result = await apiService.post(
+          endPoint: "${ApiConstant.employee}/removeAssignCustomerPlan",
+          body: {"employeeIds": employeeIds, "customerPlanId": planId});
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
 }

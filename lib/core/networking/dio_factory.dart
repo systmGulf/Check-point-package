@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 import 'package:pretty_dio_logger/pretty_dio_logger.dart';
 
 import '../../env/env.dart';
@@ -20,7 +21,9 @@ class DioFactory {
         ..options.connectTimeout = timeOut
         ..options.receiveTimeout = timeOut;
       addDioHeaders();
-      addDioInterceptor();
+      if (!kReleaseMode) {
+        addDioInterceptor();
+      }
       return dio!;
     } else {
       addDioHeaders();
@@ -31,7 +34,6 @@ class DioFactory {
 
   static void addDioHeaders() async {
     dio?.options.baseUrl = Env.baseUrl;
-    log(ApiConstant.token);
     dio?.options.headers = {
       'Accept': 'application/json',
       'Authorization': 'Bearer ${ApiConstant.token}',

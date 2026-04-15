@@ -16,7 +16,6 @@ abstract class AdminManageEmployeeRepo {
   // search employees
   Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({
     required String searchKey,
-   
   });
   // add employee
   Future<Either<Failure, void>> addEmployee(AddEmployeeRequestBody request);
@@ -28,7 +27,8 @@ abstract class AdminManageEmployeeRepo {
       {required String id});
   // get employees in department
   Future<Either<Failure, GetEmployeesInDepartmentValue>>
-      GetEmployeesInDepartment({required int id});
+      getEmployeesInDepartment(
+          {required int id, required int pageKey, required int pageSize});
 
   /// THIS IS PERMISSIONS FOR SUPERVISOR THAT HE CAN ATTEND SOME ONE ELSE OR SET PLAN PERMISSION
   // set attend anther user permission
@@ -38,8 +38,8 @@ abstract class AdminManageEmployeeRepo {
   Future<Either<Failure, void>> setPlanPermission(
       {required bool permission, required String supervisorId});
   // when the user request to add account for his this account go to admin
-  Future<Either<Failure, AddAccountRequestValue>>
-      getAddAccountRequestsForAdmin();
+  Future<Either<Failure, AddAccountRequestValue>> getAddAccountRequestsForAdmin(
+      {required int pageNumber, required int itemCount});
   // delete add account request
   Future<Either<Failure, void>> deleteAddAccountRequestsForAdmin(
       {required int id});

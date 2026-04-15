@@ -91,10 +91,13 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
   @override
   // get Employee In Department
   Future<Either<Failure, GetEmployeesInDepartmentValue>>
-      GetEmployeesInDepartment({required int id}) async {
+      getEmployeesInDepartment(
+          {required int id,required int pageKey,required int pageSize}) async {
     try {
-      final result = await apiService.get(
-          endPoint: "${ApiConstant.employee}/departmentId/$id");
+      String endPoint =
+          "${ApiConstant.employee}/departmentId/$id";
+     
+      final result = await apiService.get(endPoint: endPoint);
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetEmployeesInDepartmentValue.fromJson(result['value']));
       } else {
@@ -145,10 +148,12 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
 
   @override
   // get add account request
-  Future<Either<Failure, AddAccountRequestValue>>
-      getAddAccountRequestsForAdmin() async {
+  Future<Either<Failure, AddAccountRequestValue>> getAddAccountRequestsForAdmin(
+      {required int pageNumber, required int itemCount}) async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.accountRequest);
+      final result = await apiService.get(
+          endPoint: ApiConstant.accountRequest +
+              "?itemCount=${itemCount}&index=${pageNumber * 10}");
 
       if (result[ApiConstant.successApiKey] == true) {
         return Right(AddAccountRequestValue.fromJson(result['value']));
@@ -176,13 +181,14 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
-  
+
   @override
-  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({required String searchKey, }) async {
+  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({
+    required String searchKey,
+  }) async {
     try {
       final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.employee}/search/$searchKey");
+          endPoint: "${ApiConstant.employee}/search/$searchKey");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetAllEmployeesValue.fromJson(result['value']));
       } else {

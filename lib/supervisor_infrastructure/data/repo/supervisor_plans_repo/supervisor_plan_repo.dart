@@ -26,6 +26,9 @@ abstract class SupervisorPlanRepo {
       {required setSubPlansRequestBody setSubPlansRequestBody});
   // Supervisor delete Sub Plan
   Future<Either<Failure, void>> deleteSubPlanById({required int id});
+  Future<Either<Failure, void>> deleteSomeEmployeesFromPlan(
+      {required int planId, required String employeeIds});
+  
   //  Supervisor get Plan by Department
   Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
   // Supervisor get Customer by Id

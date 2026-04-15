@@ -39,8 +39,8 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
               "${ApiConstant.Task}/department/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-          List<GetTasData>.from(
-              (result['value']['data'] as List).map((e) => GetTasData.fromJson(e))),
+          List<GetTasData>.from((result['value']['data'] as List)
+              .map((e) => GetTasData.fromJson(e))),
         );
       } else {
         return Left(Failure(404, getResponseError(result)));
@@ -92,6 +92,23 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
       final result = await apiService.put(
           endPoint: "${ApiConstant.Task}/updateStatus",
           body: {"id": taskId, "status": status});
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> removeSomeEmployeesFromTask(
+      {required int taskId, required String employeeIds}) async {
+    try {
+      final result = await apiService.post(
+          endPoint: "${ApiConstant.employee}/removeAssignTask",
+          body: {"employeeId": employeeIds, "taskId": taskId});
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {

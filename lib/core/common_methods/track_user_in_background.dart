@@ -105,7 +105,6 @@ void onStart(ServiceInstance service) async {
   Timer.periodic(const Duration(seconds: 5), (timer) async {
     try {
       final position = await Geolocator.getCurrentPosition();
-      log('${position.latitude} , ${position.longitude}');
       getIt<EmployeeAttendanceRepo>().trackEmployeeLocation(
         trackUserRequestBody: TrackUserRequestBody(
           employeeId: ApiConstant.employeeId,

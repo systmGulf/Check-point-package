@@ -6,7 +6,7 @@ class AdminRepoImpl implements BranchesRepo {
   final ApiService apiService;
 
   AdminRepoImpl({required this.apiService});
-
+    
   @override
   // add company branch
   Future<Either<Failure, void>> addCompanyBranch(
