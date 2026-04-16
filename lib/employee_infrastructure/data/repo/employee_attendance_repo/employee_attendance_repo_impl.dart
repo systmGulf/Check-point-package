@@ -80,12 +80,15 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
 
   // employee check out
   @override
-  Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
-      {required String employeeId}) async {
+  Future<Either<Failure, UserAttendanceModel>> employeeCheckOut({
+    required String attendanceId,
+  }) async {
     try {
-      final result = await apiService.post(
-          endPoint: "${ApiConstant.employeeCheckOut}",
-          body: {"employeeId": employeeId, "employeeImage": null});
+      final result = await apiService.put(
+        endPoint: "${ApiConstant.employeeCheckOut}/$attendanceId",
+        body: {},
+      );
+
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceModel.fromJson(result));
       } else {
