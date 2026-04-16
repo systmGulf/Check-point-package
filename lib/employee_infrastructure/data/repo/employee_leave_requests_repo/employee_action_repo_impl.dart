@@ -1,6 +1,8 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_leave_requests_models/leave_types_response.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
+import '../../models/employee_leave_requests_models/leave_request_request_body.dart';
 import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
 class EmployeeActionRepoImpl implements EmployeeActionRepo {
@@ -30,14 +32,13 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get All Leave Requests
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, EmployeeLeaveRequestsModel>>
       getAllLeaveRequestsForEmployee() async {
     try {
       final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}");
+          endPoint: "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeLeaveRequestsValue.fromJson(result['value']));
+        return Right(EmployeeLeaveRequestsModel.fromJson(result));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -82,14 +83,14 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get Leave Requests By Type for employee
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, EmployeeLeaveRequestsModel>>
       getLeaveRequestsByTypeForEmployee({required String type}) async {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}/leaveType/$type");
+              "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeLeaveRequestsValue.fromJson(result['value']));
+        return Right(EmployeeLeaveRequestsModel.fromJson(result));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -118,13 +119,12 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
 
   @override
   // Get Employee Tasks
-  Future<Either<Failure, EmployeeTasksResponseBody>> getEmployeeTasks() async {
+  Future<Either<Failure, EmployeeTaksResponse>> getEmployeeTasks() async {
     try {
-      final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
+      final result =
+          await apiService.get(endPoint: "${ApiConstant.employeeTask}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeTasksResponseBody.fromJson(result));
+        return Right(EmployeeTaksResponse.fromJson(result));
       } else {
         return Left(
           Failure(
@@ -169,6 +169,20 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
           endPoint: ApiConstant.removeTaskFromEmployee, body: requestBody);
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, LeaveTypeResponse>> getLeaveTypes() async {
+    try {
+      final result = await apiService.get(endPoint: ApiConstant.leaveType);
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(LeaveTypeResponse.fromJson(result));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }

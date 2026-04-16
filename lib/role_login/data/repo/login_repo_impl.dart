@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 import '../../../hr_manamgement_system_package.dart';
 
@@ -29,7 +27,7 @@ class LoginRepoImpl implements LoginRepo {
         );
         await SecureCache.insertToCache(
           key: 'employeeId',
-          value: response['value']['loginResponseDto']['userId'],
+          value: response['value']['employeeId'],
         );
 
         ApiConstant.token = await SecureCache.getFromCache(key: 'token');

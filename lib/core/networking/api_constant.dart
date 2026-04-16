@@ -34,6 +34,7 @@ class ApiConstant {
   static const String accountRequest = 'AccountRequest';
   static const String plan = 'Plan';
   static const String Task = 'Task';
+  static const String employeeTask = 'api/EmployeeTask';
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';
   static const String Policy = 'Policy';
@@ -45,4 +46,7 @@ class ApiConstant {
   static const String removeAsignCustomerPlan =
       "Employee/removeAssignCustomerPlan";
   static const String feedBackStatus = "Feedback/feedbackStatus";
+
+  // new
+  static const String leaveType = "api/LeaveType/all";
 }
