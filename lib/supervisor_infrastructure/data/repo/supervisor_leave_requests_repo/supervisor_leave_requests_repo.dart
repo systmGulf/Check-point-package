@@ -3,6 +3,7 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/mode
 
 import '../../../../core/errors/error_handler.dart';
 import '../../../supervisor_data.dart';
+import '../../models/get_leave_Request_model/get_leave_type_model.dart';
 
 abstract class SupervisorLeaveRequestsRepo {
   // Supervisor Get Employee Leave Request
@@ -17,4 +18,6 @@ abstract class SupervisorLeaveRequestsRepo {
       getLeaveRequestsByTypeForDepartment({
     required String type,
   });
+
+  Future<Either<Failure, GetLeaveTypeModel>> getLeaveType();
 }
