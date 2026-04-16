@@ -54,38 +54,28 @@ Map<String, dynamic> _$UserAttendanceValueToJson(
 
 UserAttendanceData _$UserAttendanceDataFromJson(Map<String, dynamic> json) =>
     UserAttendanceData(
-      id: (json['id'] as num?)?.toInt(),
-      employeeName: json['employeeName'] as String?,
-      attendanceDate: json['attendanceDate'] as String?,
-      clockInTime: json['clockInTime'] as String?,
-      clockOutTime: json['clockOutTime'] as String?,
-      dayHours: json['dayHours'] as String?,
-      totalHours: (json['totalHours'] as num?)?.toDouble(),
-      location: json['location'] as String?,
-      area: json['area'] as String?,
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+      publishAt: json['publishAt'] == null
+          ? null
+          : DateTime.parse(json['publishAt'] as String),
+      expireAt: json['expireAt'] == null
+          ? null
+          : DateTime.parse(json['expireAt'] as String),
       employeeId: json['employeeId'] as String?,
-      customerId: json['customerId'] as String?,
-      customerName: json['customerName'] as String?,
-      employeeImage: json['employeeImage'] as String?,
-      isEarly: json['isEarly'] as bool?,
-      isLate: json['isLate'] as bool?,
+      employeeName: json['employeeName'] as String?,
+      isPublished: json['isPublished'] as bool?,
     );
 
 Map<String, dynamic> _$UserAttendanceDataToJson(UserAttendanceData instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'employeeName': instance.employeeName,
-      'attendanceDate': instance.attendanceDate,
-      'clockInTime': instance.clockInTime,
-      'clockOutTime': instance.clockOutTime,
-      'dayHours': instance.dayHours,
-      'totalHours': instance.totalHours,
-      'location': instance.location,
-      'area': instance.area,
+      'title': instance.title,
+      'body': instance.body,
+      'publishAt': instance.publishAt?.toIso8601String(),
+      'expireAt': instance.expireAt?.toIso8601String(),
       'employeeId': instance.employeeId,
-      'customerId': instance.customerId,
-      'customerName': instance.customerName,
-      'employeeImage': instance.employeeImage,
-      'isEarly': instance.isEarly,
-      'isLate': instance.isLate,
+      'employeeName': instance.employeeName,
+      'isPublished': instance.isPublished,
     };

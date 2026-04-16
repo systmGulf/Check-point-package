@@ -47,37 +47,24 @@ class UserAttendanceValue {
 
 @JsonSerializable()
 class UserAttendanceData {
-  int? id;
-  String? employeeName;
-  String? attendanceDate;
-  String? clockInTime;
-  String? clockOutTime;
-  String? dayHours;
-  double? totalHours;
-  String? location;
-  String? area;
-  String? employeeId;
-  String? customerId;
-  String? customerName;
-  String? employeeImage;
-  bool? isEarly, isLate;
+  final String? id;
+  final String? title;
+  final String? body;
+  final DateTime? publishAt;
+  final DateTime? expireAt;
+  final String? employeeId;
+  final String? employeeName;
+  final bool? isPublished;
 
   UserAttendanceData(
       {this.id,
-      this.employeeName,
-      this.attendanceDate,
-      this.clockInTime,
-      this.clockOutTime,
-      this.dayHours,
-      this.totalHours,
-      this.location,
-      this.area,
+      this.title,
+      this.body,
+      this.publishAt,
+      this.expireAt,
       this.employeeId,
-      this.customerId,
-      this.customerName,
-      this.employeeImage,
-      this.isEarly,
-      this.isLate});
+      this.employeeName,
+      this.isPublished});
 
   factory UserAttendanceData.fromJson(Map<String, dynamic> json) =>
       _$UserAttendanceDataFromJson(json);

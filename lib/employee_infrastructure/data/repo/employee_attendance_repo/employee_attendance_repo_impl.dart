@@ -106,7 +106,7 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
     try {
       final result = await apiService.get(
         endPoint:
-            "${ApiConstant.getEmployeeAttendanceHistory}/${ApiConstant.employeeId}?itemCount=10&index=${pageNumber * 10}",
+            "${ApiConstant.getEmployeeAttendanceHistory}/${ApiConstant.employeeId}",
       );
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceValue.fromJson(result['value']));
