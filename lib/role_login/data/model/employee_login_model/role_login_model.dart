@@ -10,8 +10,8 @@ class RoleLoginModel extends Equatable {
   final bool? isSuccess;
   final String? successMessage;
   final String? correlationId;
-  final List<dynamic>? errors;
-  final List<dynamic>? validationErrors;
+  final List<String>? errors;
+  final List<RoleLoginValidationError>? validationErrors;
 
   const RoleLoginModel({
     this.value,
@@ -29,33 +29,107 @@ class RoleLoginModel extends Equatable {
   Map<String, dynamic> toJson() => _$RoleLoginModelToJson(this);
 
   @override
-  List<Object?> get props {
-    return [
-      value,
-      status,
-      isSuccess,
-      successMessage,
-      correlationId,
-      errors,
-      validationErrors,
-    ];
-  }
+  List<Object?> get props => [
+        value,
+        status,
+        isSuccess,
+        successMessage,
+        correlationId,
+        errors,
+        validationErrors,
+      ];
 }
 
 @JsonSerializable()
 class RoleLoginResponseValue extends Equatable {
-  final String? id;
-  final String? userName;
-  final String? name;
-  final List<dynamic>? roles;
-  final String? token;
+  final LoginResponseDto? loginResponseDto;
+  final String? employeeId;
+  final String? employeeName;
+  final String? employeeCode;
 
-  const RoleLoginResponseValue(
-      {this.id, this.userName, this.name, this.roles, this.token});
+  const RoleLoginResponseValue({
+    this.loginResponseDto,
+    this.employeeId,
+    this.employeeName,
+    this.employeeCode,
+  });
 
   factory RoleLoginResponseValue.fromJson(Map<String, dynamic> json) =>
       _$RoleLoginResponseValueFromJson(json);
+
   Map<String, dynamic> toJson() => _$RoleLoginResponseValueToJson(this);
+
   @override
-  List<Object?> get props => [id, userName, name, roles, token];
+  List<Object?> get props => [
+        loginResponseDto,
+        employeeId,
+        employeeName,
+        employeeCode,
+      ];
+}
+
+@JsonSerializable()
+class LoginResponseDto extends Equatable {
+  final String? userId;
+  final String? userName;
+  final String? email;
+  final String? fullName;
+  final String? phoneNumber;
+  final String? firstName;
+  final String? lastName;
+  final List<String>? roles;
+  final String? token;
+
+  const LoginResponseDto({
+    this.userId,
+    this.userName,
+    this.email,
+    this.fullName,
+    this.phoneNumber,
+    this.firstName,
+    this.lastName,
+    this.roles,
+    this.token,
+  });
+
+  factory LoginResponseDto.fromJson(Map<String, dynamic> json) =>
+      _$LoginResponseDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LoginResponseDtoToJson(this);
+
+  @override
+  List<Object?> get props => [
+        userId,
+        userName,
+        email,
+        fullName,
+        phoneNumber,
+        firstName,
+        lastName,
+        roles,
+        token,
+      ];
+}
+
+@JsonSerializable()
+class RoleLoginValidationError extends Equatable {
+  final String? identifier;
+  final String? errorMessage;
+  final String? errorCode;
+  final int? severity;
+
+  const RoleLoginValidationError({
+    this.identifier,
+    this.errorMessage,
+    this.errorCode,
+    this.severity,
+  });
+
+  factory RoleLoginValidationError.fromJson(Map<String, dynamic> json) =>
+      _$RoleLoginValidationErrorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$RoleLoginValidationErrorToJson(this);
+
+  @override
+  List<Object?> get props => [identifier, errorMessage, errorCode, severity];
 }

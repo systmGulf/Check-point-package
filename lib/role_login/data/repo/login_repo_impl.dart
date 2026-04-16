@@ -25,7 +25,7 @@ class LoginRepoImpl implements LoginRepo {
         );
         await SecureCache.insertToCache(
           key: 'username',
-          value: response['value']['loginResponseDto']['userName'],
+          value: response['value']['employeeName'],
         );
         await SecureCache.insertToCache(
           key: 'employeeId',
