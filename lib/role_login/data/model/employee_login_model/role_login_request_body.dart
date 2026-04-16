@@ -4,17 +4,11 @@ part 'role_login_request_body.g.dart';
 
 @JsonSerializable()
 class RoleLoginRequestBody {
-  @JsonKey(name: 'userName')
-  final String email;
+  @JsonKey(name: 'emailOrPhone')
+  final String emailOrPhone;
   final String password;
-  final String mobileId;
-  final String role;
 
-  RoleLoginRequestBody(
-      {required this.email,
-      required this.password,
-      required this.mobileId,
-      required this.role});
+  RoleLoginRequestBody({required this.emailOrPhone, required this.password});
 
   Map<String, dynamic> toJson() => _$RoleLoginRequestBodyToJson(this);
 }

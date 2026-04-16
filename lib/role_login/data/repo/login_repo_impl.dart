@@ -1,10 +1,6 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-
-// import 'package:firebase_messaging/firebase_messaging.dart';
-// import 'package:firebase_messaging/firebase_messaging.dart';
-
 import '../../../hr_manamgement_system_package.dart';
 
 class LoginRepoImpl implements LoginRepo {
@@ -23,31 +19,24 @@ class LoginRepoImpl implements LoginRepo {
       );
 
       if (response[ApiConstant.successApiKey] == true) {
-        List<dynamic> roles = response['value']['roles'] ?? [];
-        if (roles.contains(roleLoginRequestBody.role)) {
-          await SecureCache.insertToCache(
-            key: 'token',
-            value: response['value']['token'],
-          );
-          await SecureCache.insertToCache(
-            key: 'username',
-            value: response['value']['userName'],
-          );
-          await SecureCache.insertToCache(
-            key: 'employeeId',
-            value: response['value']['id'],
-          );
+        await SecureCache.insertToCache(
+          key: 'token',
+          value: response['value']['loginResponseDto']['token'],
+        );
+        await SecureCache.insertToCache(
+          key: 'username',
+          value: response['value']['loginResponseDto']['userName'],
+        );
+        await SecureCache.insertToCache(
+          key: 'employeeId',
+          value: response['value']['loginResponseDto']['userId'],
+        );
 
-          ApiConstant.token = await SecureCache.getFromCache(key: 'token');
-          ApiConstant.username =
-              await SecureCache.getFromCache(key: 'username');
-          ApiConstant.employeeId =
-              await SecureCache.getFromCache(key: 'employeeId');
-          return Right(RoleLoginModel.fromJson(response));
-        } else {
-          return Left(Failure(
-              404, "Make sure you are an ${roleLoginRequestBody.role}"));
-        }
+        ApiConstant.token = await SecureCache.getFromCache(key: 'token');
+        ApiConstant.username = await SecureCache.getFromCache(key: 'username');
+        ApiConstant.employeeId =
+            await SecureCache.getFromCache(key: 'employeeId');
+        return Right(RoleLoginModel.fromJson(response));
       } else {
         return Left(Failure(404, getResponseError(response).toString()));
       }

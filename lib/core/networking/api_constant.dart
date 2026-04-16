@@ -10,7 +10,7 @@ class ApiConstant {
   static String imageUrl = '';
   static String shiftName = '';
   static String area = 'Customer';
-  static const String login = "Auth/Login";
+  static const String login = "api/Authentication/login";
   static const String uploadUserImage = "employeeImage";
   static const String updateUserToken = "Auth/updateDeviceToken";
   static const successApiKey = 'isSuccess';
