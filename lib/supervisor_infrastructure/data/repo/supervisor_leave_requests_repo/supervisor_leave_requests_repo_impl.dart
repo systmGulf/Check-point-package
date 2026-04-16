@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/change_request_leave_status.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_type_model.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
 import 'supervisor_leave_requests_repo.dart';
@@ -34,9 +35,8 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   Future<Either<Failure, GetLeaveRequestModel>>
       getLeaveRequestsByTypeForDepartment({required String type}) async {
     try {
-      final result = await apiservice.get(
-          endPoint:
-              "${ApiConstant.leaveRequest}");
+      final result =
+          await apiservice.get(endPoint: "${ApiConstant.leaveRequest}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetLeaveRequestModel.fromJson(result));
       } else {
@@ -61,6 +61,20 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
         return Left(Failure(404, getResponseError(result)));
       }
     } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, GetLeaveTypeModel>> getLeaveType() async {
+    try {
+      final result = await apiservice.get(endPoint: ApiConstant.leaveType);
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(GetLeaveTypeModel.fromJson(result));
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
