@@ -35,13 +35,22 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
       {required int pageNumber}) async {
     try {
       final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.Task}/department/${ApiConstant.departmentId}");
+          endPoint: "${ApiConstant.Task}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(
-          List<GetTasData>.from((result['value']['data'] as List)
-              .map((e) => GetTasData.fromJson(e))),
-        );
+        final value = result['value'];
+
+        // Supports both paginated and plain-list response shapes.
+        if (value is Map<String, dynamic>) {
+          final data = value['data'] as List<dynamic>? ?? [];
+          return Right(
+              List<GetTasData>.from(data.map((e) => GetTasData.fromJson(e))));
+        }
+        if (value is List) {
+          return Right(
+              List<GetTasData>.from(value.map((e) => GetTasData.fromJson(e))));
+        }
+
+        return const Right([]);
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -52,28 +61,36 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
 
   @override
   // Delete Task By Id
-  Future<Either<Failure, void>> deleteTaskById({required int id}) async {
+  Future<Either<Failure, void>> deleteTaskById({required String id}) async {
     try {
-      final result =
-          await apiService.delete(endPoint: "${ApiConstant.Task}?id=$id");
-      if (result[ApiConstant.successApiKey] == true) {
-        return const Right(null);
-      } else {
-        return Left(Failure(404, getResponseError(result)));
-      }
+      await apiService.delete(endPoint: "${ApiConstant.Task}/$id");
+      // DELETE can return 204 with empty/non-JSON body, so any successful call is enough.
+      return const Right(null);
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  // Assign Task
-  Future<Either<Failure, void>> assignTask(
-      {required int taskId, required List<String> employeeIds}) async {
+  // Assign Task (single or bulk)
+  Future<Either<Failure, void>> assignTask({
+    required String taskId,
+    required String employeeId,
+    required String deadLine,
+    required int priority,
+    required int state,
+  }) async {
     try {
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Task}/assignTask",
-          body: {"employeeIds": employeeIds, "taskId": taskId});
+        endPoint: ApiConstant.employeeTask,
+        body: {
+          "employeeId": employeeId,
+          "taskId": taskId,
+          "deadLine": deadLine,
+          "priority": priority,
+          "state": state,
+        },
+      );
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
@@ -87,7 +104,7 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   @override
   // Change Task Status
   Future<Either<Failure, void>> changeTaskStatus(
-      {required int taskId, required String status}) async {
+      {required String taskId, required String status}) async {
     try {
       final result = await apiService.put(
           endPoint: "${ApiConstant.Task}/updateStatus",
@@ -104,7 +121,7 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
 
   @override
   Future<Either<Failure, void>> removeSomeEmployeesFromTask(
-      {required int taskId, required String employeeIds}) async {
+      {required String taskId, required String employeeIds}) async {
     try {
       final result = await apiService.post(
           endPoint: "${ApiConstant.employee}/removeAssignTask",

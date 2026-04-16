@@ -2,9 +2,9 @@
 
 part of 'get_task_response.dart';
 
-// **************************************************************************
+// ***************************************************************************
 // JsonSerializableGenerator
-// **************************************************************************
+// ***************************************************************************
 
 GetTaskResponse _$GetTaskResponseFromJson(Map<String, dynamic> json) =>
     GetTaskResponse(
@@ -54,12 +54,16 @@ Map<String, dynamic> _$GetTasValueToJson(GetTasValue instance) =>
     };
 
 GetTasData _$GetTasDataFromJson(Map<String, dynamic> json) => GetTasData(
-      id: (json['id'] as num?)?.toInt(),
+      id: json['id'] as String?,
       title: json['title'] as String?,
+      code: json['code'] as String?,
       description: json['description'] as String?,
       dueDate: json['dueDate'] as String?,
+      deadLine: json['deadLine'] as String?,
       priorityStatus: json['priorityStatus'] as String?,
       status: json['status'] as String?,
+      priority: (json['priority'] as num?)?.toInt(),
+      state: (json['state'] as num?)?.toInt(),
       employees: (json['employees'] as List<dynamic>?)
           ?.map(
               (e) => GetEmployeesForTheTask.fromJson(e as Map<String, dynamic>))
@@ -70,10 +74,14 @@ Map<String, dynamic> _$GetTasDataToJson(GetTasData instance) =>
     <String, dynamic>{
       'id': instance.id,
       'title': instance.title,
+      'code': instance.code,
       'description': instance.description,
       'dueDate': instance.dueDate,
+      'deadLine': instance.deadLine,
       'priorityStatus': instance.priorityStatus,
       'status': instance.status,
+      'priority': instance.priority,
+      'state': instance.state,
       'employees': instance.employees,
     };
 

@@ -61,11 +61,56 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   Future<Either<Failure, GetAllEmployeesValue>>
       getEmployeeByDepartmentId() async {
     try {
-      final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.employee}/departmentId/${ApiConstant.departmentId}");
+      final result = await apiService.get(endPoint: "api/Employee/all");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetAllEmployeesValue.fromJson(result['value']));
+        final value = result['value'];
+        if (value is List) {
+          final employees = value
+              .whereType<Map<String, dynamic>>()
+              .map((e) {
+                final personalInfo =
+                    (e['personalInfo'] as Map<String, dynamic>?) ?? {};
+                final employeeSpecification =
+                    (e['employeeSpecification'] as Map<String, dynamic>?) ?? {};
+
+                final firstName =
+                    (personalInfo['firstName'] ?? '').toString().trim();
+                final lastName =
+                    (personalInfo['lastName'] ?? '').toString().trim();
+                final fullName = '$firstName $lastName'
+                    .trim()
+                    .replaceAll(RegExp(r'\s+'), ' ');
+
+                return EmployeeData(
+                  id: e['id']?.toString(),
+                  name: fullName.isNotEmpty ? fullName : firstName,
+                  userName:
+                      (e['code'] ?? personalInfo['firstName'] ?? '').toString(),
+                  position: employeeSpecification['jobTitle']?.toString(),
+                  departmentName:
+                      employeeSpecification['organizationUnitName']?.toString(),
+                  imageUrl: null,
+                  deviceTokens: const <String>[],
+                );
+              })
+              .toList();
+
+          return Right(
+            GetAllEmployeesValue(
+              data: employees,
+              totalCount: employees.length,
+              pageCount: 1,
+              hasNextPage: false,
+              hasPreviousPage: false,
+              start: employees.isEmpty ? 0 : 1,
+              end: employees.length,
+            ),
+          );
+        }
+        if (value is Map<String, dynamic>) {
+          return Right(GetAllEmployeesValue.fromJson(value));
+        }
+        return Right(GetAllEmployeesValue(data: const []));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }

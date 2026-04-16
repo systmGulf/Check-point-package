@@ -8,19 +8,27 @@ abstract class SupervisorTasksRepo {
   // add Tasks
   Future<Either<Failure, void>> addTask(
       {required AddTaskRequestBody addTaskRequestBody});
+
   // Get all Tasks by department Id
   Future<Either<Failure, List<GetTasData>>> getAllTasksByDepartmentId(
       {required int pageNumber});
-  // Delete Task by id
-  Future<Either<Failure, void>> deleteTaskById({required int id});
-  Future<Either<Failure, void>> removeSomeEmployeesFromTask(
-    {required int taskId, required String employeeIds}
-  );
 
-  // Assign Task to employees
-  Future<Either<Failure, void>> assignTask(
-      {required int taskId, required List<String> employeeIds});
+  // Delete Task by id
+  Future<Either<Failure, void>> deleteTaskById({required String id});
+
+  Future<Either<Failure, void>> removeSomeEmployeesFromTask(
+      {required String taskId, required String employeeIds});
+
+  // Assign Task to one/many employees
+  Future<Either<Failure, void>> assignTask({
+    required String taskId,
+    required String employeeId,
+    required String deadLine,
+    required int priority,
+    required int state,
+  });
+
   // Change Task Status from Pending to Completed Or inProgress
   Future<Either<Failure, void>> changeTaskStatus(
-      {required int taskId, required String status});
+      {required String taskId, required String status});
 }
