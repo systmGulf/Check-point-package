@@ -9,15 +9,19 @@ part of 'get_leave_request_model.dart';
 GetLeaveRequestModel _$GetLeaveRequestModelFromJson(
         Map<String, dynamic> json) =>
     GetLeaveRequestModel(
-      value: json['value'] == null
-          ? null
-          : Value.fromJson(json['value'] as Map<String, dynamic>),
+      value: (json['value'] as List<dynamic>?)
+          ?.map((e) => LeaveRequestData.fromJson(e as Map<String, dynamic>))
+          .toList(),
       status: (json['status'] as num?)?.toInt(),
       isSuccess: json['isSuccess'] as bool?,
       successMessage: json['successMessage'] as String?,
       correlationId: json['correlationId'] as String?,
-      errors: json['errors'] as List<dynamic>?,
-      validationErrors: json['validationErrors'] as List<dynamic>?,
+      errors:
+          (json['errors'] as List<dynamic>?)?.map((e) => e as String).toList(),
+      validationErrors: (json['validationErrors'] as List<dynamic>?)
+          ?.map((e) =>
+              LeaveRequestValidationError.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$GetLeaveRequestModelToJson(
@@ -32,88 +36,94 @@ Map<String, dynamic> _$GetLeaveRequestModelToJson(
       'validationErrors': instance.validationErrors,
     };
 
-Value _$ValueFromJson(Map<String, dynamic> json) => Value(
-      data: (json['data'] as List<dynamic>?)
-          ?.map((e) => Data.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      totalCount: (json['totalCount'] as num?)?.toInt(),
-      pageCount: (json['pageCount'] as num?)?.toInt(),
-      hasNextPage: json['hasNextPage'] as bool?,
-      hasPreviousPage: json['hasPreviousPage'] as bool?,
-      start: (json['start'] as num?)?.toInt(),
-      end: (json['end'] as num?)?.toInt(),
+LeaveRequestData _$LeaveRequestDataFromJson(Map<String, dynamic> json) =>
+    LeaveRequestData(
+      id: json['id'] as String?,
+      requestorId: json['requestorId'] as String?,
+      requestorName: json['requestorName'] as String?,
+      requestor: json['requestor'],
+      number: json['number'] as String?,
+      leavePeriod: json['leavePeriod'] == null
+          ? null
+          : LeavePeriod.fromJson(json['leavePeriod'] as Map<String, dynamic>),
+      emergencyInfo: json['emergencyInfo'] == null
+          ? null
+          : EmergencyInfo.fromJson(
+              json['emergencyInfo'] as Map<String, dynamic>),
+      leaveType: json['leaveType'] == null
+          ? null
+          : LeaveType.fromJson(json['leaveType'] as Map<String, dynamic>),
+      status: (json['status'] as num?)?.toInt(),
+      reason: json['reason'] as String?,
     );
 
-Map<String, dynamic> _$ValueToJson(Value instance) => <String, dynamic>{
-      'data': instance.data,
-      'totalCount': instance.totalCount,
-      'pageCount': instance.pageCount,
-      'hasNextPage': instance.hasNextPage,
-      'hasPreviousPage': instance.hasPreviousPage,
-      'start': instance.start,
-      'end': instance.end,
+Map<String, dynamic> _$LeaveRequestDataToJson(LeaveRequestData instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'requestorId': instance.requestorId,
+      'requestorName': instance.requestorName,
+      'requestor': instance.requestor,
+      'number': instance.number,
+      'leavePeriod': instance.leavePeriod,
+      'emergencyInfo': instance.emergencyInfo,
+      'leaveType': instance.leaveType,
+      'status': instance.status,
+      'reason': instance.reason,
     };
 
-Data _$DataFromJson(Map<String, dynamic> json) => Data(
-      id: (json['id'] as num?)?.toInt(),
+LeavePeriod _$LeavePeriodFromJson(Map<String, dynamic> json) => LeavePeriod(
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
-      reason: json['reason'] as String?,
-      remark: json['remark'] as String?,
-      status: json['status'] as String?,
-      leaveRequestType: json['leaveRequestType'] as String?,
-      createdDate: json['createdDate'] as String?,
-      createdBy: json['createdBy'] as String?,
-      employee: json['employee'] == null
-          ? null
-          : Employee.fromJson(json['employee'] as Map<String, dynamic>),
     );
 
-Map<String, dynamic> _$DataToJson(Data instance) => <String, dynamic>{
-      'id': instance.id,
+Map<String, dynamic> _$LeavePeriodToJson(LeavePeriod instance) =>
+    <String, dynamic>{
       'startDate': instance.startDate,
       'endDate': instance.endDate,
-      'reason': instance.reason,
-      'remark': instance.remark,
-      'status': instance.status,
-      'leaveRequestType': instance.leaveRequestType,
-      'createdDate': instance.createdDate,
-      'createdBy': instance.createdBy,
-      'employee': instance.employee,
     };
 
-Employee _$EmployeeFromJson(Map<String, dynamic> json) => Employee(
-      position: json['position'] as String?,
-      departmentName: json['departmentName'] as String?,
-      departmentId: (json['departmentId'] as num?)?.toInt(),
-      branchName: json['branchName'] as String?,
-      branchId: (json['branchId'] as num?)?.toInt(),
-      role: json['role'] as String?,
-      canAddAttendance: json['canAddAttendance'] as bool?,
-      canAddPlan: json['canAddPlan'] as bool?,
-      id: json['id'] as String?,
-      userName: json['userName'] as String?,
-      name: json['name'] as String?,
-      mobileId: json['mobileId'] as String?,
-      deviceTokens: (json['deviceTokens'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      imageUrl: json['imageUrl'] as String?,
+EmergencyInfo _$EmergencyInfoFromJson(Map<String, dynamic> json) =>
+    EmergencyInfo(
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
     );
 
-Map<String, dynamic> _$EmployeeToJson(Employee instance) => <String, dynamic>{
-      'position': instance.position,
-      'departmentName': instance.departmentName,
-      'departmentId': instance.departmentId,
-      'branchName': instance.branchName,
-      'branchId': instance.branchId,
-      'role': instance.role,
-      'canAddAttendance': instance.canAddAttendance,
-      'canAddPlan': instance.canAddPlan,
+Map<String, dynamic> _$EmergencyInfoToJson(EmergencyInfo instance) =>
+    <String, dynamic>{
+      'email': instance.email,
+      'phone': instance.phone,
+    };
+
+LeaveType _$LeaveTypeFromJson(Map<String, dynamic> json) => LeaveType(
+      id: json['id'] as String?,
+      code: json['code'] as String?,
+      type: json['type'] as String?,
+      workType: json['workType'],
+      status: (json['status'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$LeaveTypeToJson(LeaveType instance) => <String, dynamic>{
       'id': instance.id,
-      'userName': instance.userName,
-      'name': instance.name,
-      'mobileId': instance.mobileId,
-      'deviceTokens': instance.deviceTokens,
-      'imageUrl': instance.imageUrl,
+      'code': instance.code,
+      'type': instance.type,
+      'workType': instance.workType,
+      'status': instance.status,
+    };
+
+LeaveRequestValidationError _$LeaveRequestValidationErrorFromJson(
+        Map<String, dynamic> json) =>
+    LeaveRequestValidationError(
+      identifier: json['identifier'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      errorCode: json['errorCode'] as String?,
+      severity: (json['severity'] as num?)?.toInt(),
+    );
+
+Map<String, dynamic> _$LeaveRequestValidationErrorToJson(
+        LeaveRequestValidationError instance) =>
+    <String, dynamic>{
+      'identifier': instance.identifier,
+      'errorMessage': instance.errorMessage,
+      'errorCode': instance.errorCode,
+      'severity': instance.severity,
     };
