@@ -36,24 +36,20 @@ UserAttendanceValue _$UserAttendanceValueFromJson(Map<String, dynamic> json) =>
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => UserAttendanceData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalCount: (json['totalCount'] as num?)?.toInt(),
-      pageCount: (json['pageCount'] as num?)?.toInt(),
-      hasNextPage: json['hasNextPage'] as bool?,
-      hasPreviousPage: json['hasPreviousPage'] as bool?,
-      start: (json['start'] as num?)?.toInt(),
-      end: (json['end'] as num?)?.toInt(),
+      id: json['id'] as String?,
+      date: json['date'] as String?,
+      checkIn: json['checkIn'] as String?,
+      checkOut: json['checkOut'] as String?,
     );
 
 Map<String, dynamic> _$UserAttendanceValueToJson(
         UserAttendanceValue instance) =>
     <String, dynamic>{
       'data': instance.data,
-      'totalCount': instance.totalCount,
-      'pageCount': instance.pageCount,
-      'hasNextPage': instance.hasNextPage,
-      'hasPreviousPage': instance.hasPreviousPage,
-      'start': instance.start,
-      'end': instance.end,
+      'id': instance.id,
+      'date': instance.date,
+      'checkIn': instance.checkIn,
+      'checkOut': instance.checkOut,
     };
 
 UserAttendanceData _$UserAttendanceDataFromJson(Map<String, dynamic> json) =>
