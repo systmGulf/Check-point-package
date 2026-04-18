@@ -136,7 +136,7 @@ Map<String, dynamic> _$EmployeeSpecificationRequestToJson(
 
 EmployeeHistoryDtoRequest _$EmployeeHistoryDtoRequestFromJson(
         Map<String, dynamic> json) =>
-    const EmployeeHistoryDtoRequest();
+    EmployeeHistoryDtoRequest();
 
 Map<String, dynamic> _$EmployeeHistoryDtoRequestToJson(
         EmployeeHistoryDtoRequest instance) =>
