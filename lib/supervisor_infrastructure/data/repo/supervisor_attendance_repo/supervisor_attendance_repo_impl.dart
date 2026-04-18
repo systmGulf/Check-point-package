@@ -38,16 +38,15 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
 
   @override
   // Get employee attendance by department
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       getEmployeeAttendanceByDepartmentId(
           {required String attendanceDate}) async {
     try {
-      final result = await apiService.get(
-          endPoint:
-              "${ApiConstant.getEmployeeAttendance}/departmentId/${ApiConstant.departmentId}?attendenceDate=$attendanceDate");
+      final result =
+          await apiService.get(endPoint: ApiConstant.getEmployeeAttendance);
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -65,35 +64,30 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         final value = result['value'];
         if (value is List) {
-          final employees = value
-              .whereType<Map<String, dynamic>>()
-              .map((e) {
-                final personalInfo =
-                    (e['personalInfo'] as Map<String, dynamic>?) ?? {};
-                final employeeSpecification =
-                    (e['employeeSpecification'] as Map<String, dynamic>?) ?? {};
+          final employees = value.whereType<Map<String, dynamic>>().map((e) {
+            final personalInfo =
+                (e['personalInfo'] as Map<String, dynamic>?) ?? {};
+            final employeeSpecification =
+                (e['employeeSpecification'] as Map<String, dynamic>?) ?? {};
 
-                final firstName =
-                    (personalInfo['firstName'] ?? '').toString().trim();
-                final lastName =
-                    (personalInfo['lastName'] ?? '').toString().trim();
-                final fullName = '$firstName $lastName'
-                    .trim()
-                    .replaceAll(RegExp(r'\s+'), ' ');
+            final firstName =
+                (personalInfo['firstName'] ?? '').toString().trim();
+            final lastName = (personalInfo['lastName'] ?? '').toString().trim();
+            final fullName =
+                '$firstName $lastName'.trim().replaceAll(RegExp(r'\s+'), ' ');
 
-                return EmployeeData(
-                  id: e['id']?.toString(),
-                  name: fullName.isNotEmpty ? fullName : firstName,
-                  userName:
-                      (e['code'] ?? personalInfo['firstName'] ?? '').toString(),
-                  position: employeeSpecification['jobTitle']?.toString(),
-                  departmentName:
-                      employeeSpecification['organizationUnitName']?.toString(),
-                  imageUrl: null,
-                  deviceTokens: const <String>[],
-                );
-              })
-              .toList();
+            return EmployeeData(
+              id: e['id']?.toString(),
+              name: fullName.isNotEmpty ? fullName : firstName,
+              userName:
+                  (e['code'] ?? personalInfo['firstName'] ?? '').toString(),
+              position: employeeSpecification['jobTitle']?.toString(),
+              departmentName:
+                  employeeSpecification['organizationUnitName']?.toString(),
+              imageUrl: null,
+              deviceTokens: const <String>[],
+            );
+          }).toList();
 
           return Right(
             GetAllEmployeesValue(
@@ -206,14 +200,14 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
 
   @override
   // Get late comers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       supervisorGetLateComers({required String day}) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.getEmployeeAttendance}/lateComers/$day");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result['value']));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
@@ -224,14 +218,14 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
 
   @override
   // Get early leavers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       supervisorGetEarlyLeavers({required String day}) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.getEmployeeAttendance}/earlyLeavers/$day");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result['value']));
       } else {
         return Left(Failure(404, getResponseError(result)));
       }

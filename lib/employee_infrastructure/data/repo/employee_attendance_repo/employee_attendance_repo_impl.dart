@@ -82,11 +82,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   @override
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut({
     required String attendanceId,
+    required EmployeeCheckInRequestBody employeeCheckInRequestBody,
   }) async {
     try {
       final result = await apiService.put(
-        endPoint: "${ApiConstant.employeeCheckOut}/$attendanceId",
-        body: {},
+        endPoint: ApiConstant.employeeCheckOut(attendanceId),
+        body: employeeCheckInRequestBody.toJson(),
       );
 
       if (result[ApiConstant.successApiKey] == true) {
