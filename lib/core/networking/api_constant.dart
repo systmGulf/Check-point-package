@@ -56,6 +56,10 @@ class ApiConstant {
 
   // new
   static const String leaveType = "api/LeaveType/all";
+  static String getComplaints(String employeeId) =>
+      'api/Complaint/employee/$employeeId';
+
+  static const String complaints = "/api/Complaint";
   //! PaySlip
   static String payslip(String id) => "api/Payslip/$id";
 }
