@@ -5,6 +5,7 @@ class ApiConstant {
   static String departmentId = '';
   static String branchId = '';
   static String position = '';
+
   static String employeeCheckinTime = '';
   static String employeeCheckoutTime = '';
   static String imageUrl = '';
@@ -31,11 +32,14 @@ class ApiConstant {
   static const String addCustomer = 'Customer';
   static const String customerplan = 'customerPlan';
   static const String branches = 'Branch';
-  
+
   static const String accountRequest = 'AccountRequest';
   static const String plan = 'Plan';
   static const String Task = 'api/Task';
   static const String employeeTask = 'api/EmployeeTask';
+  static const String announcement = 'api/Announcement';
+  static const String news = 'api/News';
+  static const String companyEvent = 'api/CompanyEvent';
   static const String Shift = 'Shift';
   static const String Notification = 'Notification';
   static const String Policy = 'Policy';

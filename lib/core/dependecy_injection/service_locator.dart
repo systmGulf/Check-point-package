@@ -4,6 +4,7 @@ import 'package:hr_management_system_package/core/notifications/notifications_re
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo_impl.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo_impl.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
 import '../../admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
@@ -15,6 +16,7 @@ import '../../register_account/repo/register_account_repo.dart';
 import '../../register_account/repo/register_account_repo_impl.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
+import '../../supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_tasks_repo/supervisor_tasks_repo_impl.dart';
@@ -42,6 +44,11 @@ void setUpServiceLocator() {
 
   getIt.registerLazySingleton<SupervisorPlanRepo>(
     () => SupervisorPlanRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton<SupervisorNewsRepo>(
+    () => SupervisorNewsRepoImpl(
       apiService: getIt<ApiService>(),
     ),
   );
