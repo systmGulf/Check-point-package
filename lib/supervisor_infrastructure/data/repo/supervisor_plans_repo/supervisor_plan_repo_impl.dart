@@ -7,6 +7,7 @@ import '../../models/customers_model/get_customer_by_id_model.dart';
 import '../../models/plan_model/customer_plan_model.dart';
 import '../../models/plan_model/get_plan_by_id_model.dart';
 import '../../models/plan_model/get_plan_model.dart';
+import '../../models/plan_model/plans_v2_models.dart';
 import '../../models/plan_model/set_customer_plan_request_body.dart';
 import 'supervisor_plan_repo.dart';
 
@@ -180,6 +181,63 @@ class SupervisorPlanRepoImpl implements SupervisorPlanRepo {
       final result = await apiService.post(
           endPoint: "${ApiConstant.employee}/removeAssignCustomerPlan",
           body: {"employeeIds": employeeIds, "customerPlanId": planId});
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, PlanV2Item?>> createPlan({
+    required CreatePlanRequestBody body,
+  }) async {
+    try {
+      final result = await apiService.post(
+        endPoint: ApiConstant.plans,
+        body: body.toJson(),
+      );
+      if (result[ApiConstant.successApiKey] == true) {
+        final value = result['value'];
+        if (value is Map<String, dynamic>) {
+          return Right(PlanV2Item.fromJson(value));
+        }
+        return const Right(null);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<PlanV2Item>>> getPlans() async {
+    try {
+      final result = await apiService.get(endPoint: ApiConstant.plans);
+      if (result[ApiConstant.successApiKey] == true) {
+        final response = PlansV2Response.fromJson(result);
+        return Right(response.value);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> assignPlanToEmployee({
+    required AssignPlanToEmployeeRequestBody body,
+  }) async {
+    try {
+      final result = await apiService.post(
+        endPoint: ApiConstant.planAssignment,
+        body: body.toJson(),
+      );
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {

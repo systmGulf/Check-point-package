@@ -5,6 +5,7 @@ import '../../models/customers_model/get_customer_by_id_model.dart';
 import '../../models/plan_model/customer_plan_model.dart';
 import '../../models/plan_model/get_plan_by_id_model.dart';
 import '../../models/plan_model/get_plan_model.dart';
+import '../../models/plan_model/plans_v2_models.dart';
 import '../../models/plan_model/set_customer_plan_request_body.dart';
 
 abstract class SupervisorPlanRepo {
@@ -34,4 +35,13 @@ abstract class SupervisorPlanRepo {
   // Supervisor get Customer by Id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
       {required String CustomerId});
+
+  // New plans flow (api/plans + api/PlanAssignment)
+  Future<Either<Failure, PlanV2Item?>> createPlan({
+    required CreatePlanRequestBody body,
+  });
+  Future<Either<Failure, List<PlanV2Item>>> getPlans();
+  Future<Either<Failure, void>> assignPlanToEmployee({
+    required AssignPlanToEmployeeRequestBody body,
+  });
 }
