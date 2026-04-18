@@ -62,5 +62,12 @@ class ApiConstant {
 
   static const String complaints = "/api/Complaint";
   //! PaySlip
-  static String payslip(String id) => "/api/EmployeePayslip/$id";
+  static String payslip(String id) => "api/EmployeePayslip/$id";
+  //!Assesment
+  static String assesmentS(String employeeId) =>
+      "api/EmployeeAssessment/employee/$employeeId";
+  static String getAssesment(String employeeId, String assesmentId) =>
+      "api/EmployeeAssessment/employee/$employeeId/assessment/$assesmentId";
+
+  static const String submitAssesment = "api/EmployeeAssessment/submit";
 }

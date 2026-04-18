@@ -13,7 +13,8 @@ class EmployeePayslipRepoImpl implements EmployeePayslipRepo {
       : apiService = apiService;
   @override
   Future<Either<Failure, List<PayrollModel>>> getPayslipByEmployeeId(
-      String id) async {
+    String id,
+  ) async {
     try {
       final result = await apiService.get(endPoint: ApiConstant.payslip(id));
       if (result[ApiConstant.successApiKey] == true) {
