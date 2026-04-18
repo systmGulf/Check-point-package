@@ -6,7 +6,11 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/mode
 import '../../../../core/errors/error_handler.dart';
 
 abstract class SupervisorNewsRepo {
-  Future<Either<Failure, List<AnnouncementItem>>> getAnnouncement();
+  Future<Either<Failure, List<AnnouncementItem>>> getAnnouncement({
+    required String employeeId,
+  });
   Future<Either<Failure, List<UserNewsItem>>> getUserNews();
-  Future<Either<Failure, List<CompanyEventItem>>> getCompanyEvents();
+  Future<Either<Failure, List<CompanyEventItem>>> getCompanyEvents({
+    required String employeeId,
+  });
 }

@@ -14,9 +14,13 @@ class SupervisorNewsRepoImpl implements SupervisorNewsRepo {
   });
 
   @override
-  Future<Either<Failure, List<AnnouncementItem>>> getAnnouncement() async {
+  Future<Either<Failure, List<AnnouncementItem>>> getAnnouncement({
+    required String employeeId,
+  }) async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.announcement);
+      final result = await apiService.get(
+        endPoint: "${ApiConstant.announcement}/employee/$employeeId",
+      );
       if (result[ApiConstant.successApiKey] == true) {
         final value = result['value'] as List<dynamic>? ?? [];
         return Right(value.map((e) => AnnouncementItem.fromJson(e)).toList());
@@ -44,9 +48,13 @@ class SupervisorNewsRepoImpl implements SupervisorNewsRepo {
   }
 
   @override
-  Future<Either<Failure, List<CompanyEventItem>>> getCompanyEvents() async {
+  Future<Either<Failure, List<CompanyEventItem>>> getCompanyEvents({
+    required String employeeId,
+  }) async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.companyEvent);
+      final result = await apiService.get(
+        endPoint: "${ApiConstant.companyEvent}/employee/$employeeId",
+      );
       if (result[ApiConstant.successApiKey] == true) {
         final value = result['value'] as List<dynamic>? ?? [];
         return Right(value.map((e) => CompanyEventItem.fromJson(e)).toList());
