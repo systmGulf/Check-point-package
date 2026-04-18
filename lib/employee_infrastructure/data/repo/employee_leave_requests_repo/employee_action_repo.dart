@@ -29,7 +29,7 @@ abstract class EmployeeActionRepo {
   Future<Either<Failure, EmployeeTaksResponse>> getEmployeeTasks();
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
-      {required int taskId, required String status});
+      {required String employeeTaskId, required int state});
   // delete task
   Future<Either<Failure, void>> deleteTask({required String employeeTaskId});
 }
