@@ -13,7 +13,7 @@ abstract class SupervisorAttendanceRepo {
   Future<Either<Failure, List<SupervisorGetAllEmployeesAttendanceModel>>>
       supervisorGetAllEmployeesAttendance();
   // Get Employee Attendance By Department Id
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       getEmployeeAttendanceByDepartmentId({required String attendanceDate});
   // Get All Employees in Department
   Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees();
@@ -29,10 +29,10 @@ abstract class SupervisorAttendanceRepo {
   Future<Either<Failure, EmployeeSummaryValue>> getEmployeeSummary(
       {required String employeeId, required int month, required int year});
   // Supervisor Get Late Comers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       supervisorGetLateComers({required String day});
   // Supervisor Get Early Leavers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceModel>>
       supervisorGetEarlyLeavers({required String day});
   // Get Customer By Id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(

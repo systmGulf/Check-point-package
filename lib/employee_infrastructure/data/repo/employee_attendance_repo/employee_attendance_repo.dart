@@ -16,6 +16,7 @@ abstract class EmployeeAttendanceRepo {
       EmployeeCheckInRequestBody employeeCheckInRequestBody);
   // Employee Check out method
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut({
+    required EmployeeCheckInRequestBody employeeCheckInRequestBody,
     required String attendanceId,
   });
   // Track UserLocation In background
