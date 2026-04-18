@@ -3,6 +3,7 @@ import 'package:hr_management_system_package/core/notifications/notification_rep
 import 'package:hr_management_system_package/core/notifications/notifications_repo_impl.dart';
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo_impl.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/employee_summary_repo/employee_summary_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo_impl.dart';
@@ -15,6 +16,7 @@ import '../../hr_manamgement_system_package.dart';
 import '../../register_account/repo/register_account_repo.dart';
 import '../../register_account/repo/register_account_repo_impl.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo.dart';
+import '../../supervisor_infrastructure/data/repo/employee_summary_repo/employee_summary_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_news_repo/supervisor_news_repo.dart';
 import '../../supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo.dart';
@@ -64,6 +66,11 @@ void setUpServiceLocator() {
   );
   getIt.registerLazySingleton<SupervisorAttendanceRepo>(
     () => SupervisorAttendanceRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerLazySingleton<EmployeeSummaryRepo>(
+    () => EmployeeSummaryRepoImpl(
       apiService: getIt<ApiService>(),
     ),
   );
