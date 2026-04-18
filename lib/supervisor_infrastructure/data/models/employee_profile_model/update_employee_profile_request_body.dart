@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'update_employee_profile_request_body.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class UpdateEmployeeProfileRequestBody {
   EmployeePersonalInfoRequest? personalInfo;
   EmployeeContactInfoRequest? contactInfo;
@@ -11,6 +11,8 @@ class UpdateEmployeeProfileRequestBody {
   int? employmentType;
   EmployeeSpecificationRequest? employeeSpecification;
   EmployeeGradeDetailsRequest? gradeDetails;
+  @JsonKey(name: "HistoryDto")
+  EmployeeHistoryDtoRequest? historyDto;
 
   UpdateEmployeeProfileRequestBody({
     this.personalInfo,
@@ -20,6 +22,7 @@ class UpdateEmployeeProfileRequestBody {
     this.employmentType,
     this.employeeSpecification,
     this.gradeDetails,
+    this.historyDto,
   });
 
   factory UpdateEmployeeProfileRequestBody.fromJson(
@@ -60,7 +63,7 @@ class EmployeePersonalInfoRequest {
   Map<String, dynamic> toJson() => _$EmployeePersonalInfoRequestToJson(this);
 }
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class EmployeeContactInfoRequest {
   String? email;
   String? phone;
@@ -105,6 +108,8 @@ class EmployeeSpecificationRequest {
   String? organizationUnitName;
   String? hiringDate;
   String? managerName;
+  @JsonKey(name: "Department")
+  String? department;
 
   EmployeeSpecificationRequest({
     this.jobTitle,
@@ -112,12 +117,23 @@ class EmployeeSpecificationRequest {
     this.organizationUnitName,
     this.hiringDate,
     this.managerName,
+    this.department,
   });
 
   factory EmployeeSpecificationRequest.fromJson(Map<String, dynamic> json) =>
       _$EmployeeSpecificationRequestFromJson(json);
 
   Map<String, dynamic> toJson() => _$EmployeeSpecificationRequestToJson(this);
+}
+
+@JsonSerializable()
+class EmployeeHistoryDtoRequest {
+  const EmployeeHistoryDtoRequest();
+
+  factory EmployeeHistoryDtoRequest.fromJson(Map<String, dynamic> json) =>
+      _$EmployeeHistoryDtoRequestFromJson(json);
+
+  Map<String, dynamic> toJson() => _$EmployeeHistoryDtoRequestToJson(this);
 }
 
 @JsonSerializable()

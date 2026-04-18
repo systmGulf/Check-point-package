@@ -36,7 +36,8 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       getAllLeaveRequestsForEmployee() async {
     try {
       final result = await apiService.get(
-          endPoint: "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
+          endPoint:
+              ApiConstant.getRequestsByEmployeeId(ApiConstant.employeeId));
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeLeaveRequestsModel.fromJson(result));
       } else {
@@ -87,7 +88,8 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       getLeaveRequestsByTypeForEmployee({required String type}) async {
     try {
       final result = await apiService.get(
-          endPoint: "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
+          endPoint:
+              ApiConstant.getRequestsByEmployeeId(ApiConstant.employeeId));
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeLeaveRequestsModel.fromJson(result));
       } else {

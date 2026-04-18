@@ -13,6 +13,7 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   SupervisorLeaveRequestsRepoImpl({
     required this.apiservice,
   });
+
   @override
   // approve Or Reject LeaveRequest
   Future<Either<Failure, void>> approveOrRejectLeaveRequest(
@@ -22,10 +23,13 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
         endPoint: "${ApiConstant.leaveRequest}/leaveRequestStatus",
         body: body.toJson(),
       );
-      if (result[ApiConstant.successApiKey] == true) {
+      if (result is Map<String, dynamic> &&
+          result[ApiConstant.successApiKey] == true) {
         return const Right(null);
-      } else {
+      } else if (result is Map<String, dynamic>) {
         return Left(Failure(404, getResponseError(result)));
+      } else {
+        return Left(Failure(500, 'Unexpected server response'));
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -33,16 +37,28 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   }
 
   @override
-  // get LeaveRequests By Type
+  // get LeaveRequests By Type (for supervisor we fetch all then filter in cubit)
   Future<Either<Failure, GetLeaveRequestModel>>
       getLeaveRequestsByTypeForDepartment({required String type}) async {
     try {
-      final result =
-          await apiservice.get(endPoint: "${ApiConstant.leaveRequest}");
-      if (result[ApiConstant.successApiKey] == true) {
+      const allEndpoint = '${ApiConstant.leaveRequest}/all';
+      const fallbackEndpoint = ApiConstant.leaveRequest;
+
+      late dynamic result;
+      try {
+        result = await apiservice.get(endPoint: allEndpoint);
+      } on Exception {
+        // Backward compatibility with older backends.
+        result = await apiservice.get(endPoint: fallbackEndpoint);
+      }
+
+      if (result is Map<String, dynamic> &&
+          result[ApiConstant.successApiKey] == true) {
         return Right(GetLeaveRequestModel.fromJson(result));
-      } else {
+      } else if (result is Map<String, dynamic>) {
         return Left(Failure(404, getResponseError(result)));
+      } else {
+        return Left(Failure(500, 'Unexpected server response'));
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -55,12 +71,15 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
       supervisorGetEmployeeLeaveRequest() async {
     try {
       final result = await apiservice.get(endPoint: ApiConstant.leaveRequest);
-      if (result[ApiConstant.successApiKey] == true) {
+      if (result is Map<String, dynamic> &&
+          result[ApiConstant.successApiKey] == true) {
         return Right((result['value'] as List)
             .map((e) => GetLeaveRequestModel.fromJson(e))
             .toList());
-      } else {
+      } else if (result is Map<String, dynamic>) {
         return Left(Failure(404, getResponseError(result)));
+      } else {
+        return Left(Failure(500, 'Unexpected server response'));
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
@@ -71,10 +90,13 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
   Future<Either<Failure, GetLeaveTypeModel>> getLeaveType() async {
     try {
       final result = await apiservice.get(endPoint: ApiConstant.leaveType);
-      if (result[ApiConstant.successApiKey] == true) {
+      if (result is Map<String, dynamic> &&
+          result[ApiConstant.successApiKey] == true) {
         return Right(GetLeaveTypeModel.fromJson(result));
-      } else {
+      } else if (result is Map<String, dynamic>) {
         return Left(Failure(404, getResponseError(result)));
+      } else {
+        return Left(Failure(500, 'Unexpected server response'));
       }
     } catch (e) {
       return Left(ErrorHandler.handle(e).failure);

@@ -23,7 +23,9 @@ class ApiConstant {
   static const String employeeCheckOut = 'api/AttendanceRecord';
   static const String getEmployeeAttendanceHistory =
       'api/Announcement/employee/';
-  static const String leaveRequest = 'api/LeaveRequest/all';
+  static const String leaveRequest = 'api/LeaveRequest';
+  static String getRequestsByEmployeeId(String employeeId) =>
+      'GetRequestsbyEmployeeId/$employeeId';
   static const String getAllLeaveRequestsForEmployee = 'LeaveRequest/employee';
   static const String getEmployeeAttendance = 'Attendance';
   static const String employeeChangePassword = 'Auth/ChangePassword';
@@ -40,6 +42,8 @@ class ApiConstant {
   static const String employeeTask = 'api/EmployeeTask';
   static const String apiEmployee = 'api/Employee';
   static const String employeeSkill = 'api/EmployeeSkill';
+  static const String employeeBeneficiaryBenefit =
+      'api/EmployeeBeneficiaryBenefit';
   static const String announcement = 'api/Announcement';
   static const String news = 'api/News';
   static const String companyEvent = 'api/CompanyEvent';

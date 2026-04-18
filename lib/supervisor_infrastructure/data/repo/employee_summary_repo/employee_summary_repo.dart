@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_beneficiary_benefits_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_profile_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/update_employee_profile_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/user_skills_response.dart';
@@ -10,6 +11,10 @@ abstract class EmployeeSummaryRepo {
     required String employeeId,
   });
   Future<Either<Failure, List<UserSkillItem>>> getUserSkills({
+    required String employeeId,
+  });
+  Future<Either<Failure, List<EmployeeBeneficiaryBenefitItem>>>
+      getBeneficiaryBenefits({
     required String employeeId,
   });
   Future<Either<Failure, void>> updateEmployeeProfile({
