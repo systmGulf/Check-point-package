@@ -2,6 +2,8 @@ import 'package:get_it/get_it.dart';
 import 'package:hr_management_system_package/core/notifications/notification_repo.dart';
 import 'package:hr_management_system_package/core/notifications/notifications_repo_impl.dart';
 import 'package:hr_management_system_package/core/repos/shared_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/assesment_repo/assesment_repo.dart';
+import 'package:hr_management_system_package/employee_infrastructure/data/repo/assesment_repo/assesment_repo_impl.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/repo/employee_payslip_repo/employee_payslip_repo.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/employee_summary_repo/employee_summary_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_attendance_repo/supervisor_attendance_repo_impl.dart';
@@ -149,6 +151,11 @@ void setUpServiceLocator() {
   );
   getIt.registerSingleton<EmployeePayslipRepo>(
     EmployeePayslipRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
+  getIt.registerSingleton<AssesmentRepo>(
+    AssesmentRepoImpl(
       apiService: getIt<ApiService>(),
     ),
   );
