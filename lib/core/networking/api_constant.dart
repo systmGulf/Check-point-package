@@ -38,6 +38,7 @@ class ApiConstant {
   static const String plan = 'Plan';
   static const String Task = 'api/Task';
   static const String employeeTask = 'api/EmployeeTask';
+  static const String apiEmployee = 'api/Employee';
   static const String announcement = 'api/Announcement';
   static const String news = 'api/News';
   static const String companyEvent = 'api/CompanyEvent';
