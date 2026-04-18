@@ -74,6 +74,28 @@ class ApiService {
     }
   }
 
+  Future<dynamic> patch(
+      {required String endPoint, required Map<String, dynamic> body}) async {
+    try {
+      var response = await _dio.patch(endPoint,
+          data: body,
+          options: Options(
+            headers: {
+              'Accept': 'application/json',
+              'Authorization': 'Bearer ${ApiConstant.token}',
+            },
+          ));
+
+      return response.data;
+    } on Exception catch (e) {
+      if (e is DioException) {
+        _handleDioException(e);
+      } else {
+        return ErrorHandler.handle(e).failure;
+      }
+    }
+  }
+
   Future<dynamic> delete({required String endPoint}) async {
     try {
       var response = await _dio.delete(endPoint,

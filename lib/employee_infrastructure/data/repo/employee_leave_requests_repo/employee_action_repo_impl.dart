@@ -141,16 +141,15 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
   @override
   // Change Employee Task Status
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
-      {required int taskId, required String status}) async {
+      {required String employeeTaskId, required int state}) async {
     try {
-      final result = await apiService.put(
-          endPoint: "${ApiConstant.Task}/updateStatus",
-          body: {"id": taskId, "status": status});
-      if (result[ApiConstant.successApiKey] == true) {
-        return const Right(null);
-      } else {
-        return Left(Failure(404, getResponseError(result)));
-      }
+      await apiService.patch(
+        endPoint:
+            "${ApiConstant.employeeTask}/$employeeTaskId/state?state=$state",
+        body: const <String, dynamic>{},
+      );
+      // Endpoint may return 204/empty body; success is no exception thrown.
+      return const Right(null);
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
