@@ -1,6 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'user_attendace_model.g.dart';
+
 @JsonSerializable()
 class UserAttendanceModel {
   UserAttendanceValue? value;
@@ -20,60 +21,51 @@ class UserAttendanceModel {
       this.errors,
       this.validationErrors});
 
- factory UserAttendanceModel.fromJson(Map<String, dynamic> json) => _$UserAttendanceModelFromJson(json);
+  factory UserAttendanceModel.fromJson(Map<String, dynamic> json) =>
+      _$UserAttendanceModelFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class UserAttendanceValue {
   List<UserAttendanceData>? data;
-  int? totalCount;
-  int? pageCount;
-  bool? hasNextPage;
-  bool? hasPreviousPage;
-  int? start;
-  int? end;
+  String? id;
+  String? date;
+  String? checkIn;
+  String? checkOut;
 
-  UserAttendanceValue(
-      {this.data,
-      this.totalCount,
-      this.pageCount,
-      this.hasNextPage,
-      this.hasPreviousPage,
-      this.start,
-      this.end});
+  UserAttendanceValue({
+    this.data,
+    this.id,
+    this.date,
+    this.checkIn,
+    this.checkOut,
+  });
 
- factory UserAttendanceValue.fromJson(Map<String, dynamic> json) => _$UserAttendanceValueFromJson(json);
+  factory UserAttendanceValue.fromJson(Map<String, dynamic> json) =>
+      _$UserAttendanceValueFromJson(json);
 }
-@JsonSerializable()
 
+@JsonSerializable()
 class UserAttendanceData {
-  int? id;
-  String? employeeName;
-  String? attendanceDate;
-  String? clockInTime;
-  String? clockOutTime;
-  String? dayHours;
-  double? totalHours;
-  String? location;
-  String? area;
-  String? employeeId;
-  String? customerId;
-  String? customerName;
-  String? employeeImage;
-  bool? isEarly, isLate;
+  final String? id;
+  final String? title;
+  final String? body;
+  final DateTime? publishAt;
+  final DateTime? expireAt;
+  final String? employeeId;
+  final String? employeeName;
+  final bool? isPublished;
 
   UserAttendanceData(
       {this.id,
-      this.employeeName,
-      this.attendanceDate,
-      this.clockInTime,
-      this.clockOutTime,
-      this.dayHours,
-      this.totalHours,
-      this.location,
-      this.area,
+      this.title,
+      this.body,
+      this.publishAt,
+      this.expireAt,
       this.employeeId,
-      this.customerId, this.customerName, this.employeeImage, this.isEarly, this.isLate});
+      this.employeeName,
+      this.isPublished});
 
- factory UserAttendanceData.fromJson(Map<String, dynamic> json) => _$UserAttendanceDataFromJson(json);
+  factory UserAttendanceData.fromJson(Map<String, dynamic> json) =>
+      _$UserAttendanceDataFromJson(json);
 }

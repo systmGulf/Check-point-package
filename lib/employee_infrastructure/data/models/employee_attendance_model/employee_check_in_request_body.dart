@@ -4,15 +4,15 @@ part 'employee_check_in_request_body.g.dart';
 
 @JsonSerializable()
 class EmployeeCheckInRequestBody {
-  @JsonKey(name: 'employeeId')
-  final String employeeIdd;
-  final String area;
-  final String? customerId;
-  final String location;
-  final String? employeeImage;
+  final String date;
+  final String checkIn;
+  final String checkOut;
 
-  EmployeeCheckInRequestBody(this.customerId, this.employeeImage,
-      {required this.employeeIdd, required this.area, required this.location});
+  EmployeeCheckInRequestBody({
+    required this.date,
+    required this.checkIn,
+    required this.checkOut,
+  });
 
   Map<String, dynamic> toJson() => _$EmployeeCheckInRequestBodyToJson(this);
 }

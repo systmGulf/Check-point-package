@@ -19,9 +19,10 @@ class ApiConstant {
   static const multiNotification = 'sendMulti';
 
   static const String employee = "Employee";
-  static const String employeeCheckIn = 'Attendance/in';
-  static const String employeeCheckOut = 'Attendance/out';
-  static const String getEmployeeAttendanceHistory = 'Attendance/employeeId';
+  static const String employeeCheckIn = 'api/AttendanceRecord';
+  static const String employeeCheckOut = 'api/AttendanceRecord';
+  static const String getEmployeeAttendanceHistory =
+      'api/Announcement/employee/';
   static const String leaveRequest = 'api/LeaveRequest/all';
   static const String getAllLeaveRequestsForEmployee = 'LeaveRequest/employee';
   static const String getEmployeeAttendance = 'Attendance';

@@ -36,60 +36,46 @@ UserAttendanceValue _$UserAttendanceValueFromJson(Map<String, dynamic> json) =>
       data: (json['data'] as List<dynamic>?)
           ?.map((e) => UserAttendanceData.fromJson(e as Map<String, dynamic>))
           .toList(),
-      totalCount: (json['totalCount'] as num?)?.toInt(),
-      pageCount: (json['pageCount'] as num?)?.toInt(),
-      hasNextPage: json['hasNextPage'] as bool?,
-      hasPreviousPage: json['hasPreviousPage'] as bool?,
-      start: (json['start'] as num?)?.toInt(),
-      end: (json['end'] as num?)?.toInt(),
+      id: json['id'] as String?,
+      date: json['date'] as String?,
+      checkIn: json['checkIn'] as String?,
+      checkOut: json['checkOut'] as String?,
     );
 
 Map<String, dynamic> _$UserAttendanceValueToJson(
         UserAttendanceValue instance) =>
     <String, dynamic>{
       'data': instance.data,
-      'totalCount': instance.totalCount,
-      'pageCount': instance.pageCount,
-      'hasNextPage': instance.hasNextPage,
-      'hasPreviousPage': instance.hasPreviousPage,
-      'start': instance.start,
-      'end': instance.end,
+      'id': instance.id,
+      'date': instance.date,
+      'checkIn': instance.checkIn,
+      'checkOut': instance.checkOut,
     };
 
 UserAttendanceData _$UserAttendanceDataFromJson(Map<String, dynamic> json) =>
     UserAttendanceData(
-      id: (json['id'] as num?)?.toInt(),
-      employeeName: json['employeeName'] as String?,
-      attendanceDate: json['attendanceDate'] as String?,
-      clockInTime: json['clockInTime'] as String?,
-      clockOutTime: json['clockOutTime'] as String?,
-      dayHours: json['dayHours'] as String?,
-      totalHours: (json['totalHours'] as num?)?.toDouble(),
-      location: json['location'] as String?,
-      area: json['area'] as String?,
+      id: json['id'] as String?,
+      title: json['title'] as String?,
+      body: json['body'] as String?,
+      publishAt: json['publishAt'] == null
+          ? null
+          : DateTime.parse(json['publishAt'] as String),
+      expireAt: json['expireAt'] == null
+          ? null
+          : DateTime.parse(json['expireAt'] as String),
       employeeId: json['employeeId'] as String?,
-      customerId: json['customerId'] as String?,
-      customerName: json['customerName'] as String?,
-      employeeImage: json['employeeImage'] as String?,
-      isEarly: json['isEarly'] as bool?,
-      isLate: json['isLate'] as bool?,
+      employeeName: json['employeeName'] as String?,
+      isPublished: json['isPublished'] as bool?,
     );
 
 Map<String, dynamic> _$UserAttendanceDataToJson(UserAttendanceData instance) =>
     <String, dynamic>{
       'id': instance.id,
-      'employeeName': instance.employeeName,
-      'attendanceDate': instance.attendanceDate,
-      'clockInTime': instance.clockInTime,
-      'clockOutTime': instance.clockOutTime,
-      'dayHours': instance.dayHours,
-      'totalHours': instance.totalHours,
-      'location': instance.location,
-      'area': instance.area,
+      'title': instance.title,
+      'body': instance.body,
+      'publishAt': instance.publishAt?.toIso8601String(),
+      'expireAt': instance.expireAt?.toIso8601String(),
       'employeeId': instance.employeeId,
-      'customerId': instance.customerId,
-      'customerName': instance.customerName,
-      'employeeImage': instance.employeeImage,
-      'isEarly': instance.isEarly,
-      'isLate': instance.isLate,
+      'employeeName': instance.employeeName,
+      'isPublished': instance.isPublished,
     };

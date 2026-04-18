@@ -141,17 +141,19 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
     try {
-      if (employeeCheckInRequestBody.employeeImage != null) {
-        final result = await apiService.post(
-            endPoint: ApiConstant.employeeCheckIn,
-            body: employeeCheckInRequestBody.toJson());
-        if (result[ApiConstant.successApiKey] == true) {
-          return const Right(null);
-        } else {
-          return Left(Failure(200, getResponseError(result)));
-        }
+      // if (employeeCheckInRequestBody.employeeImage != null) {
+
+      // } else {
+
+      //   return Left(Failure(200, "Image is required"));
+      // }
+      final result = await apiService.post(
+          endPoint: ApiConstant.employeeCheckIn,
+          body: employeeCheckInRequestBody.toJson());
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
       } else {
-        return Left(Failure(200, "Image is required"));
+        return Left(Failure(200, getResponseError(result)));
       }
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
