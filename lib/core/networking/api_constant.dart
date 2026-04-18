@@ -62,5 +62,5 @@ class ApiConstant {
 
   static const String complaints = "/api/Complaint";
   //! PaySlip
-  static String payslip(String id) => "api/Payslip/$id";
+  static String payslip(String id) => "/api/EmployeePayslip/$id";
 }
