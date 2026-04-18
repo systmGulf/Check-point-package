@@ -159,19 +159,10 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
   @override
   // Delete Task
   Future<Either<Failure, void>> deleteTask(
-      {required int taskId, required String employeeId}) async {
-    final requestBody = {
-      "employeeId": employeeId,
-      "taskId": taskId,
-    };
+      {required String employeeTaskId}) async {
     try {
-      final result = await apiService.post(
-          endPoint: ApiConstant.removeTaskFromEmployee, body: requestBody);
-      if (result[ApiConstant.successApiKey] == true) {
-        return const Right(null);
-      } else {
-        return Left(Failure(404, getResponseError(result)));
-      }
+      await apiService.delete(endPoint: "${ApiConstant.employeeTask}/$employeeTaskId");
+      return const Right(null);
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }

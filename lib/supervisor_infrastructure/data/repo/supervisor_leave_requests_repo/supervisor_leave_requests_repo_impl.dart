@@ -4,6 +4,7 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/mode
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/get_leave_Request_model/get_leave_type_model.dart';
 
 import '../../../../hr_manamgement_system_package.dart';
+import '../../../supervisor_data.dart';
 import 'supervisor_leave_requests_repo.dart';
 
 class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
