@@ -55,4 +55,6 @@ class ApiConstant {
 
   // new
   static const String leaveType = "api/LeaveType/all";
+  //! PaySlip
+  static String payslip(String id) => "api/Payslip/$id";
 }
