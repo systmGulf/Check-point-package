@@ -87,8 +87,7 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       getLeaveRequestsByTypeForEmployee({required String type}) async {
     try {
       final result = await apiService.get(
-          endPoint:
-              "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
+          endPoint: "GetRequestsbyEmployeeId/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeLeaveRequestsModel.fromJson(result));
       } else {
@@ -160,7 +159,8 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
   Future<Either<Failure, void>> deleteTask(
       {required String employeeTaskId}) async {
     try {
-      await apiService.delete(endPoint: "${ApiConstant.employeeTask}/$employeeTaskId");
+      await apiService.delete(
+          endPoint: "${ApiConstant.employeeTask}/$employeeTaskId");
       return const Right(null);
     } on Exception catch (e) {
       return Left(ErrorHandler.handle(e).failure);
