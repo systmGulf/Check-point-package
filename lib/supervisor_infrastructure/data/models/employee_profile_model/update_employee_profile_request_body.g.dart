@@ -28,18 +28,23 @@ UpdateEmployeeProfileRequestBody _$UpdateEmployeeProfileRequestBodyFromJson(
           ? null
           : EmployeeGradeDetailsRequest.fromJson(
               json['gradeDetails'] as Map<String, dynamic>),
+      historyDto: json['HistoryDto'] == null
+          ? null
+          : EmployeeHistoryDtoRequest.fromJson(
+              json['HistoryDto'] as Map<String, dynamic>),
     );
 
 Map<String, dynamic> _$UpdateEmployeeProfileRequestBodyToJson(
         UpdateEmployeeProfileRequestBody instance) =>
     <String, dynamic>{
-      'personalInfo': instance.personalInfo,
-      'contactInfo': instance.contactInfo,
+      'personalInfo': instance.personalInfo?.toJson(),
+      'contactInfo': instance.contactInfo?.toJson(),
       'status': instance.status,
       'code': instance.code,
       'employmentType': instance.employmentType,
-      'employeeSpecification': instance.employeeSpecification,
-      'gradeDetails': instance.gradeDetails,
+      'employeeSpecification': instance.employeeSpecification?.toJson(),
+      'gradeDetails': instance.gradeDetails?.toJson(),
+      'HistoryDto': instance.historyDto?.toJson(),
     };
 
 EmployeePersonalInfoRequest _$EmployeePersonalInfoRequestFromJson(
@@ -86,7 +91,7 @@ Map<String, dynamic> _$EmployeeContactInfoRequestToJson(
     <String, dynamic>{
       'email': instance.email,
       'phone': instance.phone,
-      'address': instance.address,
+      'address': instance.address?.toJson(),
     };
 
 EmployeeAddressRequest _$EmployeeAddressRequestFromJson(
@@ -115,6 +120,7 @@ EmployeeSpecificationRequest _$EmployeeSpecificationRequestFromJson(
       organizationUnitName: json['organizationUnitName'] as String?,
       hiringDate: json['hiringDate'] as String?,
       managerName: json['managerName'] as String?,
+      department: json['Department'] as String?,
     );
 
 Map<String, dynamic> _$EmployeeSpecificationRequestToJson(
@@ -125,7 +131,16 @@ Map<String, dynamic> _$EmployeeSpecificationRequestToJson(
       'organizationUnitName': instance.organizationUnitName,
       'hiringDate': instance.hiringDate,
       'managerName': instance.managerName,
+      'Department': instance.department,
     };
+
+EmployeeHistoryDtoRequest _$EmployeeHistoryDtoRequestFromJson(
+        Map<String, dynamic> json) =>
+    EmployeeHistoryDtoRequest();
+
+Map<String, dynamic> _$EmployeeHistoryDtoRequestToJson(
+        EmployeeHistoryDtoRequest instance) =>
+    <String, dynamic>{};
 
 EmployeeGradeDetailsRequest _$EmployeeGradeDetailsRequestFromJson(
         Map<String, dynamic> json) =>

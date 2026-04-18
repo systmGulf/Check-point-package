@@ -24,9 +24,8 @@ class ApiService {
     } on Exception catch (e) {
       if (e is DioException) {
         _handleDioException(e);
-      } else {
-        return ErrorHandler.handle(e).failure;
       }
+      throw const FetchDataException();
     }
   }
 
@@ -46,9 +45,8 @@ class ApiService {
     } on Exception catch (e) {
       if (e is DioException) {
         _handleDioException(e);
-      } else {
-        return ErrorHandler.handle(e).failure;
       }
+      throw const FetchDataException();
     }
   }
 
@@ -68,9 +66,8 @@ class ApiService {
     } on Exception catch (e) {
       if (e is DioException) {
         _handleDioException(e);
-      } else {
-        return ErrorHandler.handle(e).failure;
       }
+      throw const FetchDataException();
     }
   }
 
@@ -90,9 +87,8 @@ class ApiService {
     } on Exception catch (e) {
       if (e is DioException) {
         _handleDioException(e);
-      } else {
-        return ErrorHandler.handle(e).failure;
       }
+      throw const FetchDataException();
     }
   }
 
@@ -110,13 +106,12 @@ class ApiService {
     } on Exception catch (e) {
       if (e is DioException) {
         _handleDioException(e);
-      } else {
-        return ErrorHandler.handle(e).failure;
       }
+      throw const FetchDataException();
     }
   }
 
-  dynamic _handleDioException(DioException error) {
+  Never _handleDioException(DioException error) {
     switch (error.type) {
       case DioExceptionType.connectionTimeout:
       case DioExceptionType.sendTimeout:
@@ -133,17 +128,14 @@ class ApiService {
             throw const NotFoundException();
           case StatusCode.conflict:
             throw const ConflictException();
-
           case StatusCode.internalServerError:
             throw const InternalServerErrorException();
+          default:
+            throw const BadRequestException();
         }
-        break;
       case DioExceptionType.cancel:
-        break;
       case DioExceptionType.badCertificate:
-        break;
       case DioExceptionType.connectionError:
-        throw const NoInternetConnectionException();
       case DioExceptionType.unknown:
         throw const NoInternetConnectionException();
     }

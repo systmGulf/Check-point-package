@@ -19,13 +19,16 @@ class ApiConstant {
   static const multiNotification = 'sendMulti';
 
   static const String employee = "Employee";
-  static const String employeeCheckIn = 'api/AttendanceRecord';
-  static const String employeeCheckOut = 'api/AttendanceRecord';
+  static const String employeeCheckIn = 'api/AttendeesRecord';
+  static String employeeCheckOut(String attendanceId) =>
+      'api/AttendeesRecord/$attendanceId';
   static const String getEmployeeAttendanceHistory =
       'api/Announcement/employee/';
-  static const String leaveRequest = 'api/LeaveRequest/all';
+  static const String leaveRequest = 'api/LeaveRequest';
+  static String getRequestsByEmployeeId(String employeeId) =>
+      'GetRequestsbyEmployeeId/$employeeId';
   static const String getAllLeaveRequestsForEmployee = 'LeaveRequest/employee';
-  static const String getEmployeeAttendance = 'Attendance';
+  static const String getEmployeeAttendance = 'api/AttendeesRecord/all';
   static const String employeeChangePassword = 'Auth/ChangePassword';
   static const String deleteEmployee = 'Auth/DeleteUser';
   static const String department = 'Department';
@@ -40,6 +43,8 @@ class ApiConstant {
   static const String employeeTask = 'api/EmployeeTask';
   static const String apiEmployee = 'api/Employee';
   static const String employeeSkill = 'api/EmployeeSkill';
+  static const String employeeBeneficiaryBenefit =
+      'api/EmployeeBeneficiaryBenefit';
   static const String announcement = 'api/Announcement';
   static const String news = 'api/News';
   static const String companyEvent = 'api/CompanyEvent';
@@ -63,6 +68,7 @@ class ApiConstant {
   static const String complaints = "/api/Complaint";
   //! PaySlip
   static String payslip(String id) => "api/EmployeePayslip/$id";
+
   //!Assesment
   static String assesmentS(String employeeId) =>
       "api/EmployeeAssessment/employee/$employeeId";
@@ -70,4 +76,10 @@ class ApiConstant {
       "api/EmployeeAssessment/employee/$employeeId/assessment/$assesmentId";
 
   static const String submitAssesment = "api/EmployeeAssessment/submit";
+
+  static String getFeedBacks(String employeeId) =>
+      "api/Feedback/employee/$employeeId";
+
+  static String feedback = "api/Feedback";
+
 }
