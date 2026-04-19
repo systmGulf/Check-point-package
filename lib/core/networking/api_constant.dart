@@ -94,4 +94,9 @@ class ApiConstant {
   static const String createLoanRequest =
       'api/EmployeeLoan/create-loan-request';
   static const String getAllInstallementTypes = 'api/InstallementsType/all';
+
+  static const String getAllSurveys = "api/surveys";
+  static String getEmployeeSurveys(String employeeId) =>
+      "/api/employee-surveys/employee/$employeeId";
+  static const String submitSurvey = "api/employee-surveys/submit";
 }
