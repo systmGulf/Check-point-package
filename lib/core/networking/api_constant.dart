@@ -99,4 +99,8 @@ class ApiConstant {
   static String getEmployeeSurveys(String employeeId) =>
       "/api/employee-surveys/employee/$employeeId";
   static const String submitSurvey = "api/employee-surveys/submit";
+
+  static const String getAllBenefits = 'api/Benefits';
+  static const String createEmployeeBenefitRequest =
+      'api/EmployeeBeneficiaryBenefit/create-employee-benefits-request';
 }

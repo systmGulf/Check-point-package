@@ -135,6 +135,11 @@ void setUpServiceLocator() {
       apiService: getIt<ApiService>(),
     ),
   );
+  getIt.registerSingleton<EmployeeBenefitRepo>(
+    EmployeeBenefitRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
   getIt.registerSingleton<EmployeeLoanRepo>(
     EmployeeLoanRepoImpl(
       apiService: getIt<ApiService>(),
