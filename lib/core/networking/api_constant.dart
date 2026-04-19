@@ -45,6 +45,7 @@ class ApiConstant {
   static const String employeeTask = 'api/EmployeeTask';
   static const String apiEmployee = 'api/Employee';
   static const String employeeSkill = 'api/EmployeeSkill';
+  static const String skill = 'api/Skill';
   static const String employeeBeneficiaryBenefit =
       'api/EmployeeBeneficiaryBenefit';
   static const String announcement = 'api/Announcement';
@@ -83,5 +84,8 @@ class ApiConstant {
       "api/Feedback/employee/$employeeId";
 
   static String feedback = "api/Feedback";
-
+  static const String getAllAssets = "api/assets";
+  static String getAssetsForEmployee(String employeeId) =>
+      "api/employee-assets/employee/$employeeId";
+  static const String requestAsset = "api/employee-assets/request";
 }

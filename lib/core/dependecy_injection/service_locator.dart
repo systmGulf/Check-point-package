@@ -125,6 +125,11 @@ void setUpServiceLocator() {
       apiService: getIt<ApiService>(),
     ),
   );
+  getIt.registerSingleton<EmployeeAssetsRepo>(
+    EmployeeAssetsRepoImpl(
+      apiService: getIt<ApiService>(),
+    ),
+  );
 
   getIt.registerSingleton<BranchesRepo>(
     AdminRepoImpl(

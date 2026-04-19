@@ -1,5 +1,10 @@
 export '../models/employee_leave_requests_models/employee_leave_requests.dart';
+export '../models/employee_assets_model/employee_assets_response.dart';
+export '../models/employee_assets_model/employee_asset_requests_response.dart';
+export '../models/employee_assets_model/request_asset_request_body.dart';
 export '../models/employee_attendance_model/change_password_request_body.dart';
 export '../models/employee_attendance_model/user_attendace_model.dart';
+export 'employee_assets_repo/employee_assets_repo.dart';
+export 'employee_assets_repo/employee_assets_repo_impl.dart';
 export 'employee_leave_requests_repo/employee_action_repo.dart';
 export 'employee_leave_requests_repo/employee_action_repo_impl.dart';

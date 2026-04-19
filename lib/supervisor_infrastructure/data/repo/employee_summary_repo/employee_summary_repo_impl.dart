@@ -1,6 +1,8 @@
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/add_employee_skill_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_beneficiary_benefits_response.dart';
 import 'package:dartz/dartz.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/employee_profile_response.dart';
+import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/skill_catalog_response.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/update_employee_profile_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/employee_profile_model/user_skills_response.dart';
 
@@ -43,6 +45,44 @@ class EmployeeSummaryRepoImpl implements EmployeeSummaryRepo {
       if (result[ApiConstant.successApiKey] == true) {
         final value = result['value'] as List<dynamic>? ?? [];
         return Right(value.map((e) => UserSkillItem.fromJson(e)).toList());
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<SkillCatalogItem>>> getAllSkills() async {
+    try {
+      final result = await apiService.get(
+        endPoint: ApiConstant.skill,
+      );
+      if (result[ApiConstant.successApiKey] == true) {
+        final response = SkillCatalogResponse.fromJson(result);
+        return Right(response.value);
+      } else {
+        return Left(Failure(404, getResponseError(result)));
+      }
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserSkillItem>> addUserSkill({
+    required AddEmployeeSkillRequestBody body,
+  }) async {
+    try {
+      final result = await apiService.post(
+        endPoint: ApiConstant.employeeSkill,
+        body: body.toJson(),
+      );
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(
+          UserSkillItem.fromJson(result['value'] as Map<String, dynamic>),
+        );
       } else {
         return Left(Failure(404, getResponseError(result)));
       }
