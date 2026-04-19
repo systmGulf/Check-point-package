@@ -52,6 +52,10 @@ class LoginRepoImpl implements LoginRepo {
 
       if (result[ApiConstant.successApiKey] == true) {
         await SecureCache.insertToCache(
+          key: 'token',
+          value: result['value']['token'].toString(),
+        );
+        await SecureCache.insertToCache(
           key: 'departmentId',
           value: result['value']['departmentId'].toString(),
         );
