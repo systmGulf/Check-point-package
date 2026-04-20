@@ -7,7 +7,8 @@ import '../../models/employee_loan_model/employee_loans_response.dart';
 import '../../models/employee_loan_model/installement_types_response.dart';
 
 abstract class EmployeeLoanRepo {
-  Future<Either<Failure, EmployeeLoansResponse>> getAllLoans();
+  Future<Either<Failure, EmployeeLoansResponse>> getAllLoans(
+      {String targetEmployeeId});
   Future<Either<Failure, InstallementTypesResponse>> getInstallementTypes();
   Future<Either<Failure, CreateLoanRequestResponse>> createLoanRequest(
       CreateLoanRequestBody requestBody);

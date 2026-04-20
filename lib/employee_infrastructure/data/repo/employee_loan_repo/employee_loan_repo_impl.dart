@@ -15,10 +15,14 @@ class EmployeeLoanRepoImpl implements EmployeeLoanRepo {
   final ApiService apiService;
 
   @override
-  Future<Either<Failure, EmployeeLoansResponse>> getAllLoans() async {
+  Future<Either<Failure, EmployeeLoansResponse>> getAllLoans(
+      {String? targetEmployeeId}) async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.getAllLoans);
-
+      final result = await apiService.get(
+          endPoint: (targetEmployeeId == null || targetEmployeeId.isEmpty)
+              ? ApiConstant.getAllLoans
+              : '${ApiConstant.getAllLoans}?RequesterId=${Uri.encodeQueryComponent(targetEmployeeId)}');
+      ;
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeLoansResponse.fromJson(result));
       }

@@ -88,11 +88,13 @@ class ApiConstant {
   static String getAssetsForEmployee(String employeeId) =>
       "api/employee-assets/employee/$employeeId";
   static const String requestAsset = "api/employee-assets/request";
-  static const String beneficiaryAllowance = 'api/BeneficiaryAllowance';
+  static const String beneficiaryAllowance =
+      '/api/EmployeeAllowance/getBeneficiaryAllowancesData';
   static const String requestAllowance = 'api/AllowanceRequest';
-  static const String getAllLoans = 'api/Loans/all';
+  static const String getAllLoans =
+      'api/EmployeeLoan/get-loan-requests-per-employee';
   static const String createLoanRequest =
-      'api/EmployeeLoan/create-loan-request';
+      'api/EmployeeLoan/create-loan-request-mobile';
   static const String getAllInstallementTypes = 'api/InstallementsType/all';
 
   static const String getAllSurveys = "api/surveys";
