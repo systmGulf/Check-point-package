@@ -14,11 +14,13 @@ class EmployeeLoansResponse {
   final bool? isSuccess;
   final String? successMessage;
   final String? correlationId;
-  final List<dynamic>? errors;
-  final List<dynamic>? validationErrors;
+  final List<String>? errors;
+  final List<ValidationError>? validationErrors;
 
   factory EmployeeLoansResponse.fromJson(Map<String, dynamic> json) {
     final rawValue = json['value'] as List<dynamic>? ?? <dynamic>[];
+    final rawErrors = json['errors'] as List<dynamic>?;
+    final rawValidationErrors = json['validationErrors'] as List<dynamic>?;
 
     return EmployeeLoansResponse(
       value: rawValue
@@ -29,8 +31,11 @@ class EmployeeLoansResponse {
       isSuccess: json['isSuccess'] as bool?,
       successMessage: json['successMessage'] as String?,
       correlationId: json['correlationId'] as String?,
-      errors: json['errors'] as List<dynamic>?,
-      validationErrors: json['validationErrors'] as List<dynamic>?,
+      errors: rawErrors?.map((e) => e.toString()).toList(),
+      validationErrors: rawValidationErrors
+          ?.whereType<Map<String, dynamic>>()
+          .map(ValidationError.fromJson)
+          .toList(),
     );
   }
 }
@@ -39,34 +44,62 @@ class EmployeeLoanItem {
   EmployeeLoanItem({
     this.id,
     this.code,
-    this.loanRequestId,
+    this.installementsType,
     this.amount,
-    this.loanInstallementAmount,
-    this.requester,
     this.period,
+    this.status,
+    this.loanRequester,
   });
 
   final String? id;
   final String? code;
-  final String? loanRequestId;
+  final InstallementsType? installementsType;
   final num? amount;
-  final num? loanInstallementAmount;
-  final LoanRequester? requester;
   final LoanPeriod? period;
+  final int? status;
+  final LoanRequester? loanRequester;
 
   factory EmployeeLoanItem.fromJson(Map<String, dynamic> json) {
     return EmployeeLoanItem(
       id: json['id'] as String?,
       code: json['code'] as String?,
-      loanRequestId: json['loanRequestId'] as String?,
-      amount: json['amount'] as num?,
-      loanInstallementAmount: json['loanInstallementAmount'] as num?,
-      requester: json['requester'] is Map<String, dynamic>
-          ? LoanRequester.fromJson(json['requester'] as Map<String, dynamic>)
+      installementsType: json['installementsType'] is Map<String, dynamic>
+          ? InstallementsType.fromJson(json['installementsType'] as Map<String, dynamic>)
           : null,
+      amount: json['amount'] as num?,
       period: json['period'] is Map<String, dynamic>
           ? LoanPeriod.fromJson(json['period'] as Map<String, dynamic>)
           : null,
+      status: json['status'] as int?,
+      loanRequester: json['loanRequester'] is Map<String, dynamic>
+          ? LoanRequester.fromJson(json['loanRequester'] as Map<String, dynamic>)
+          : null,
+    );
+  }
+}
+
+class InstallementsType {
+  InstallementsType({
+    this.id,
+    this.code,
+    this.name,
+    this.description,
+    this.percentage,
+  });
+
+  final String? id;
+  final String? code;
+  final String? name;
+  final String? description;
+  final int? percentage;
+
+  factory InstallementsType.fromJson(Map<String, dynamic> json) {
+    return InstallementsType(
+      id: json['id'] as String?,
+      code: json['code'] as String?,
+      name: json['name'] as String?,
+      description: json['description'] as String?,
+      percentage: json['percentage'] as int?,
     );
   }
 }
@@ -101,6 +134,29 @@ class LoanPeriod {
     return LoanPeriod(
       startDate: json['startDate'] as String?,
       endDate: json['endDate'] as String?,
+    );
+  }
+}
+
+class ValidationError {
+  ValidationError({
+    this.identifier,
+    this.errorMessage,
+    this.errorCode,
+    this.severity,
+  });
+
+  final String? identifier;
+  final String? errorMessage;
+  final String? errorCode;
+  final int? severity;
+
+  factory ValidationError.fromJson(Map<String, dynamic> json) {
+    return ValidationError(
+      identifier: json['identifier'] as String?,
+      errorMessage: json['errorMessage'] as String?,
+      errorCode: json['errorCode'] as String?,
+      severity: json['severity'] as int?,
     );
   }
 }

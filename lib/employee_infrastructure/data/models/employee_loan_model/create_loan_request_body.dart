@@ -1,34 +1,22 @@
 class CreateLoanRequestBody {
   CreateLoanRequestBody({
-    required this.code,
-    required this.installementTypeId,
-    required this.amount,
-    required this.period,
-    required this.status,
-    required this.loanRequester,
     required this.requesterId,
-    required this.requesterName,
+    required this.installementTypeId,
+    required this.period,
+    required this.amount,
   });
 
-  final String code;
-  final String installementTypeId;
-  final num amount;
-  final LoanPeriodBody period;
-  final int status;
-  final LoanRequesterBody loanRequester;
   final String requesterId;
-  final String requesterName;
+  final String installementTypeId;
+  final LoanPeriodBody period;
+  final num amount;
 
   Map<String, dynamic> toJson() {
     return {
-      'code': code,
-      'installementTypeId': installementTypeId,
-      'amount': amount,
-      'period': period.toJson(),
-      'status': status,
-      'loanRequester': loanRequester.toJson(),
       'requesterId': requesterId,
-      'requesterName': requesterName,
+      'installementTypeId': installementTypeId,
+      'period': period.toJson(),
+      'amount': amount,
     };
   }
 }
@@ -46,23 +34,6 @@ class LoanPeriodBody {
     return {
       'startDate': startDate,
       'endDate': endDate,
-    };
-  }
-}
-
-class LoanRequesterBody {
-  LoanRequesterBody({
-    required this.requesterId,
-    required this.requesterName,
-  });
-
-  final String requesterId;
-  final String requesterName;
-
-  Map<String, dynamic> toJson() {
-    return {
-      'requesterId': requesterId,
-      'requesterName': requesterName,
     };
   }
 }
