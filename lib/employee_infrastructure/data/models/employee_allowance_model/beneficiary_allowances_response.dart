@@ -1,3 +1,8 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'beneficiary_allowances_response.g.dart';
+
+@JsonSerializable(explicitToJson: true)
 class BeneficiaryAllowancesResponse {
   BeneficiaryAllowancesResponse({
     this.value = const <BeneficiaryAllowanceItem>[],
@@ -6,7 +11,7 @@ class BeneficiaryAllowancesResponse {
     this.successMessage,
     this.correlationId,
     this.errors,
-    this.validationErrors,
+    this.validationErrors = const <AllowanceValidationError>[],
   });
 
   final List<BeneficiaryAllowanceItem> value;
@@ -15,26 +20,15 @@ class BeneficiaryAllowancesResponse {
   final String? successMessage;
   final String? correlationId;
   final List<dynamic>? errors;
-  final List<dynamic>? validationErrors;
+  final List<AllowanceValidationError> validationErrors;
 
-  factory BeneficiaryAllowancesResponse.fromJson(Map<String, dynamic> json) {
-    final rawValue = json['value'] as List<dynamic>? ?? <dynamic>[];
+  factory BeneficiaryAllowancesResponse.fromJson(Map<String, dynamic> json) =>
+      _$BeneficiaryAllowancesResponseFromJson(json);
 
-    return BeneficiaryAllowancesResponse(
-      value: rawValue
-          .whereType<Map<String, dynamic>>()
-          .map(BeneficiaryAllowanceItem.fromJson)
-          .toList(),
-      status: json['status'] as int?,
-      isSuccess: json['isSuccess'] as bool?,
-      successMessage: json['successMessage'] as String?,
-      correlationId: json['correlationId'] as String?,
-      errors: json['errors'] as List<dynamic>?,
-      validationErrors: json['validationErrors'] as List<dynamic>?,
-    );
-  }
+  Map<String, dynamic> toJson() => _$BeneficiaryAllowancesResponseToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class BeneficiaryAllowanceItem {
   BeneficiaryAllowanceItem({
     this.allowanceId,
@@ -56,28 +50,13 @@ class BeneficiaryAllowanceItem {
   final int? beneficiaryAllowanceStatus;
   final String? id;
 
-  factory BeneficiaryAllowanceItem.fromJson(Map<String, dynamic> json) {
-    return BeneficiaryAllowanceItem(
-      allowanceId: json['allowanceId'] as String?,
-      allowanceName: json['allowanceName'] as String?,
-      allowanceTypeName: json['allowanceTypeName'] as String?,
-      amount: json['amount'] as num?,
-      allowancePeriod: json['allowancePeriod'] is Map<String, dynamic>
-          ? AllowancePeriod.fromJson(
-              json['allowancePeriod'] as Map<String, dynamic>,
-            )
-          : null,
-      beneficiaryData: json['beneficiaryData'] is Map<String, dynamic>
-          ? AllowanceBeneficiaryData.fromJson(
-              json['beneficiaryData'] as Map<String, dynamic>,
-            )
-          : null,
-      beneficiaryAllowanceStatus: json['beneficiaryAllowanceStatus'] as int?,
-      id: json['id'] as String?,
-    );
-  }
+  factory BeneficiaryAllowanceItem.fromJson(Map<String, dynamic> json) =>
+      _$BeneficiaryAllowanceItemFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BeneficiaryAllowanceItemToJson(this);
 }
 
+@JsonSerializable()
 class AllowancePeriod {
   AllowancePeriod({
     this.startDate,
@@ -87,33 +66,37 @@ class AllowancePeriod {
   final String? startDate;
   final String? endDate;
 
-  factory AllowancePeriod.fromJson(Map<String, dynamic> json) {
-    return AllowancePeriod(
-      startDate: json['startDate'] as String?,
-      endDate: json['endDate'] as String?,
-    );
-  }
+  factory AllowancePeriod.fromJson(Map<String, dynamic> json) =>
+      _$AllowancePeriodFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllowancePeriodToJson(this);
 }
 
+@JsonSerializable()
 class AllowanceBeneficiaryData {
   AllowanceBeneficiaryData({
     this.beneficiaryId,
     this.beneficiaryName,
   });
 
+  @JsonKey(readValue: _readBeneficiaryId)
   final String? beneficiaryId;
+  @JsonKey(readValue: _readBeneficiaryName)
   final String? beneficiaryName;
 
-  factory AllowanceBeneficiaryData.fromJson(Map<String, dynamic> json) {
-    return AllowanceBeneficiaryData(
-      beneficiaryId: (json['beneficaryId'] as String?) ??
-          (json['beneficiaryId'] as String?),
-      beneficiaryName: (json['beneficaryName'] as String?) ??
-          (json['beneficiaryName'] as String?),
-    );
-  }
+  static Object? _readBeneficiaryId(Map json, String key) =>
+      json['beneficaryId'] ?? json[key];
+
+  static Object? _readBeneficiaryName(Map json, String key) =>
+      json['beneficaryName'] ?? json[key];
+
+  factory AllowanceBeneficiaryData.fromJson(Map<String, dynamic> json) =>
+      _$AllowanceBeneficiaryDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllowanceBeneficiaryDataToJson(this);
 }
 
+@JsonSerializable(explicitToJson: true)
 class AllowanceRequestResponse {
   AllowanceRequestResponse({
     this.value,
@@ -122,7 +105,7 @@ class AllowanceRequestResponse {
     this.successMessage,
     this.correlationId,
     this.errors,
-    this.validationErrors,
+    this.validationErrors = const <AllowanceValidationError>[],
   });
 
   final dynamic value;
@@ -131,17 +114,30 @@ class AllowanceRequestResponse {
   final String? successMessage;
   final String? correlationId;
   final List<dynamic>? errors;
-  final List<dynamic>? validationErrors;
+  final List<AllowanceValidationError> validationErrors;
 
-  factory AllowanceRequestResponse.fromJson(Map<String, dynamic> json) {
-    return AllowanceRequestResponse(
-      value: json['value'],
-      status: json['status'] as int?,
-      isSuccess: json['isSuccess'] as bool?,
-      successMessage: json['successMessage'] as String?,
-      correlationId: json['correlationId'] as String?,
-      errors: json['errors'] as List<dynamic>?,
-      validationErrors: json['validationErrors'] as List<dynamic>?,
-    );
-  }
+  factory AllowanceRequestResponse.fromJson(Map<String, dynamic> json) =>
+      _$AllowanceRequestResponseFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllowanceRequestResponseToJson(this);
+}
+
+@JsonSerializable()
+class AllowanceValidationError {
+  AllowanceValidationError({
+    this.identifier,
+    this.errorMessage,
+    this.errorCode,
+    this.severity,
+  });
+
+  final String? identifier;
+  final String? errorMessage;
+  final String? errorCode;
+  final int? severity;
+
+  factory AllowanceValidationError.fromJson(Map<String, dynamic> json) =>
+      _$AllowanceValidationErrorFromJson(json);
+
+  Map<String, dynamic> toJson() => _$AllowanceValidationErrorToJson(this);
 }

@@ -1,26 +1,27 @@
+import 'package:freezed_annotation/freezed_annotation.dart';
+
+part 'request_allowance_request_body.g.dart';
+
+@JsonSerializable()
 class RequestAllowanceRequestBody {
   RequestAllowanceRequestBody({
     this.beneficiaryAllowanceId,
     this.allowanceId,
     this.employeeId,
     this.requestNotes,
-    this.extra = const <String, dynamic>{},
   });
 
   final String? beneficiaryAllowanceId;
   final String? allowanceId;
   final String? employeeId;
   final String? requestNotes;
-  final Map<String, dynamic> extra;
+
+  factory RequestAllowanceRequestBody.fromJson(Map<String, dynamic> json) =>
+      _$RequestAllowanceRequestBodyFromJson(json);
 
   Map<String, dynamic> toJson() {
-    return <String, dynamic>{
-      if (beneficiaryAllowanceId != null)
-        'beneficiaryAllowanceId': beneficiaryAllowanceId,
-      if (allowanceId != null) 'allowanceId': allowanceId,
-      if (employeeId != null) 'employeeId': employeeId,
-      if (requestNotes != null) 'requestNotes': requestNotes,
-      ...extra,
-    };
+    final json = _$RequestAllowanceRequestBodyToJson(this);
+    json.removeWhere((key, value) => value == null);
+    return json;
   }
 }

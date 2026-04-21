@@ -90,7 +90,10 @@ class ApiConstant {
   static const String requestAsset = "api/employee-assets/request";
   static const String beneficiaryAllowance =
       '/api/EmployeeAllowance/getBeneficiaryAllowancesData';
+  static const String getAllAllowances = 'api/Allowance';
   static const String requestAllowance = 'api/AllowanceRequest';
+  static const String assignAllowanceToEmployee =
+      'api/EmployeeAllowance/assign-allowance';
   static const String getAllLoans =
       'api/EmployeeLoan/get-loan-requests-per-employee';
   static const String createLoanRequest =

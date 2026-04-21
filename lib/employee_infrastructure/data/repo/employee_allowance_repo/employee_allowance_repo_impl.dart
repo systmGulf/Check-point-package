@@ -3,6 +3,8 @@ import 'package:hr_management_system_package/core/errors/error_handler.dart';
 import 'package:hr_management_system_package/core/networking/api_constant.dart';
 import 'package:hr_management_system_package/core/networking/api_service.dart';
 
+import '../../models/employee_allowance_model/all_allowances_response.dart';
+import '../../models/employee_allowance_model/assign_allowance_to_employee_models.dart';
 import '../../models/employee_allowance_model/beneficiary_allowances_response.dart';
 import '../../models/employee_allowance_model/request_allowance_request_body.dart';
 import 'employee_allowance_repo.dart';
@@ -11,6 +13,22 @@ class EmployeeAllowanceRepoImpl implements EmployeeAllowanceRepo {
   EmployeeAllowanceRepoImpl({required this.apiService});
 
   final ApiService apiService;
+
+  @override
+  Future<Either<Failure, AllAllowancesResponse>> getAllAllowances() async {
+    try {
+      final result =
+          await apiService.get(endPoint: ApiConstant.getAllAllowances);
+
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(AllAllowancesResponse.fromJson(result));
+      }
+
+      return Left(Failure(404, getResponseError(result)));
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
 
   @override
   Future<Either<Failure, BeneficiaryAllowancesResponse>>
@@ -45,6 +63,27 @@ class EmployeeAllowanceRepoImpl implements EmployeeAllowanceRepo {
 
       if (result[ApiConstant.successApiKey] == true) {
         return Right(AllowanceRequestResponse.fromJson(result));
+      }
+
+      return Left(Failure(404, getResponseError(result)));
+    } on Exception catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, AssignAllowanceToEmployeeResponse>>
+      assignAllowanceToEmployee(
+    AssignAllowanceToEmployeeRequestBody requestBody,
+  ) async {
+    try {
+      final result = await apiService.post(
+        endPoint: ApiConstant.assignAllowanceToEmployee,
+        body: requestBody.toJson(),
+      );
+
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(AssignAllowanceToEmployeeResponse.fromJson(result));
       }
 
       return Left(Failure(404, getResponseError(result)));
