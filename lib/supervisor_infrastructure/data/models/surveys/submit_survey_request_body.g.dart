@@ -12,7 +12,8 @@ SubmitSurveyRequestBody _$SubmitSurveyRequestBodyFromJson(
       surveyId: json['surveyId'] as String,
       employeeId: json['employeeId'] as String,
       answers: (json['answers'] as List<dynamic>)
-          .map((e) => SurveyAnswerModel.fromJson(e as Map<String, dynamic>))
+          .map((e) =>
+              SurveyAnswerRequestModel.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
 
@@ -29,6 +30,7 @@ SurveyAnswerRequestModel _$SurveyAnswerRequestModelFromJson(
     SurveyAnswerRequestModel(
       questionId: json['questionId'] as String,
       answerText: json['answerText'] as String,
+      questionText: json['questionText'] as String,
     );
 
 Map<String, dynamic> _$SurveyAnswerRequestModelToJson(
@@ -36,4 +38,5 @@ Map<String, dynamic> _$SurveyAnswerRequestModelToJson(
     <String, dynamic>{
       'questionId': instance.questionId,
       'answerText': instance.answerText,
+      'questionText': instance.questionText,
     };

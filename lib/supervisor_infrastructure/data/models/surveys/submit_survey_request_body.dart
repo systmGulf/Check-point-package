@@ -1,4 +1,3 @@
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/surveys/employee_survey_reponse_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'submit_survey_request_body.g.dart';
@@ -7,7 +6,7 @@ part 'submit_survey_request_body.g.dart';
 class SubmitSurveyRequestBody {
   final String surveyId;
   final String employeeId;
-  final List<SurveyAnswerModel> answers;
+  final List<SurveyAnswerRequestModel> answers;
 
   SubmitSurveyRequestBody({
     required this.surveyId,
@@ -25,10 +24,12 @@ class SubmitSurveyRequestBody {
 class SurveyAnswerRequestModel {
   final String questionId;
   final String answerText;
+  final String questionText;
 
   SurveyAnswerRequestModel({
     required this.questionId,
     required this.answerText,
+    required this.questionText,
   });
 
   factory SurveyAnswerRequestModel.fromJson(Map<String, dynamic> json) =>
