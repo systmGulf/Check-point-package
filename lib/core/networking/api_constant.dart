@@ -5,6 +5,8 @@ class ApiConstant {
   static String departmentId = '';
   static String branchId = '';
   static String position = '';
+  static String phoneNumber = "";
+  static String email = '';
 
   static String employeeCheckinTime = '';
   static String employeeCheckoutTime = '';

@@ -29,11 +29,24 @@ class LoginRepoImpl implements LoginRepo {
           key: 'employeeId',
           value: response['value']['employeeId'],
         );
+        await SecureCache.insertToCache(
+          key: 'phoneNumber',
+          value: response['value']['loginResponseDto']['phoneNumber'],
+        );
+        await SecureCache.insertToCache(
+          key: 'email',
+          value: response['value']['loginResponseDto']['email'],
+        );
 
         ApiConstant.token = await SecureCache.getFromCache(key: 'token');
         ApiConstant.username = await SecureCache.getFromCache(key: 'username');
         ApiConstant.employeeId =
             await SecureCache.getFromCache(key: 'employeeId');
+        ApiConstant.phoneNumber =
+            await SecureCache.getFromCache(key: 'phoneNumber');
+
+        ApiConstant.email = await SecureCache.getFromCache(key: 'email');
+
         return Right(RoleLoginModel.fromJson(response));
       } else {
         return Left(Failure(404, getResponseError(response).toString()));

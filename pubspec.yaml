@@ -30,7 +30,7 @@ dependencies:
   googleapis_auth: ^1.6.0
   http: ^1.2.2
   internet_connection_checker: ^3.0.1
-  json_serializable: ^6.8.0
+  # json_serializable: ^6.8.0
   local_auth: ^2.2.0
   location: ^8.0.0
   maps_toolkit: ^3.0.0
