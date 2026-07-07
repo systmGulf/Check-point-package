@@ -10,7 +10,7 @@ SupervisorGetAllEmployeesAttendanceModel
     _$SupervisorGetAllEmployeesAttendanceModelFromJson(
             Map<String, dynamic> json) =>
         SupervisorGetAllEmployeesAttendanceModel(
-          value: json['value'] == null
+          attendancePage: json['value'] == null
               ? null
               : SupervisorGetAllEmployeesAttendanceValue.fromJson(
                   json['value'] as Map<String, dynamic>),
@@ -25,7 +25,7 @@ SupervisorGetAllEmployeesAttendanceModel
 Map<String, dynamic> _$SupervisorGetAllEmployeesAttendanceModelToJson(
         SupervisorGetAllEmployeesAttendanceModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.attendancePage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

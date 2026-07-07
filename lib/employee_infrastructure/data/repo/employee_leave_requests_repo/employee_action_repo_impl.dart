@@ -1,5 +1,4 @@
 import 'package:dartz/dartz.dart';
-
 import '../../../../hr_manamgement_system_package.dart';
 import '../../models/employee_tasks_reponse_model/employee_tasks_response_model.dart';
 
@@ -21,27 +20,28 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get All Leave Requests
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, LeaveRequestsPage>>
       getAllLeaveRequestsForEmployee() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeLeaveRequestsValue.fromJson(result['value']));
+        final response = EmployeeLeaveRequestsModel.fromJson(result);
+        return Right(response.leaveRequestsPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -57,9 +57,9 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -73,45 +73,47 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get Leave Requests By Type for employee
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, LeaveRequestsPage>>
       getLeaveRequestsByTypeForEmployee({required String type}) async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.getAllLeaveRequestsForEmployee}/${ApiConstant.employeeId}/leaveType/$type");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeLeaveRequestsValue.fromJson(result['value']));
+        final response = EmployeeLeaveRequestsModel.fromJson(result);
+        return Right(response.leaveRequestsPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get Employee By Department
-  Future<Either<Failure, GetAllEmployeesValue>>
+  Future<Either<Failure, EmployeesPage>>
       getEmployeeByDepartmentId() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.employee}/departmentId/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetAllEmployeesValue.fromJson(result['value']));
+        final response = AllEmployeesModel.fromJson(result);
+        return Right(response.employeesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -122,18 +124,13 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.Task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
+              "${ApiConstant.task}/specificEmployee?employeeId=${ApiConstant.employeeId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeeTasksResponseBody.fromJson(result));
       } else {
-        return Left(
-          Failure(
-            404,
-            getResponseError(result),
-          ),
-        );
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -143,15 +140,19 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
   Future<Either<Failure, void>> changeEmployeeTaskStatus(
       {required int taskId, required String status}) async {
     try {
+      final requestBody = UpdateTaskStatusRequestBody(
+        id: taskId,
+        status: status,
+      );
       final result = await apiService.put(
-          endPoint: "${ApiConstant.Task}/updateStatus",
-          body: {"id": taskId, "status": status});
+          endPoint: "${ApiConstant.task}/updateStatus",
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -160,19 +161,20 @@ class EmployeeActionRepoImpl implements EmployeeActionRepo {
   // Delete Task
   Future<Either<Failure, void>> deleteTask(
       {required int taskId, required String employeeId}) async {
-    final requestBody = {
-      "employeeId": employeeId,
-      "taskId": taskId,
-    };
+    final requestBody = RemoveAssignTaskRequestBody(
+      employeeId: employeeId,
+      taskId: taskId,
+    );
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.removeTaskFromEmployee, body: requestBody);
+          endPoint: ApiConstant.removeTaskFromEmployee,
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

@@ -6,7 +6,7 @@ import 'package:hr_management_system_package/supervisor_infrastructure/data/repo
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_leave_requests_repo/supervisor_leave_requests_repo_impl.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/repo/supervisor_plans_repo/supervisor_plan_repo_impl.dart';
 import 'package:internet_connection_checker/internet_connection_checker.dart';
-import '../../admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and _polices_repo_impl.dart';
+import '../../admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo_impl.dart';
 import '../../admin_infrastructure/data/repo/shifts_and_polices_repo/shifts_and_polices_repo.dart';
 import '../../employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo.dart';
 import '../../employee_infrastructure/data/repo/employee_attendance_repo/employee_attendance_repo_impl.dart';

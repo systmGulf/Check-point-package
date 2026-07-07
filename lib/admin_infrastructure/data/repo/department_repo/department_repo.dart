@@ -13,10 +13,10 @@ abstract class DepartmentRepo {
     required int id,
   });
   // Get all Department
-  Future<Either<Failure, DepartmentValue>> getAllDepartments(
+  Future<Either<Failure, DepartmentsPage>> getAllDepartments(
       {required int pageKey, required int pageSize});
   // Search Department
-  Future<Either<Failure, DepartmentValue>> searchDepartments({
+  Future<Either<Failure, DepartmentsPage>> searchDepartments({
     required String searchKey,
   });
   // Edit Department

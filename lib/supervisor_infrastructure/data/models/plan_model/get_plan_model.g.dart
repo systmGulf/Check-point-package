@@ -7,7 +7,7 @@ part of 'get_plan_model.dart';
 // **************************************************************************
 
 PlanModel _$PlanModelFromJson(Map<String, dynamic> json) => PlanModel(
-      value: json['value'] == null
+      plansPage: json['value'] == null
           ? null
           : PlanValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -19,7 +19,7 @@ PlanModel _$PlanModelFromJson(Map<String, dynamic> json) => PlanModel(
     );
 
 Map<String, dynamic> _$PlanModelToJson(PlanModel instance) => <String, dynamic>{
-      'value': instance.value,
+      'value': instance.plansPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

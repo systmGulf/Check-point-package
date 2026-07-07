@@ -6,35 +6,36 @@ class AdminRepoImpl implements BranchesRepo {
   final ApiService apiService;
 
   AdminRepoImpl({required this.apiService});
-    
+
   @override
   // add company branch
   Future<Either<Failure, void>> addCompanyBranch(
-      {required AddBrachRequestBody AddBrachRequestBody}) async {
+      {required AddBrachRequestBody addBranchRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.branches, body: AddBrachRequestBody.toJson());
+          endPoint: ApiConstant.branches, body: addBranchRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // get all branches
-  Future<Either<Failure, GetBranchesValue>> getAllBranches() async {
+  Future<Either<Failure, BranchesPage>> getAllBranches() async {
     try {
       final result = await apiService.get(endPoint: ApiConstant.branches);
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetBranchesValue.fromJson(result['value']));
+        final response = GetBranchesModel.fromJson(result);
+        return Right(response.branchesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -48,9 +49,9 @@ class AdminRepoImpl implements BranchesRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

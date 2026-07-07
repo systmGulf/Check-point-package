@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'add_customer_request_body.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(explicitToJson: true)
 class AddOrEditCustomerRequestBody {
   final String name;
   final String workesAs;

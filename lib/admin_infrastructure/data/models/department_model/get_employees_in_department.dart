@@ -4,7 +4,8 @@ part 'get_employees_in_department.g.dart';
 
 @JsonSerializable()
 class GetEmployeesInDepartmentModel {
-  GetEmployeesInDepartmentValue? value;
+  @JsonKey(name: 'value')
+  GetEmployeesInDepartmentValue? employeesPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class GetEmployeesInDepartmentModel {
   List<dynamic>? validationErrors;
 
   GetEmployeesInDepartmentModel(
-      {this.value,
+      {this.employeesPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -23,6 +24,12 @@ class GetEmployeesInDepartmentModel {
 
   factory GetEmployeesInDepartmentModel.fromJson(Map<String, dynamic> json) =>
       _$GetEmployeesInDepartmentModelFromJson(json);
+
+  @Deprecated('Use employeesPage instead.')
+  GetEmployeesInDepartmentValue? get value => employeesPage;
+
+  GetEmployeesInDepartmentValue get employeesPageOrEmpty =>
+      employeesPage ?? GetEmployeesInDepartmentValue();
 }
 
 @JsonSerializable()
@@ -80,3 +87,6 @@ class GetEmployeesInDepartmentData {
   factory GetEmployeesInDepartmentData.fromJson(Map<String, dynamic> json) =>
       _$GetEmployeesInDepartmentDataFromJson(json);
 }
+
+typedef EmployeesInDepartmentResponse = GetEmployeesInDepartmentModel;
+typedef EmployeesInDepartmentPage = GetEmployeesInDepartmentValue;

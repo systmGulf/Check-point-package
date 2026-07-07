@@ -24,9 +24,9 @@ class CustomerRepoImpl implements CustomerRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -40,9 +40,9 @@ class CustomerRepoImpl implements CustomerRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -59,26 +59,27 @@ class CustomerRepoImpl implements CustomerRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get Customer by Type (Customer & Site)
-  Future<Either<Failure, CustomerValue>> getCustomersByType(
+  Future<Either<Failure, CustomersPage>> getCustomersByType(
       {required String type}) async {
     try {
       final result = await apiService.get(
-          endPoint: ApiConstant.addCustomer + "/customerType/$type");
+          endPoint: "${ApiConstant.addCustomer}/customerType/$type");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(CustomerValue.fromJson(result['value']));
+        final response = CustomerModel.fromJson(result);
+        return Right(response.customersPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

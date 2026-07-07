@@ -3,7 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'employee_summary_model.g.dart';
 @JsonSerializable()
 class EmployeeSummary {
-  EmployeeSummaryValue? value;
+  @JsonKey(name: 'value')
+  EmployeeSummaryValue? summary;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -12,7 +13,7 @@ class EmployeeSummary {
   List<dynamic>? validationErrors;
 
   EmployeeSummary(
-      {this.value,
+      {this.summary,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -21,7 +22,10 @@ class EmployeeSummary {
       this.validationErrors});
       factory EmployeeSummary.fromJson(Map<String, dynamic> json) => _$EmployeeSummaryFromJson(json);
 
+  @Deprecated('Use summary instead.')
+  EmployeeSummaryValue? get value => summary;
 
+  EmployeeSummaryValue get summaryOrEmpty => summary ?? EmployeeSummaryValue();
 }
 @JsonSerializable()
 class EmployeeSummaryValue {
@@ -50,3 +54,6 @@ class EmployeeSummaryValue {
 
  
 }
+
+typedef EmployeeSummaryResponse = EmployeeSummary;
+typedef AttendanceSummary = EmployeeSummaryValue;

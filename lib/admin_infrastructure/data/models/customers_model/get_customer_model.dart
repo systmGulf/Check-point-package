@@ -3,7 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'get_customer_model.g.dart';
 @JsonSerializable()
 class CustomerModel {
-  CustomerValue? value;
+  @JsonKey(name: 'value')
+  CustomerValue? customersPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -12,7 +13,7 @@ class CustomerModel {
   List<dynamic>? validationErrors;
 
   CustomerModel(
-      {this.value,
+      {this.customersPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -20,6 +21,11 @@ class CustomerModel {
       this.errors,
       this.validationErrors});
 factory CustomerModel.fromJson(Map<String, dynamic> json) => _$CustomerModelFromJson(json);
+
+  @Deprecated('Use customersPage instead.')
+  CustomerValue? get value => customersPage;
+
+  CustomerValue get customersPageOrEmpty => customersPage ?? CustomerValue();
 }
 @JsonSerializable()
 
@@ -74,3 +80,6 @@ class CustomerCoordinates {
   factory CustomerCoordinates.fromJson(Map<String, dynamic> json) => _$CustomerCoordinatesFromJson(json);
   
 }
+
+typedef CustomersResponse = CustomerModel;
+typedef CustomersPage = CustomerValue;

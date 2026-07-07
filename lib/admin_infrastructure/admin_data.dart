@@ -11,7 +11,9 @@ export 'data/models/branches_model/get_branches_models.dart';
 export 'data/models/customers_model/add_customer_request_body.dart';
 export 'data/models/customers_model/get_customer_model.dart';
 export 'data/models/department_model/department_model.dart';
+export 'data/models/department_model/department_request_body.dart';
 export 'data/models/department_model/get_employees_in_department.dart';
+export 'data/models/shifts_and_polices_model/add_shift_request_body.dart';
 
 export 'data/repo/customer_repo/customer_repo_impl.dart';
 export 'data/repo/customer_repo/customer_repo.dart';

@@ -9,7 +9,7 @@ part of 'get_employees_in_department.dart';
 GetEmployeesInDepartmentModel _$GetEmployeesInDepartmentModelFromJson(
         Map<String, dynamic> json) =>
     GetEmployeesInDepartmentModel(
-      value: json['value'] == null
+      employeesPage: json['value'] == null
           ? null
           : GetEmployeesInDepartmentValue.fromJson(
               json['value'] as Map<String, dynamic>),
@@ -24,7 +24,7 @@ GetEmployeesInDepartmentModel _$GetEmployeesInDepartmentModelFromJson(
 Map<String, dynamic> _$GetEmployeesInDepartmentModelToJson(
         GetEmployeesInDepartmentModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.employeesPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

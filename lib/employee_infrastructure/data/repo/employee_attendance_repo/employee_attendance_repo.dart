@@ -22,7 +22,7 @@ abstract class EmployeeAttendanceRepo {
   Future<Either<Failure, void>> trackEmployeeLocation(
       {required TrackUserRequestBody trackUserRequestBody});
   // get Attendance for employee
-  Future<Either<Failure, UserAttendanceValue>> getAllEmployeeAttendance(
+  Future<Either<Failure, UserAttendancePage>> getAllEmployeeAttendance(
       {int pageNumber = 0});
   // Get Customer plan To attend on it
   Future<Either<Failure, EmployeePlansModel>> getCustomerPlanForEmployee();

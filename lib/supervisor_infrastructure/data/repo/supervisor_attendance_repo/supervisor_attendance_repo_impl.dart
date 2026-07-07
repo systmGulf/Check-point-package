@@ -7,8 +7,10 @@ import '../../../../core/networking/api_service.dart';
 import '../../../../employee_infrastructure/data/models/employee_attendance_model/employee_check_in_request_body.dart';
 import '../../../../employee_infrastructure/data/models/employee_attendance_model/user_tracking_summary_response_model.dart';
 import '../../models/customers_model/get_customer_by_id_model.dart';
+import '../../models/employee_summary_model/employee_attendance_summary_request_body.dart';
 import '../../models/employee_summary_model/employee_summary_model.dart';
 import '../../models/employees_attendance_model/get_employee_attendance.dart';
+import '../../models/employees_attendance_model/supervisor_employee_check_out_request_body.dart';
 import 'supervisor_attendance_repo.dart';
 
 class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
@@ -29,16 +31,16 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             .map((e) => SupervisorGetAllEmployeesAttendanceModel.fromJson(e))
             .toList());
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get employee attendance by department
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       getEmployeeAttendanceByDepartmentId(
           {required String attendanceDate}) async {
     try {
@@ -46,37 +48,39 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
           endPoint:
               "${ApiConstant.getEmployeeAttendance}/departmentId/${ApiConstant.departmentId}?attendenceDate=$attendanceDate");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+        final response =
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result);
+        return Right(response.attendancePageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get employee by department
-  Future<Either<Failure, GetAllEmployeesValue>>
+  Future<Either<Failure, EmployeesPage>>
       getEmployeeByDepartmentId() async {
     try {
       final result = await apiService.get(
           endPoint:
               "${ApiConstant.employee}/departmentId/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetAllEmployeesValue.fromJson(result['value']));
+        final response = AllEmployeesModel.fromJson(result);
+        return Right(response.employeesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get all employees
-  Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees() async {
+  Future<Either<Failure, List<EmployeesPage>>> getAllEmployees() async {
     try {
       final result = await apiService.get(endPoint: ApiConstant.employee);
       if (result[ApiConstant.successApiKey] == true) {
@@ -84,9 +88,9 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
             .map((e) => GetAllEmployeesValue.fromJson(e))
             .toList());
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -103,12 +107,12 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
-          return Left(Failure(200, getResponseError(result)));
+          return Left(ErrorHandler.responseFailure(result, fallbackCode: ResponseCode.badRequest));
         }
       } else {
-        return Left(Failure(200, "Image is required"));
+        return Left(ErrorHandler.unexpectedFailure(message: 'Image is required', code: ResponseCode.badRequest));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -119,76 +123,86 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
       String employeeId, String? employeeImage) async {
     try {
       if (employeeImage != null) {
+        final requestBody = SupervisorEmployeeCheckOutRequestBody(
+          employeeId: employeeId,
+          employeeImage: employeeImage,
+        );
         final result = await apiService.post(
-            endPoint: "${ApiConstant.employeeCheckOut}",
-            body: {"employeeId": employeeId, "employeeImage": employeeImage});
+            endPoint: ApiConstant.employeeCheckOut,
+            body: requestBody.toJson());
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
-          return Left(Failure(404, getResponseError(result)));
+          return Left(ErrorHandler.responseFailure(result));
         }
       } else {
-        return Left(Failure(404, "Image is required"));
+        return Left(ErrorHandler.unexpectedFailure(message: 'Image is required', code: ResponseCode.badRequest));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get employee summary
-  Future<Either<Failure, EmployeeSummaryValue>> getEmployeeSummary(
+  Future<Either<Failure, AttendanceSummary>> getEmployeeSummary(
       {required String employeeId,
       required int month,
       required int year}) async {
     try {
+      final requestBody = EmployeeAttendanceSummaryRequestBody(
+        employeeId: employeeId,
+        month: month,
+        year: year,
+      );
       final result = await apiService.get(
-          body: {"employeeId": employeeId, "month": month, "year": year},
+          body: requestBody.toJson(),
           endPoint: "${ApiConstant.getEmployeeAttendance}/attendanceSummary");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(EmployeeSummaryValue.fromJson(result['value']));
+        final response = EmployeeSummary.fromJson(result);
+        return Right(response.summaryOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
-    } catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get late comers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       supervisorGetLateComers({required String day}) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.getEmployeeAttendance}/lateComers/$day");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+        final response =
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result);
+        return Right(response.attendancePageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get early leavers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       supervisorGetEarlyLeavers({required String day}) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.getEmployeeAttendance}/earlyLeavers/$day");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(
-            SupervisorGetAllEmployeesAttendanceValue.fromJson(result['value']));
+        final response =
+            SupervisorGetAllEmployeesAttendanceModel.fromJson(result);
+        return Right(response.attendancePageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -196,16 +210,16 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
   @override
   // Get customer by id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
-      {required String CustomerId}) async {
+      {required String customerId}) async {
     try {
       final result = await apiService.get(
-          endPoint: "${ApiConstant.addCustomer}/$CustomerId");
+          endPoint: "${ApiConstant.addCustomer}/$customerId");
       if (result['isSuccess'] == true) {
         return Right(GetCustomerByIdModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -218,13 +232,13 @@ class SupervisorAttendanceRepoImpl implements SupervisorAttendanceRepo {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.getTrackingSummaryForEmployee}?employeeId=${employeeId}&date=$data");
+              "${ApiConstant.getTrackingSummaryForEmployee}?employeeId=$employeeId&date=$data");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserTrackingSummaryResponseBody.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

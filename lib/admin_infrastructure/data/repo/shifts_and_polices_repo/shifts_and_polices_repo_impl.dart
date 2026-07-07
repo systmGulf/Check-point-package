@@ -19,14 +19,17 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
 
   Future<Either<Failure, void>> addShift({required String shiftName}) async {
     try {
-      final result = await apiService
-          .post(endPoint: ApiConstant.Shift, body: {"name": shiftName});
+      final requestBody = AddShiftRequestBody(name: shiftName);
+      final result = await apiService.post(
+        endPoint: ApiConstant.shift,
+        body: requestBody.toJson(),
+      );
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -35,13 +38,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   // get all shifts
   Future<Either<Failure, ShiftModel>> getShifts() async {
     try {
-      final result = await apiService.get(endPoint: ApiConstant.Shift);
+      final result = await apiService.get(endPoint: ApiConstant.shift);
       if (result[ApiConstant.successApiKey] == true) {
         return Right(ShiftModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -51,13 +54,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   Future<Either<Failure, void>> deleteShift({required int id}) async {
     try {
       final result =
-          await apiService.delete(endPoint: "${ApiConstant.Shift}?id=$id");
+          await apiService.delete(endPoint: "${ApiConstant.shift}?id=$id");
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -68,13 +71,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       {required AddPoliceRequestBody addPoliceRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.Policy, body: addPoliceRequestBody.toJson());
+          endPoint: ApiConstant.policy, body: addPoliceRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -85,15 +88,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       {required int shiftId}) async {
     try {
       final result = await apiService.get(
-          endPoint: "${ApiConstant.Policy}/shift/$shiftId");
+          endPoint: "${ApiConstant.policy}/shift/$shiftId");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(PoliceResponse.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
-      return Left(ErrorHandler.handle(e).failure);
-    } catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -103,13 +104,13 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   Future<Either<Failure, void>> deletePolice({required int id}) async {
     try {
       final result =
-          await apiService.delete(endPoint: "${ApiConstant.Policy}?id=$id");
+          await apiService.delete(endPoint: "${ApiConstant.policy}?id=$id");
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -121,14 +122,14 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       required int id}) async {
     try {
       final result = await apiService.put(
-          endPoint: "${ApiConstant.Policy}/$id",
+          endPoint: "${ApiConstant.policy}/$id",
           body: addPoliceRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -139,14 +140,14 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       {required AssignShiftsRequestBody assignShiftsRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Shift}/assignShift",
+          endPoint: "${ApiConstant.shift}/assignShift",
           body: assignShiftsRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -157,14 +158,14 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
       {required AssignPoliceRequestBody assignShiftsRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Policy}/assignPolicy",
+          endPoint: "${ApiConstant.policy}/assignPolicy",
           body: assignShiftsRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -177,11 +178,11 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
           endPoint: ApiConstant.removeAsignPolicy, body: remove.toJson());
 
       if (response[ApiConstant.successApiKey] == true) {
-        return  Right(response['successMessage']);
+        return Right(response['successMessage']);
       } else {
-        return Left(Failure(404, getResponseError(response)));
+        return Left(ErrorHandler.responseFailure(response));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

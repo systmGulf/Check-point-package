@@ -4,7 +4,8 @@ part 'get_employee_attendance.g.dart';
 
 @JsonSerializable()
 class SupervisorGetAllEmployeesAttendanceModel {
-  SupervisorGetAllEmployeesAttendanceValue? value;
+  @JsonKey(name: 'value')
+  SupervisorGetAllEmployeesAttendanceValue? attendancePage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class SupervisorGetAllEmployeesAttendanceModel {
   List<dynamic>? validationErrors;
 
   SupervisorGetAllEmployeesAttendanceModel({
-    this.value,
+    this.attendancePage,
     this.status,
     this.isSuccess,
     this.successMessage,
@@ -25,6 +26,12 @@ class SupervisorGetAllEmployeesAttendanceModel {
   factory SupervisorGetAllEmployeesAttendanceModel.fromJson(
           Map<String, dynamic> json) =>
       _$SupervisorGetAllEmployeesAttendanceModelFromJson(json);
+
+  @Deprecated('Use attendancePage instead.')
+  SupervisorGetAllEmployeesAttendanceValue? get value => attendancePage;
+
+  SupervisorGetAllEmployeesAttendanceValue get attendancePageOrEmpty =>
+      attendancePage ?? SupervisorGetAllEmployeesAttendanceValue();
 }
 @JsonSerializable()
 class SupervisorGetAllEmployeesAttendanceValue {
@@ -214,3 +221,6 @@ class FeedbackModel {
   factory FeedbackModel.fromJson(Map<String, dynamic> json) =>
       _$FeedbackModelFromJson(json);
 }
+
+typedef SupervisorAttendanceResponse = SupervisorGetAllEmployeesAttendanceModel;
+typedef SupervisorAttendancePage = SupervisorGetAllEmployeesAttendanceValue;

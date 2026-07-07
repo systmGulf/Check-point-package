@@ -8,7 +8,7 @@ part of 'get_branches_models.dart';
 
 GetBranchesModel _$GetBranchesModelFromJson(Map<String, dynamic> json) =>
     GetBranchesModel(
-      value: json['value'] == null
+      branchesPage: json['value'] == null
           ? null
           : GetBranchesValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -21,7 +21,7 @@ GetBranchesModel _$GetBranchesModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$GetBranchesModelToJson(GetBranchesModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.branchesPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

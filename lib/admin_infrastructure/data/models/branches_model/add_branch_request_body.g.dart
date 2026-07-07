@@ -22,7 +22,7 @@ Map<String, dynamic> _$AddBrachRequestBodyToJson(
       'name': instance.name,
       'location': instance.location,
       'description': instance.description,
-      'coordinates': instance.coordinates,
+      'coordinates': instance.coordinates.map((e) => e.toJson()).toList(),
     };
 
 LocationFrameLatLng _$LocationFrameLatLngFromJson(Map<String, dynamic> json) =>

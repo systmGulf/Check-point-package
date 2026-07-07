@@ -7,7 +7,7 @@ part of 'get_plan_by_id_model.dart';
 // **************************************************************************
 
 GetPlanById _$GetPlanByIdFromJson(Map<String, dynamic> json) => GetPlanById(
-      value: json['value'] == null
+      planDetails: json['value'] == null
           ? null
           : GetPlanByIdValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -20,7 +20,7 @@ GetPlanById _$GetPlanByIdFromJson(Map<String, dynamic> json) => GetPlanById(
 
 Map<String, dynamic> _$GetPlanByIdToJson(GetPlanById instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.planDetails,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

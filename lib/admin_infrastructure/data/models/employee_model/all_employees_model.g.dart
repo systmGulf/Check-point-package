@@ -8,7 +8,7 @@ part of 'all_employees_model.dart';
 
 AllEmployeesModel _$AllEmployeesModelFromJson(Map<String, dynamic> json) =>
     AllEmployeesModel(
-      value: json['value'] == null
+      employeesPage: json['value'] == null
           ? null
           : GetAllEmployeesValue.fromJson(
               json['value'] as Map<String, dynamic>),
@@ -22,7 +22,7 @@ AllEmployeesModel _$AllEmployeesModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$AllEmployeesModelToJson(AllEmployeesModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.employeesPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

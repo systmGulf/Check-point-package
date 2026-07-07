@@ -8,7 +8,7 @@ part of 'employee_summary_model.dart';
 
 EmployeeSummary _$EmployeeSummaryFromJson(Map<String, dynamic> json) =>
     EmployeeSummary(
-      value: json['value'] == null
+      summary: json['value'] == null
           ? null
           : EmployeeSummaryValue.fromJson(
               json['value'] as Map<String, dynamic>),
@@ -22,7 +22,7 @@ EmployeeSummary _$EmployeeSummaryFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$EmployeeSummaryToJson(EmployeeSummary instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.summary,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

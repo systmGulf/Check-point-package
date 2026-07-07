@@ -42,9 +42,9 @@ Map<String, dynamic> _$SetPlanByDateRequestBodyToJson(
       'departmentId': instance.departmentId,
     };
 
-setSubPlansRequestBody _$setSubPlansRequestBodyFromJson(
+SetSubPlansRequestBody _$SetSubPlansRequestBodyFromJson(
         Map<String, dynamic> json) =>
-    setSubPlansRequestBody(
+    SetSubPlansRequestBody(
       note: json['note'] as String,
       employeeIds: (json['employeeIds'] as List<dynamic>)
           .map((e) => e as String)
@@ -53,8 +53,8 @@ setSubPlansRequestBody _$setSubPlansRequestBodyFromJson(
       planId: (json['planId'] as num).toInt(),
     );
 
-Map<String, dynamic> _$setSubPlansRequestBodyToJson(
-        setSubPlansRequestBody instance) =>
+Map<String, dynamic> _$SetSubPlansRequestBodyToJson(
+        SetSubPlansRequestBody instance) =>
     <String, dynamic>{
       'note': instance.note,
       'employeeIds': instance.employeeIds,

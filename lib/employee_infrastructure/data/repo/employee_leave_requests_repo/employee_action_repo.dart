@@ -8,10 +8,10 @@ abstract class EmployeeActionRepo {
   Future<Either<Failure, UserAttendanceModel>> createLeaveRequest(
       LeaveRequestRequestBody leaveRequestRequestBody);
   // Get all Leave Requests
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, LeaveRequestsPage>>
       getAllLeaveRequestsForEmployee();
   // Get Leave Requests By Type
-  Future<Either<Failure, EmployeeLeaveRequestsValue>>
+  Future<Either<Failure, LeaveRequestsPage>>
       getLeaveRequestsByTypeForEmployee({required String type});
   // Employee Change Password
   Future<Either<Failure, void>> employeeChangePassword(
@@ -19,7 +19,7 @@ abstract class EmployeeActionRepo {
   // Delete Leave Request
   Future<Either<Failure, void>> deleteLeaveRequest({required int id});
   // Get Employee By Department Id
-  Future<Either<Failure, GetAllEmployeesValue>> getEmployeeByDepartmentId();
+  Future<Either<Failure, EmployeesPage>> getEmployeeByDepartmentId();
   // Get Employee Task
 
   /// THE MODEL HERE IS WRONG NOW WE WANT TO CREATE A NEW MODEL FOR EMPLOYEE TASKS

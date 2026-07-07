@@ -5,6 +5,7 @@ import '../../../../core/errors/error_handler.dart';
 import '../../../../core/networking/api_constant.dart';
 import '../../../../core/networking/api_service.dart';
 import '../../models/department_model/department_model.dart';
+import '../../models/department_model/department_request_body.dart';
 import 'department_repo.dart';
 
 class DepartmentRepoImpl implements DepartmentRepo {
@@ -19,15 +20,18 @@ class DepartmentRepoImpl implements DepartmentRepo {
   Future<Either<Failure, void>> addDepartment(
       {required String departmentName}) async {
     try {
+      final requestBody = DepartmentRequestBody(
+        departmentName: departmentName,
+      );
       final result = await apiService.post(
           endPoint: ApiConstant.department,
-          body: {"departmentName": departmentName});
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -41,44 +45,46 @@ class DepartmentRepoImpl implements DepartmentRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Get all Department
-  Future<Either<Failure, DepartmentValue>> getAllDepartments(
+  Future<Either<Failure, DepartmentsPage>> getAllDepartments(
       {required int pageKey, required int pageSize}) async {
     try {
       final result = await apiService.get(
-          endPoint: ApiConstant.department +
-              "?itemCount=${pageSize}&index=${pageKey * 10}");
+          endPoint:
+              "${ApiConstant.department}?itemCount=$pageSize&index=${pageKey * 10}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(DepartmentValue.fromJson(result['value']));
+        final response = DepartmentModel.fromJson(result);
+        return Right(response.departmentsPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // Search Department
-  Future<Either<Failure, DepartmentValue>> searchDepartments(
+  Future<Either<Failure, DepartmentsPage>> searchDepartments(
       {required String searchKey}) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.department}/search/$searchKey");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(DepartmentValue.fromJson(result['value']));
+        final response = DepartmentModel.fromJson(result);
+        return Right(response.departmentsPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -88,15 +94,18 @@ class DepartmentRepoImpl implements DepartmentRepo {
   Future<Either<Failure, void>> editDepartment(
       {required int id, required String departmentName}) async {
     try {
+      final requestBody = DepartmentRequestBody(
+        departmentName: departmentName,
+      );
       final result = await apiService.put(
           endPoint: "${ApiConstant.department}/$id",
-          body: {"departmentName": departmentName});
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

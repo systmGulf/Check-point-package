@@ -4,7 +4,7 @@ part 'department_model.g.dart';
 @JsonSerializable()
 class DepartmentModel {
   @JsonKey(name: 'value')
-  DepartmentValue? value;
+  DepartmentValue? departmentsPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +13,7 @@ class DepartmentModel {
   List<dynamic>? validationErrors;
 
   DepartmentModel(
-      {this.value,
+      {this.departmentsPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -23,7 +23,11 @@ class DepartmentModel {
 
   factory DepartmentModel.fromJson(Map<String, dynamic> json) => _$DepartmentModelFromJson(json);
 
- 
+  @Deprecated('Use departmentsPage instead.')
+  DepartmentValue? get value => departmentsPage;
+
+  DepartmentValue get departmentsPageOrEmpty =>
+      departmentsPage ?? DepartmentValue();
 }
 @JsonSerializable()
 
@@ -90,3 +94,6 @@ class EmployeesInDepartment {
 
   factory EmployeesInDepartment.fromJson(Map<String, dynamic> json) => _$EmployeesInDepartmentFromJson(json);
 }
+
+typedef DepartmentsResponse = DepartmentModel;
+typedef DepartmentsPage = DepartmentValue;

@@ -4,7 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part  'employee_leave_requests.g.dart';
 @JsonSerializable()
 class EmployeeLeaveRequestsModel {
-  EmployeeLeaveRequestsValue? value;
+  @JsonKey(name: 'value')
+  EmployeeLeaveRequestsValue? leaveRequestsPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class EmployeeLeaveRequestsModel {
   List<dynamic>? validationErrors;
 
   EmployeeLeaveRequestsModel(
-      {this.value,
+      {this.leaveRequestsPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -22,6 +23,12 @@ class EmployeeLeaveRequestsModel {
       this.validationErrors});
 
   factory EmployeeLeaveRequestsModel.fromJson(Map<String, dynamic> json) => _$EmployeeLeaveRequestsModelFromJson(json);
+
+  @Deprecated('Use leaveRequestsPage instead.')
+  EmployeeLeaveRequestsValue? get value => leaveRequestsPage;
+
+  EmployeeLeaveRequestsValue get leaveRequestsPageOrEmpty =>
+      leaveRequestsPage ?? EmployeeLeaveRequestsValue();
 }
 @JsonSerializable()
 
@@ -73,3 +80,6 @@ class EmployeeLeaveRequestsData {
       this.createdBy});
 factory  EmployeeLeaveRequestsData.fromJson(Map<String, dynamic> json) => _$EmployeeLeaveRequestsDataFromJson(json);
 }
+
+typedef EmployeeLeaveRequestsResponse = EmployeeLeaveRequestsModel;
+typedef LeaveRequestsPage = EmployeeLeaveRequestsValue;

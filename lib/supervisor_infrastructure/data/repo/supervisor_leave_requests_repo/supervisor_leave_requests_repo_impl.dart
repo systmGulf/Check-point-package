@@ -22,9 +22,9 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -40,9 +40,9 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetLeaveRequestModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -58,9 +58,9 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
             .map((e) => GetLeaveRequestModel.fromJson(e))
             .toList());
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

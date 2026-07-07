@@ -4,7 +4,8 @@ part 'all_employees_model.g.dart';
 
 @JsonSerializable()
 class AllEmployeesModel {
-  GetAllEmployeesValue? value;
+  @JsonKey(name: 'value')
+  GetAllEmployeesValue? employeesPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class AllEmployeesModel {
   List<dynamic>? validationErrors;
 
   AllEmployeesModel(
-      {this.value,
+      {this.employeesPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -23,6 +24,12 @@ class AllEmployeesModel {
 
   factory AllEmployeesModel.fromJson(Map<String, dynamic> json) =>
       _$AllEmployeesModelFromJson(json);
+
+  @Deprecated('Use employeesPage instead.')
+  GetAllEmployeesValue? get value => employeesPage;
+
+  GetAllEmployeesValue get employeesPageOrEmpty =>
+      employeesPage ?? GetAllEmployeesValue();
 }
 
 @JsonSerializable()
@@ -95,3 +102,6 @@ class EmployeeData {
   factory EmployeeData.fromJson(Map<String, dynamic> json) =>
       _$EmployeeDataFromJson(json);
 }
+
+typedef AllEmployeesResponse = AllEmployeesModel;
+typedef EmployeesPage = GetAllEmployeesValue;

@@ -4,7 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'get_plan_model.g.dart';
  @JsonSerializable()
 class PlanModel {
-  PlanValue? value;
+  @JsonKey(name: 'value')
+  PlanValue? plansPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class PlanModel {
   List<dynamic>? validationErrors;
 
   PlanModel(
-      {this.value,
+      {this.plansPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -22,6 +23,11 @@ class PlanModel {
       this.validationErrors});
 
   factory PlanModel.fromJson(Map<String, dynamic> json) => _$PlanModelFromJson(json);
+
+  @Deprecated('Use plansPage instead.')
+  PlanValue? get value => plansPage;
+
+  PlanValue get plansPageOrEmpty => plansPage ?? PlanValue();
 }
 @JsonSerializable()
 
@@ -54,3 +60,6 @@ class PlanData {
   PlanData({this.id, this.planDate, this.note});
   factory PlanData.fromJson(Map<String, dynamic> json) => _$PlanDataFromJson(json);
 }
+
+typedef PlansResponse = PlanModel;
+typedef PlansPage = PlanValue;

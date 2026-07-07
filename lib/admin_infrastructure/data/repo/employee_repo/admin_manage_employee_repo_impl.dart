@@ -28,9 +28,9 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -45,9 +45,9 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -63,47 +63,50 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // get All Employee
-  Future<Either<Failure, GetAllEmployeesValue>> getAllEmployees(
+  Future<Either<Failure, EmployeesPage>> getAllEmployees(
       {required int pageNumber, required int itemCount}) async {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.employee}?itemCount=${itemCount}&index=${pageNumber * 10}");
+              "${ApiConstant.employee}?itemCount=$itemCount&index=${pageNumber * 10}");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetAllEmployeesValue.fromJson(result['value']));
+        final response = AllEmployeesModel.fromJson(result);
+        return Right(response.employeesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // get Employee In Department
-  Future<Either<Failure, GetEmployeesInDepartmentValue>>
+  Future<Either<Failure, EmployeesInDepartmentPage>>
       getEmployeesInDepartment(
-          {required int id,required int pageKey,required int pageSize}) async {
+          {required int id,
+          required int pageKey,
+          required int pageSize}) async {
     try {
-      String endPoint =
-          "${ApiConstant.employee}/departmentId/$id";
-     
+      final endPoint = "${ApiConstant.employee}/departmentId/$id";
+
       final result = await apiService.get(endPoint: endPoint);
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetEmployeesInDepartmentValue.fromJson(result['value']));
+        final response = GetEmployeesInDepartmentModel.fromJson(result);
+        return Right(response.employeesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -120,9 +123,9 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -139,28 +142,30 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // get add account request
-  Future<Either<Failure, AddAccountRequestValue>> getAddAccountRequestsForAdmin(
+  Future<Either<Failure, AddAccountRequestsPage>>
+      getAddAccountRequestsForAdmin(
       {required int pageNumber, required int itemCount}) async {
     try {
       final result = await apiService.get(
-          endPoint: ApiConstant.accountRequest +
-              "?itemCount=${itemCount}&index=${pageNumber * 10}");
+          endPoint:
+              "${ApiConstant.accountRequest}?itemCount=$itemCount&index=${pageNumber * 10}");
 
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(AddAccountRequestValue.fromJson(result['value']));
+        final response = AddAccountRequestModel.fromJson(result);
+        return Right(response.accountRequestsPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -175,26 +180,27 @@ class AdminManageEmployeeRepoImpl implements AdminManageEmployeeRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
-  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({
+  Future<Either<Failure, EmployeesPage>> searchEmployees({
     required String searchKey,
   }) async {
     try {
       final result = await apiService.get(
           endPoint: "${ApiConstant.employee}/search/$searchKey");
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(GetAllEmployeesValue.fromJson(result['value']));
+        final response = AllEmployeesModel.fromJson(result);
+        return Right(response.employeesPageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

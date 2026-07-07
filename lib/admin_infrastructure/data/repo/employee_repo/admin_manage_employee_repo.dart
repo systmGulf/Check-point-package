@@ -9,12 +9,12 @@ import '../../models/department_model/get_employees_in_department.dart';
 
 abstract class AdminManageEmployeeRepo {
   // get all employees
-  Future<Either<Failure, GetAllEmployeesValue>> getAllEmployees({
+  Future<Either<Failure, EmployeesPage>> getAllEmployees({
     required int pageNumber,
     required int itemCount,
   });
   // search employees
-  Future<Either<Failure, GetAllEmployeesValue>> searchEmployees({
+  Future<Either<Failure, EmployeesPage>> searchEmployees({
     required String searchKey,
   });
   // add employee
@@ -26,7 +26,7 @@ abstract class AdminManageEmployeeRepo {
       EditEmployeeRequestBody requestBody,
       {required String id});
   // get employees in department
-  Future<Either<Failure, GetEmployeesInDepartmentValue>>
+  Future<Either<Failure, EmployeesInDepartmentPage>>
       getEmployeesInDepartment(
           {required int id, required int pageKey, required int pageSize});
 
@@ -38,7 +38,8 @@ abstract class AdminManageEmployeeRepo {
   Future<Either<Failure, void>> setPlanPermission(
       {required bool permission, required String supervisorId});
   // when the user request to add account for his this account go to admin
-  Future<Either<Failure, AddAccountRequestValue>> getAddAccountRequestsForAdmin(
+  Future<Either<Failure, AddAccountRequestsPage>>
+      getAddAccountRequestsForAdmin(
       {required int pageNumber, required int itemCount});
   // delete add account request
   Future<Either<Failure, void>> deleteAddAccountRequestsForAdmin(

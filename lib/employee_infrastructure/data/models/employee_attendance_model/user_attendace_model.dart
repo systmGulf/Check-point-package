@@ -3,7 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'user_attendace_model.g.dart';
 @JsonSerializable()
 class UserAttendanceModel {
-  UserAttendanceValue? value;
+  @JsonKey(name: 'value')
+  UserAttendanceValue? attendancePage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -12,7 +13,7 @@ class UserAttendanceModel {
   List<dynamic>? validationErrors;
 
   UserAttendanceModel(
-      {this.value,
+      {this.attendancePage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -21,6 +22,12 @@ class UserAttendanceModel {
       this.validationErrors});
 
  factory UserAttendanceModel.fromJson(Map<String, dynamic> json) => _$UserAttendanceModelFromJson(json);
+
+  @Deprecated('Use attendancePage instead.')
+  UserAttendanceValue? get value => attendancePage;
+
+  UserAttendanceValue get attendancePageOrEmpty =>
+      attendancePage ?? UserAttendanceValue();
 }
 @JsonSerializable()
 
@@ -77,3 +84,6 @@ class UserAttendanceData {
 
  factory UserAttendanceData.fromJson(Map<String, dynamic> json) => _$UserAttendanceDataFromJson(json);
 }
+
+typedef UserAttendanceResponse = UserAttendanceModel;
+typedef UserAttendancePage = UserAttendanceValue;

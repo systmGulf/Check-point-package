@@ -4,7 +4,8 @@ part 'get_plan_by_id_model.g.dart';
 
 @JsonSerializable()
 class GetPlanById {
-  GetPlanByIdValue? value;
+  @JsonKey(name: 'value')
+  GetPlanByIdValue? planDetails;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class GetPlanById {
   List<dynamic>? validationErrors;
 
   GetPlanById(
-      {this.value,
+      {this.planDetails,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -24,6 +25,11 @@ class GetPlanById {
       _$GetPlanByIdFromJson(json);
 
   Map<String, dynamic> toJson() => _$GetPlanByIdToJson(this);
+
+  @Deprecated('Use planDetails instead.')
+  GetPlanByIdValue? get value => planDetails;
+
+  GetPlanByIdValue get planDetailsOrEmpty => planDetails ?? GetPlanByIdValue();
 }
 
 @JsonSerializable()
@@ -129,3 +135,6 @@ class Coordinates {
       _$CoordinatesFromJson(json);
   Map<String, dynamic> toJson() => _$CoordinatesToJson(this);
 }
+
+typedef PlanDetailsResponse = GetPlanById;
+typedef PlanDetails = GetPlanByIdValue;

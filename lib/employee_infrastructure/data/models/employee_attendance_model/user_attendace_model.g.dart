@@ -8,7 +8,7 @@ part of 'user_attendace_model.dart';
 
 UserAttendanceModel _$UserAttendanceModelFromJson(Map<String, dynamic> json) =>
     UserAttendanceModel(
-      value: json['value'] == null
+      attendancePage: json['value'] == null
           ? null
           : UserAttendanceValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -22,7 +22,7 @@ UserAttendanceModel _$UserAttendanceModelFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$UserAttendanceModelToJson(
         UserAttendanceModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.attendancePage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

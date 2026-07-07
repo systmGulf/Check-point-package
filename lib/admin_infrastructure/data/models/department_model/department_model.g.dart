@@ -8,7 +8,7 @@ part of 'department_model.dart';
 
 DepartmentModel _$DepartmentModelFromJson(Map<String, dynamic> json) =>
     DepartmentModel(
-      value: json['value'] == null
+      departmentsPage: json['value'] == null
           ? null
           : DepartmentValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -21,7 +21,7 @@ DepartmentModel _$DepartmentModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$DepartmentModelToJson(DepartmentModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.departmentsPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

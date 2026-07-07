@@ -9,7 +9,7 @@ part of 'employee_leave_requests.dart';
 EmployeeLeaveRequestsModel _$EmployeeLeaveRequestsModelFromJson(
         Map<String, dynamic> json) =>
     EmployeeLeaveRequestsModel(
-      value: json['value'] == null
+      leaveRequestsPage: json['value'] == null
           ? null
           : EmployeeLeaveRequestsValue.fromJson(
               json['value'] as Map<String, dynamic>),
@@ -24,7 +24,7 @@ EmployeeLeaveRequestsModel _$EmployeeLeaveRequestsModelFromJson(
 Map<String, dynamic> _$EmployeeLeaveRequestsModelToJson(
         EmployeeLeaveRequestsModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.leaveRequestsPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

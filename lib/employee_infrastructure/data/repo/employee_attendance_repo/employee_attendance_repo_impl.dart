@@ -8,6 +8,7 @@ import '../../../../core/common_methods/check_accessiable_area_service.dart';
 import '../../../../core/core.dart';
 import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/employee_attendance_model/employee_check_in_request_body.dart';
+import '../../models/employee_attendance_model/employee_check_out_request_body.dart';
 import '../../models/employee_attendance_model/get_plan_by_employee_id_model.dart';
 import '../../models/employee_attendance_model/user_attendace_model.dart';
 import 'employee_attendance_repo.dart';
@@ -28,9 +29,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetBranchesData.fromJson(result['value']));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -45,9 +46,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(EmployeePlansModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -71,9 +72,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -83,22 +84,26 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
       {required String employeeId}) async {
     try {
+      final requestBody = EmployeeCheckOutRequestBody(
+        employeeId: employeeId,
+        employeeImage: null,
+      );
       final result = await apiService.post(
-          endPoint: "${ApiConstant.employeeCheckOut}",
-          body: {"employeeId": employeeId, "employeeImage": null});
+          endPoint: ApiConstant.employeeCheckOut,
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceModel.fromJson(result));
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   // get all employee attendance
-  Future<Either<Failure, UserAttendanceValue>> getAllEmployeeAttendance(
+  Future<Either<Failure, UserAttendancePage>> getAllEmployeeAttendance(
       {int pageNumber = 0}) async {
     try {
       final result = await apiService.get(
@@ -106,11 +111,12 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
             "${ApiConstant.getEmployeeAttendanceHistory}/${ApiConstant.employeeId}?itemCount=10&index=${pageNumber * 10}",
       );
       if (result[ApiConstant.successApiKey] == true) {
-        return Right(UserAttendanceValue.fromJson(result['value']));
+        final response = UserAttendanceModel.fromJson(result);
+        return Right(response.attendancePageOrEmpty);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -124,9 +130,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
   //     if (result[ApiConstant.successApiKey] == true) {
   //       return Right(GetPlanByIdValue.fromJson(result['value']));
   //     } else {
-  //       return Left(Failure(404, getResponseError(result)));
+  //       return Left(ErrorHandler.responseFailure(result));
   //     }
-  //   } on Exception catch (e) {
+  //   } on Object catch (e) {
   //     return Left(ErrorHandler.handle(e).failure);
   //   }
   // }
@@ -150,9 +156,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -168,9 +174,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -185,9 +191,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
       if (response[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(response)));
+        return Left(ErrorHandler.responseFailure(response));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -202,9 +208,9 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
 
         return Right(statusList);
       } else {
-        return Left(Failure(404, getResponseError(response)));
+        return Left(ErrorHandler.responseFailure(response));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

@@ -8,7 +8,7 @@ part of 'get_customer_model.dart';
 
 CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
     CustomerModel(
-      value: json['value'] == null
+      customersPage: json['value'] == null
           ? null
           : CustomerValue.fromJson(json['value'] as Map<String, dynamic>),
       status: (json['status'] as num?)?.toInt(),
@@ -21,7 +21,7 @@ CustomerModel _$CustomerModelFromJson(Map<String, dynamic> json) =>
 
 Map<String, dynamic> _$CustomerModelToJson(CustomerModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.customersPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,

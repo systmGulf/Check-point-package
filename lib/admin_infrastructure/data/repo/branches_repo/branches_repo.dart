@@ -4,11 +4,10 @@ import '../../../../hr_manamgement_system_package.dart';
 
 abstract class BranchesRepo {
   // Get all branches Method
-  Future<Either<Failure, GetBranchesValue>> getAllBranches();
+  Future<Either<Failure, BranchesPage>> getAllBranches();
   // Add new branch
   Future<Either<Failure, void>> addCompanyBranch(
-      {required AddBrachRequestBody AddBrachRequestBody});
+      {required AddBrachRequestBody addBranchRequestBody});
   // Delete branch
   Future<Either<Failure, void>> deleteBranch({required int id});
-
 }

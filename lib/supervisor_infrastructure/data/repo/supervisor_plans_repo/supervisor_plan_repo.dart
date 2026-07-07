@@ -15,7 +15,7 @@ abstract class SupervisorPlanRepo {
       SetPlanByDateRequestBody setPlanByDateRequestBody);
   // Supervisor get Plan by Id
 
-  Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
+  Future<Either<Failure, PlanDetails>> getPlanById({required int id});
   // Supervisor delete Plan by Id
   Future<Either<Failure, void>> deletePlanById({required int id});
   // Supervisor set Customer Plan
@@ -23,15 +23,15 @@ abstract class SupervisorPlanRepo {
       SetCustomerPlanRequestBody setCustomerPlanRequestBody);
   // Supervisor set Sub Plan
   Future<Either<Failure, void>> setSubPlan(
-      {required setSubPlansRequestBody setSubPlansRequestBody});
+      {required SetSubPlansRequestBody setSubPlansRequestBody});
   // Supervisor delete Sub Plan
   Future<Either<Failure, void>> deleteSubPlanById({required int id});
   Future<Either<Failure, void>> deleteSomeEmployeesFromPlan(
       {required int planId, required String employeeIds});
-  
+
   //  Supervisor get Plan by Department
-  Future<Either<Failure, PlanValue>> getPlanByDepartmentId();
+  Future<Either<Failure, PlansPage>> getPlanByDepartmentId();
   // Supervisor get Customer by Id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
-      {required String CustomerId});
+      {required String customerId});
 }

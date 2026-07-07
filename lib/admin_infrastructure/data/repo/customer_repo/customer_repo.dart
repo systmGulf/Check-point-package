@@ -10,7 +10,7 @@ abstract class CustomerRepo {
     AddOrEditCustomerRequestBody departmentValue,
   );
   // Get all Customers By Type (Customer & Site)
-  Future<Either<Failure, CustomerValue>> getCustomersByType({
+  Future<Either<Failure, CustomersPage>> getCustomersByType({
     required String type,
   });
   // delete customer

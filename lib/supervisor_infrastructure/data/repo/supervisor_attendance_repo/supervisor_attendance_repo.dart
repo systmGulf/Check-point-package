@@ -13,30 +13,30 @@ abstract class SupervisorAttendanceRepo {
   Future<Either<Failure, List<SupervisorGetAllEmployeesAttendanceModel>>>
       supervisorGetAllEmployeesAttendance();
   // Get Employee Attendance By Department Id
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       getEmployeeAttendanceByDepartmentId({required String attendanceDate});
   // Get All Employees in Department
-  Future<Either<Failure, List<GetAllEmployeesValue>>> getAllEmployees();
+  Future<Either<Failure, List<EmployeesPage>>> getAllEmployees();
   // Get Employee By Department Id
-  Future<Either<Failure, GetAllEmployeesValue>> getEmployeeByDepartmentId();
+  Future<Either<Failure, EmployeesPage>> getEmployeeByDepartmentId();
   // Supervisor Attend Some Employee Check In
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody);
   // Supervisor Attend Some Employee Check Out
   Future<Either<Failure, void>> supervisorAttendSomeEmployeeCheckOut(
-      String EmployeeId, String? employeeImage);
+      String employeeId, String? employeeImage);
   // Get Employee Summary
-  Future<Either<Failure, EmployeeSummaryValue>> getEmployeeSummary(
+  Future<Either<Failure, AttendanceSummary>> getEmployeeSummary(
       {required String employeeId, required int month, required int year});
   // Supervisor Get Late Comers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       supervisorGetLateComers({required String day});
   // Supervisor Get Early Leavers
-  Future<Either<Failure, SupervisorGetAllEmployeesAttendanceValue>>
+  Future<Either<Failure, SupervisorAttendancePage>>
       supervisorGetEarlyLeavers({required String day});
   // Get Customer By Id
   Future<Either<Failure, GetCustomerByIdModel>> getCustomerById(
-      {required String CustomerId});
+      {required String customerId});
   // Get Tracking Summary For Employee
   Future<Either<Failure, UserTrackingSummaryResponseBody>>
       getTrackingSummaryForEmployee(

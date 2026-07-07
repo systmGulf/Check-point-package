@@ -4,7 +4,8 @@ part 'add_account_request_model.g.dart';
 
 @JsonSerializable()
 class AddAccountRequestModel {
-  AddAccountRequestValue? value;
+  @JsonKey(name: 'value')
+  AddAccountRequestValue? accountRequestsPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class AddAccountRequestModel {
   List<dynamic>? validationErrors;
 
   AddAccountRequestModel(
-      {this.value,
+      {this.accountRequestsPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -23,6 +24,12 @@ class AddAccountRequestModel {
 
   factory AddAccountRequestModel.fromJson(Map<String, dynamic> json) =>
       _$AddAccountRequestModelFromJson(json);
+
+  @Deprecated('Use accountRequestsPage instead.')
+  AddAccountRequestValue? get value => accountRequestsPage;
+
+  AddAccountRequestValue get accountRequestsPageOrEmpty =>
+      accountRequestsPage ?? AddAccountRequestValue();
 }
 
 @JsonSerializable()
@@ -61,3 +68,6 @@ class AddAccountRequestData {
   factory AddAccountRequestData.fromJson(Map<String, dynamic> json) =>
       _$AddAccountRequestDataFromJson(json);
 }
+
+typedef AddAccountRequestsResponse = AddAccountRequestModel;
+typedef AddAccountRequestsPage = AddAccountRequestValue;

@@ -4,7 +4,8 @@ part 'get_branches_models.g.dart';
 
 @JsonSerializable()
 class GetBranchesModel {
-  GetBranchesValue? value;
+  @JsonKey(name: 'value')
+  GetBranchesValue? branchesPage;
   int? status;
   bool? isSuccess;
   String? successMessage;
@@ -13,7 +14,7 @@ class GetBranchesModel {
   List<dynamic>? validationErrors;
 
   GetBranchesModel(
-      {this.value,
+      {this.branchesPage,
       this.status,
       this.isSuccess,
       this.successMessage,
@@ -23,6 +24,11 @@ class GetBranchesModel {
 
   factory GetBranchesModel.fromJson(Map<String, dynamic> json) =>
       _$GetBranchesModelFromJson(json);
+
+  @Deprecated('Use branchesPage instead.')
+  GetBranchesValue? get value => branchesPage;
+
+  GetBranchesValue get branchesPageOrEmpty => branchesPage ?? GetBranchesValue();
 }
 
 @JsonSerializable()
@@ -73,3 +79,6 @@ class GetBranchesCoordinates {
   factory GetBranchesCoordinates.fromJson(Map<String, dynamic> json) =>
       _$GetBranchesCoordinatesFromJson(json);
 }
+
+typedef BranchesResponse = GetBranchesModel;
+typedef BranchesPage = GetBranchesValue;

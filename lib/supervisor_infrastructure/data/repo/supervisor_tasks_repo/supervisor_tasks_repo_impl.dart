@@ -18,13 +18,13 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
       {required AddTaskRequestBody addTaskRequestBody}) async {
     try {
       final result = await apiService.post(
-          endPoint: ApiConstant.Task, body: addTaskRequestBody.toJson());
+          endPoint: ApiConstant.task, body: addTaskRequestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -36,16 +36,16 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
     try {
       final result = await apiService.get(
           endPoint:
-              "${ApiConstant.Task}/department/${ApiConstant.departmentId}");
+              "${ApiConstant.task}/department/${ApiConstant.departmentId}");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(
           List<GetTasData>.from((result['value']['data'] as List)
               .map((e) => GetTasData.fromJson(e))),
         );
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -55,13 +55,13 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   Future<Either<Failure, void>> deleteTaskById({required int id}) async {
     try {
       final result =
-          await apiService.delete(endPoint: "${ApiConstant.Task}?id=$id");
+          await apiService.delete(endPoint: "${ApiConstant.task}?id=$id");
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -71,15 +71,19 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   Future<Either<Failure, void>> assignTask(
       {required int taskId, required List<String> employeeIds}) async {
     try {
+      final requestBody = AssignTaskRequestBody(
+        employeeIds: employeeIds,
+        taskId: taskId,
+      );
       final result = await apiService.post(
-          endPoint: "${ApiConstant.Task}/assignTask",
-          body: {"employeeIds": employeeIds, "taskId": taskId});
+          endPoint: "${ApiConstant.task}/assignTask",
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -89,15 +93,19 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   Future<Either<Failure, void>> changeTaskStatus(
       {required int taskId, required String status}) async {
     try {
+      final requestBody = UpdateTaskStatusRequestBody(
+        id: taskId,
+        status: status,
+      );
       final result = await apiService.put(
-          endPoint: "${ApiConstant.Task}/updateStatus",
-          body: {"id": taskId, "status": status});
+          endPoint: "${ApiConstant.task}/updateStatus",
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -106,15 +114,19 @@ class SupervisorTasksRepoImpl implements SupervisorTasksRepo {
   Future<Either<Failure, void>> removeSomeEmployeesFromTask(
       {required int taskId, required String employeeIds}) async {
     try {
+      final requestBody = RemoveAssignTaskRequestBody(
+        employeeId: employeeIds,
+        taskId: taskId,
+      );
       final result = await apiService.post(
           endPoint: "${ApiConstant.employee}/removeAssignTask",
-          body: {"employeeId": employeeIds, "taskId": taskId});
+          body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

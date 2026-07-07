@@ -25,7 +25,7 @@ Map<String, dynamic> _$AddOrEditCustomerRequestBodyToJson(
       'workesAs': instance.workesAs,
       'location': instance.location,
       'customerType': instance.customerType,
-      'coordinates': instance.coordinates,
+      'coordinates': instance.coordinates.map((e) => e.toJson()).toList(),
     };
 
 CustomerLocation _$CustomerLocationFromJson(Map<String, dynamic> json) =>

@@ -9,7 +9,7 @@ part of 'add_account_request_model.dart';
 AddAccountRequestModel _$AddAccountRequestModelFromJson(
         Map<String, dynamic> json) =>
     AddAccountRequestModel(
-      value: json['value'] == null
+      accountRequestsPage: json['value'] == null
           ? null
           : AddAccountRequestValue.fromJson(
               json['value'] as Map<String, dynamic>),
@@ -24,7 +24,7 @@ AddAccountRequestModel _$AddAccountRequestModelFromJson(
 Map<String, dynamic> _$AddAccountRequestModelToJson(
         AddAccountRequestModel instance) =>
     <String, dynamic>{
-      'value': instance.value,
+      'value': instance.accountRequestsPage,
       'status': instance.status,
       'isSuccess': instance.isSuccess,
       'successMessage': instance.successMessage,
