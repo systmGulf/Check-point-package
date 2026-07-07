@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:client_information/client_information.dart';
 import 'package:dartz/dartz.dart';
 // import 'package:device_info_plus/device_info_plus.dart';
@@ -29,12 +28,15 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
         if (result[ApiConstant.successApiKey] == true) {
           return const Right(null);
         } else {
-          return Left(Failure(404, getResponseError(result)));
+          return Left(ErrorHandler.responseFailure(result));
         }
       } else {
-        return Left(Failure(404, "Device token not found "));
+        return Left(ErrorHandler.unexpectedFailure(
+          message: 'Device token not found',
+          code: ResponseCode.badRequest,
+        ));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -42,7 +44,7 @@ class RegisterAccountRepoImpl implements RegisterAccountRepo {
 
 // Get Device Id this Id is Unit for any device
 Future<String?> getId() async {
- return (await ClientInformation.fetch()).deviceId;
+  return (await ClientInformation.fetch()).deviceId;
   // var deviceInfo = DeviceInfoPlugin();
   // if (Platform.isIOS) {
   //   var iosDeviceInfo = await deviceInfo.iosInfo;

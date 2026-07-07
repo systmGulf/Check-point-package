@@ -13,9 +13,9 @@ class SharedRepoImpl  implements SharedRepo{
       if (result['isSuccess'] == true) {
         return Right( "Image uploaded successfully");
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

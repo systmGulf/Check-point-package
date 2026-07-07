@@ -33,10 +33,10 @@ class ApiConstant {
   static const String branches = 'Branch';
   static const String accountRequest = 'AccountRequest';
   static const String plan = 'Plan';
-  static const String Task = 'Task';
-  static const String Shift = 'Shift';
-  static const String Notification = 'Notification';
-  static const String Policy = 'Policy';
+  static const String task = 'Task';
+  static const String shift = 'Shift';
+  static const String notification = 'Notification';
+  static const String policy = 'Policy';
   static const String trackEmployeeLocation = 'Employee/trackEmployee';
   static const String planFeedback = 'Feedback';
   static const String getTrackingSummaryForEmployee =

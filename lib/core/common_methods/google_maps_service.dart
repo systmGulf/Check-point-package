@@ -1,51 +1,56 @@
 import 'package:location/location.dart';
+import 'dart:async';
 
 abstract class LocationService {
   static Location location = Location();
+
   static Future<bool> checkAndRequestLocationService() async {
-    var isServiceEnabled = await location.serviceEnabled();
-    if (!isServiceEnabled) {
-      var isServiceEnabled = await location.requestService();
+    try {
+      var isServiceEnabled = await location.serviceEnabled();
       if (!isServiceEnabled) {
-        return false;
-      } else {
-        return true;
+        isServiceEnabled = await location.requestService();
       }
+
+      return isServiceEnabled;
+    } catch (_) {
+      return false;
     }
-    return true;
   }
 
   static Future<bool> checkAndRequestLocationPermission() async {
-    var permissionStatus = await location.hasPermission();
-    if (permissionStatus == PermissionStatus.deniedForever) {
+    try {
+      var permissionStatus = await location.hasPermission();
+      if (permissionStatus == PermissionStatus.deniedForever) {
+        return false;
+      }
+
+      if (permissionStatus == PermissionStatus.denied) {
+        permissionStatus = await location.requestPermission();
+      }
+
+      return permissionStatus == PermissionStatus.granted ||
+          permissionStatus == PermissionStatus.grantedLimited;
+    } catch (_) {
       return false;
     }
-    if (permissionStatus == PermissionStatus.denied) {
-      permissionStatus = await location.requestPermission();
-      if (permissionStatus != PermissionStatus.granted) {
-        return false;
-      } else {
-        return true;
-      }
+  }
+
+  static StreamSubscription<LocationData> getRealTimeLocation(
+      void Function(LocationData)? onData) {
+    return location.onLocationChanged.listen(onData);
+  }
+
+  static Future<LocationData?> getCurrentLocation() async {
+    try {
+      return await location.getLocation();
+    } catch (_) {
+      return null;
     }
-    return true;
-  }
-
-  static void getRealTimeLocation(Function(LocationData)? onData) {
-    location.onLocationChanged.listen(onData);
-  }
-
-  static getCurrentLocation() {
-    return location.getLocation();
   }
 
   static Future<bool> getLocationData() async {
-    var isServiceEnabled = await checkAndRequestLocationService();
-    var hasPermission = await checkAndRequestLocationPermission();
-    if (isServiceEnabled && hasPermission) {
-      return true;
-    } else {
-      return false;
-    }
+    final isServiceEnabled = await checkAndRequestLocationService();
+    final hasPermission = await checkAndRequestLocationPermission();
+    return isServiceEnabled && hasPermission;
   }
 }

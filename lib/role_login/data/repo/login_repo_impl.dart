@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:dartz/dartz.dart';
 
 // import 'package:firebase_messaging/firebase_messaging.dart';
@@ -45,13 +43,15 @@ class LoginRepoImpl implements LoginRepo {
               await SecureCache.getFromCache(key: 'employeeId');
           return Right(RoleLoginModel.fromJson(response));
         } else {
-          return Left(Failure(
-              404, "Make sure you are an ${roleLoginRequestBody.role}"));
+          return Left(ErrorHandler.unexpectedFailure(
+            message: "Make sure you are an ${roleLoginRequestBody.role}",
+            code: ResponseCode.badRequest,
+          ));
         }
       } else {
-        return Left(Failure(404, getResponseError(response).toString()));
+        return Left(ErrorHandler.responseFailure(response));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -102,11 +102,12 @@ class LoginRepoImpl implements LoginRepo {
         ApiConstant.employeeId =
             await SecureCache.getFromCache(key: 'employeeId');
         final userTokens = result['value']['deviceTokens'] as List<dynamic>;
-        final currentToken = await "123";
-        //  FirebaseMessaging.instance.getToken();
-        if (!userTokens.contains(currentToken) && userTokens == []) {
-          updateUserToken(
-              UserId: ApiConstant.employeeId, currentUserToken: [currentToken]);
+        final currentToken = await SecureCache.getFromCache(key: 'deviceToken');
+        if (currentToken.isNotEmpty && !userTokens.contains(currentToken)) {
+          await updateUserToken(
+            userId: ApiConstant.employeeId,
+            currentUserToken: [currentToken],
+          );
         }
 
         ApiConstant.departmentId =
@@ -122,25 +123,33 @@ class LoginRepoImpl implements LoginRepo {
         if (ApiConstant.departmentId != '') {
           return Right(EmployeeData.fromJson(result['value']));
         } else {
-          return Left(Failure(404, "No data found"));
+          return Left(ErrorHandler.unexpectedFailure(
+            message: 'No data found',
+            code: ResponseCode.notFound,
+          ));
         }
       } else {
-        return Left(Failure(404, getResponseError(result).toString()));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
 
   @override
   Future<void> updateUserToken(
-      {required List<String> currentUserToken, required String UserId}) async {
+      {required List<String> currentUserToken, required String userId}) async {
     try {
-      final result = await apiservice.put(
-          endPoint: "${ApiConstant.updateUserToken}",
-          body: {"userId": UserId, "deviceTokens": currentUserToken});
-    } catch (e) {
-      Failure(404, 'There was an error, try again later');
+      final requestBody = UpdateUserTokenRequestBody(
+        userId: userId,
+        deviceTokens: currentUserToken,
+      );
+      await apiservice.put(
+        endPoint: ApiConstant.updateUserToken,
+        body: requestBody.toJson(),
+      );
+    } on Object catch (e) {
+      throw ErrorHandler.handle(e).failure;
     }
   }
 }

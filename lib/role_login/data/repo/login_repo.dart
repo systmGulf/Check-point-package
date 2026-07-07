@@ -9,5 +9,5 @@ abstract class LoginRepo {
   Future<Either<Failure, EmployeeData>> getEmployeeById();
   // Update User Token if user delete the app and redownload
   Future<void> updateUserToken(
-      {required List<String> currentUserToken, required String UserId});
+      {required List<String> currentUserToken, required String userId});
 }

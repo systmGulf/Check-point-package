@@ -3,27 +3,34 @@ import 'dart:async';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 class LocalNotificationService {
-  static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+  static final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
       FlutterLocalNotificationsPlugin();
-  static StreamController<NotificationResponse> streamController =
-      StreamController();
-  static ontap(NotificationResponse notificationResponse) {
+  static final StreamController<NotificationResponse> streamController =
+      StreamController<NotificationResponse>.broadcast();
+  static bool _isInitialized = false;
+
+  static void ontap(NotificationResponse notificationResponse) {
     streamController.add(notificationResponse);
   }
 
-  static Future init() async {
-    InitializationSettings initializationSettings =
-        const InitializationSettings(
-            android: AndroidInitializationSettings('@mipmap/ic_launcher'),
-            iOS: DarwinInitializationSettings());
-    flutterLocalNotificationsPlugin.initialize(initializationSettings,
+  static Future<void> init() async {
+    if (_isInitialized) return;
+
+    const initializationSettings = InitializationSettings(
+        android: AndroidInitializationSettings('@mipmap/ic_launcher'),
+        iOS: DarwinInitializationSettings());
+
+    await flutterLocalNotificationsPlugin.initialize(initializationSettings,
         onDidReceiveNotificationResponse: ontap,
         onDidReceiveBackgroundNotificationResponse: ontap);
+    _isInitialized = true;
   }
 
-  static showBasicNotification(
+  static Future<void> showBasicNotification(
       {required String massBody, required String title}) async {
-    NotificationDetails notificationDetails = const NotificationDetails(
+    await init();
+
+    const notificationDetails = NotificationDetails(
       iOS: DarwinNotificationDetails(),
       android: AndroidNotificationDetails('channel_id', 'channel_name',
           priority: Priority.high, importance: Importance.max),
@@ -36,8 +43,10 @@ class LocalNotificationService {
     );
   }
 
-  static showRepeatedNotification() async {
-    NotificationDetails notificationDetails = const NotificationDetails(
+  static Future<void> showRepeatedNotification() async {
+    await init();
+
+    const notificationDetails = NotificationDetails(
       iOS: DarwinNotificationDetails(),
       android: AndroidNotificationDetails('channel_id', 'channel_name',
           priority: Priority.high, importance: Importance.max),
@@ -47,7 +56,7 @@ class LocalNotificationService {
         androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle);
   }
 
-  static void deleteNotification(int id) {
-    flutterLocalNotificationsPlugin.cancel(id);
+  static Future<void> deleteNotification(int id) {
+    return flutterLocalNotificationsPlugin.cancel(id);
   }
 }

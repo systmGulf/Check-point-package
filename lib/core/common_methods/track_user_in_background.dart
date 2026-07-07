@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -87,10 +86,16 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
   setUpServiceLocator();
-  ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
   DartPluginRegistrant.ensureInitialized();
 
   bool running = true;
+  Timer? locationTimer;
+
+  try {
+    ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
+  } catch (_) {
+    ApiConstant.employeeId = '';
+  }
 
   service.on('get_status').listen((event) {
     service.invoke('service_status', {'running': running});
@@ -98,14 +103,35 @@ void onStart(ServiceInstance service) async {
 
   service.on('stop').listen((event) {
     running = false;
+    locationTimer?.cancel();
     service.invoke('service_status', {'running': running});
     service.stopSelf();
   });
 
-  Timer.periodic(const Duration(seconds: 5), (timer) async {
+  locationTimer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+    if (!running) {
+      timer.cancel();
+      return;
+    }
+
     try {
+      if (ApiConstant.employeeId.isEmpty) {
+        ApiConstant.employeeId =
+            await SecureCache.getFromCache(key: 'employeeId');
+      }
+
+      if (ApiConstant.employeeId.isEmpty) {
+        return;
+      }
+
+      final hasLocationAccess = await handleLocationPermissionAndGPS();
+      if (!hasLocationAccess) {
+        return;
+      }
+
       final position = await Geolocator.getCurrentPosition();
-      getIt<EmployeeAttendanceRepo>().trackEmployeeLocation(
+      final result =
+          await getIt<EmployeeAttendanceRepo>().trackEmployeeLocation(
         trackUserRequestBody: TrackUserRequestBody(
           employeeId: ApiConstant.employeeId,
           coordinates: [
@@ -113,8 +139,20 @@ void onStart(ServiceInstance service) async {
           ],
         ),
       );
+
+      result.fold(
+        (failure) => service.invoke(
+          'tracking_error',
+          {'message': failure.message, 'code': failure.code},
+        ),
+        (_) {},
+      );
     } catch (e) {
-      log('Location error: $e');
+      final failure = ErrorHandler.handle(e).failure;
+      service.invoke(
+        'tracking_error',
+        {'message': failure.message, 'code': failure.code},
+      );
     }
   });
 }

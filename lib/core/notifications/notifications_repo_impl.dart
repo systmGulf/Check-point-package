@@ -10,18 +10,25 @@ class NotificationsRepoImpl implements NotificationRepo {
   Future<Either<Failure, void>> sendMultipleNotification(
       {required List<String> tokens,
       required String title,
-      required String body, required String topic}) async {
+      required String body,
+      required String topic}) async {
     try {
+      final requestBody = SendMultipleNotificationsRequestBody(
+        deviceTokens: tokens,
+        title: title,
+        body: body,
+        topic: topic,
+      );
       final result = await apiService.post(
           endPoint:
-              "${ApiConstant.Notification}/${ApiConstant.multiNotification}",
-          body: {"deviceTokens": tokens, "title": title, "body": body, "topic": topic});
+              "${ApiConstant.notification}/${ApiConstant.multiNotification}",
+          body: requestBody.toJson());
       if (result['isSuccess'] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }
@@ -30,18 +37,23 @@ class NotificationsRepoImpl implements NotificationRepo {
   Future<Either<Failure, void>> sendSingleNotification(
       {required String token,
       required String title,
-      required String body, }) async {
+      required String body}) async {
     try {
+      final requestBody = SendSingleNotificationRequestBody(
+        deviceToken: token,
+        title: title,
+        body: body,
+      );
       final result = await apiService.post(
           endPoint:
-              "${ApiConstant.Notification}/${ApiConstant.singleNotification}",
-          body: {"deviceToken": token, "title": title, "body": body});
+              "${ApiConstant.notification}/${ApiConstant.singleNotification}",
+          body: requestBody.toJson());
       if (result['isSuccess'] == true) {
         return const Right(null);
       } else {
-        return Left(Failure(404, getResponseError(result)));
+        return Left(ErrorHandler.responseFailure(result));
       }
-    } on Exception catch (e) {
+    } on Object catch (e) {
       return Left(ErrorHandler.handle(e).failure);
     }
   }

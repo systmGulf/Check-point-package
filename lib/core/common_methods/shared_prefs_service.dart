@@ -1,27 +1,42 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-String token = '';
+import '../errors/custom_exception.dart';
 
 class SecureCache {
-  static Future insertToCache({required String key, required String value}) {
-    const localStorage = FlutterSecureStorage();
-    return localStorage.write(key: key, value: value);
+  static const FlutterSecureStorage _localStorage = FlutterSecureStorage();
+
+  static Future<void> insertToCache({
+    required String key,
+    required String value,
+  }) async {
+    try {
+      await _localStorage.write(key: key, value: value);
+    } catch (_) {
+      throw CacheException();
+    }
   }
 
   static Future<String> getFromCache({required String key}) async {
-    const localStorage = FlutterSecureStorage();
-
-    return await localStorage.read(key: key) ?? '';
-  }
-  static Future deleteFromCacheByKey({required String key}) async {
-    const localStorage = FlutterSecureStorage();
-
-    return  localStorage.delete(key: key) ?? '';
+    try {
+      return await _localStorage.read(key: key) ?? '';
+    } catch (_) {
+      throw CacheException();
+    }
   }
 
-  static Future deleteFromCache() {
-    const localStorage = FlutterSecureStorage();
+  static Future<void> deleteFromCacheByKey({required String key}) async {
+    try {
+      await _localStorage.delete(key: key);
+    } catch (_) {
+      throw CacheException();
+    }
+  }
 
-    return localStorage.deleteAll();
+  static Future<void> deleteFromCache() async {
+    try {
+      await _localStorage.deleteAll();
+    } catch (_) {
+      throw CacheException();
+    }
   }
 }

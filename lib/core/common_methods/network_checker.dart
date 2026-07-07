@@ -1,19 +1,33 @@
+import 'dart:async';
+
 import 'package:connectivity_plus/connectivity_plus.dart';
 
-import 'dart:io';
-
 class NetworkChecker {
-  checkConnectivity(
-      {required Function onSuccess, required Function onFailure}) async {
-    List<ConnectivityResult> conmnectivityReult =
-        await Connectivity().checkConnectivity();
-    if (conmnectivityReult.contains(ConnectivityResult.mobile) ||
-        conmnectivityReult.contains(ConnectivityResult.wifi) ||
-        Platform.isIOS) {
-      onSuccess();
-    } else {
-      onFailure();
+  Future<bool> checkConnectivity({
+    FutureOr<void> Function()? onSuccess,
+    FutureOr<void> Function()? onFailure,
+  }) async {
+    try {
+      final connectivityResults = await Connectivity().checkConnectivity();
+      final hasConnection = connectivityResults.any(
+        (result) =>
+            result == ConnectivityResult.mobile ||
+            result == ConnectivityResult.wifi ||
+            result == ConnectivityResult.ethernet ||
+            result == ConnectivityResult.vpn ||
+            result == ConnectivityResult.bluetooth ||
+            result == ConnectivityResult.other,
+      );
 
+      if (hasConnection) {
+        await onSuccess?.call();
+        return true;
+      }
+
+      await onFailure?.call();
+      return false;
+    } catch (_) {
+      await onFailure?.call();
       return false;
     }
   }

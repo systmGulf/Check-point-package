@@ -3,6 +3,7 @@ import 'package:local_auth/local_auth.dart';
 
 class LocalAuthApi {
   static final _auth = LocalAuthentication();
+
   static Future<bool> hasBiometrics() async {
     try {
       return await _auth.canCheckBiometrics;
@@ -19,8 +20,22 @@ class LocalAuthApi {
     }
   }
 
+  static Future<bool> isBiometricSupported() async {
+    try {
+      final isDeviceSupported = await _auth.isDeviceSupported();
+      final hasBiometricPermission = await hasBiometrics();
+      final biometrics = await getBiometrics();
+
+      return isDeviceSupported &&
+          hasBiometricPermission &&
+          biometrics.isNotEmpty;
+    } on PlatformException {
+      return false;
+    }
+  }
+
   static Future<bool> authenticate() async {
-    final isAvailable = await hasBiometrics();
+    final isAvailable = await isBiometricSupported();
     if (!isAvailable) return false;
 
     try {
@@ -30,11 +45,7 @@ class LocalAuthApi {
           stickyAuth: true,
           biometricOnly: false,
         ),
-        authMessages: [
-         
-          
-        ],
-        localizedReason: 'Systm Gulf Authenticate',
+        localizedReason: 'Authenticate to continue',
       );
     } on PlatformException {
       return false;
@@ -42,36 +53,23 @@ class LocalAuthApi {
   }
 
   static Future<bool> biometricAuthMethod() async {
-    final authPermission = await LocalAuthApi.hasBiometrics();
-    final biometrics = await LocalAuthApi.getBiometrics();
-
-    final authenticate = await LocalAuthApi.authenticate(
-        
-    );
-    if (authPermission && biometrics.contains(BiometricType.fingerprint) ||
-        biometrics.contains(BiometricType.face ) || biometrics.contains(BiometricType.iris) || biometrics.contains(BiometricType.strong) || biometrics.contains(BiometricType.weak)) {
-      if (authenticate) {
-        return true;
-      }
-      return false;
-    }
-    return false;
+    return authenticate();
   }
 
   static Future<bool> fingerPrintAuthenticate() async {
-    final authPermission = await LocalAuthApi.hasBiometrics();
-    final biometrics = await LocalAuthApi.getBiometrics();
-    final authenticate = await LocalAuthApi.authenticate();
-    if (authPermission ||
-        biometrics.contains(BiometricType.fingerprint) ||
-        biometrics.contains(BiometricType.face) || biometrics.contains(BiometricType.iris) || biometrics.contains(BiometricType.strong) || biometrics.contains(BiometricType.weak)) {
-      if (authenticate) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
+    final authPermission = await hasBiometrics();
+    final biometrics = await getBiometrics();
+    final supportsBiometricAuth = authPermission &&
+        (biometrics.contains(BiometricType.fingerprint) ||
+            biometrics.contains(BiometricType.face) ||
+            biometrics.contains(BiometricType.iris) ||
+            biometrics.contains(BiometricType.strong) ||
+            biometrics.contains(BiometricType.weak));
+
+    if (!supportsBiometricAuth) {
       return false;
     }
+
+    return authenticate();
   }
 }
