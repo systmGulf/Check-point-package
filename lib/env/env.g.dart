@@ -17,5 +17,5 @@ final class _EnvDev {
 // ignore_for_file: type=lint
 // generated_from: .env.prod
 final class _EnvProd {
-  static const String baseUrl = 'http://ems.runasp.net/api/';
+  static const String baseUrl = 'http://emsdemo.runasp.net/api/';
 }
