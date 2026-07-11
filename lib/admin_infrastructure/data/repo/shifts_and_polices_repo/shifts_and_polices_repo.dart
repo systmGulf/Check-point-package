@@ -10,6 +10,11 @@ abstract class ShiftsAndPolicesRepo {
   /// shifts
   // add shift
   Future<Either<Failure, void>> addShift({required String shiftName});
+  // edit shift
+  Future<Either<Failure, void>> editShift({
+    required int id,
+    required String shiftName,
+  });
   // get shifts
   Future<Either<Failure, ShiftModel>> getShifts();
   // delete shift

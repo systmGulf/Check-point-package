@@ -35,6 +35,27 @@ class ShiftsAndPolicesRepoImpl implements ShiftsAndPolicesRepo {
   }
 
   @override
+  Future<Either<Failure, void>> editShift({
+    required int id,
+    required String shiftName,
+  }) async {
+    try {
+      final requestBody = AddShiftRequestBody(name: shiftName);
+      final result = await apiService.put(
+        endPoint: "${ApiConstant.shift}/$id",
+        body: requestBody.toJson(),
+      );
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
   // get all shifts
   Future<Either<Failure, ShiftModel>> getShifts() async {
     try {

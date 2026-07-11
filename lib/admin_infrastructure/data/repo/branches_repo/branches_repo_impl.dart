@@ -25,6 +25,26 @@ class AdminRepoImpl implements BranchesRepo {
   }
 
   @override
+  Future<Either<Failure, void>> editBranch({
+    required int id,
+    required AddBrachRequestBody addBranchRequestBody,
+  }) async {
+    try {
+      final result = await apiService.put(
+        endPoint: "${ApiConstant.branches}/$id",
+        body: addBranchRequestBody.toJson(),
+      );
+      if (result[ApiConstant.successApiKey] == true) {
+        return const Right(null);
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
   // get all branches
   Future<Either<Failure, BranchesPage>> getAllBranches() async {
     try {
