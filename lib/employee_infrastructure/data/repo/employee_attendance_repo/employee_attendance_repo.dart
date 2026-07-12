@@ -3,6 +3,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
 
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
+import '../../../../admin_infrastructure/data/models/customers_model/get_customer_model.dart';
 import '../../../../core/errors/error_handler.dart';
 import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
 import '../../models/employee_attendance_model/employee_check_in_request_body.dart';
@@ -14,8 +15,13 @@ abstract class EmployeeAttendanceRepo {
   // Employee check in method
   Future<Either<Failure, UserAttendanceModel>> employeeCheckIn(
       EmployeeCheckInRequestBody employeeCheckInRequestBody);
+  Future<Either<Failure, UserAttendanceModel>> employeeCheckInWithoutPlan(
+      EmployeeCheckInRequestBody employeeCheckInRequestBody);
   // Employee Check out method
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut({
+    required String employeeId,
+  });
+  Future<Either<Failure, UserAttendanceModel>> employeeCheckOutWithoutPlan({
     required String employeeId,
   });
   // Track UserLocation In background
@@ -26,6 +32,9 @@ abstract class EmployeeAttendanceRepo {
       {int pageNumber = 0});
   // Get Customer plan To attend on it
   Future<Either<Failure, EmployeePlansModel>> getCustomerPlanForEmployee();
+  Future<Either<Failure, CustomersPage>> getCustomersByType({
+    required String type,
+  });
   // Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
   // Check user if he in the right location or no for Polygon
   Future<bool> checkAccessibleAreaForPolygon(

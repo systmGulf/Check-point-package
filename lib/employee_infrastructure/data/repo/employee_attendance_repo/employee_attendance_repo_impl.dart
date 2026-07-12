@@ -4,6 +4,7 @@ import 'package:hr_management_system_package/employee_infrastructure/data/models
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
 
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
+import '../../../../admin_infrastructure/data/models/customers_model/get_customer_model.dart';
 import '../../../../core/common_methods/check_accessiable_area_service.dart';
 import '../../../../core/core.dart';
 import '../../../../supervisor_infrastructure/data/models/plan_model/plan_feed_back_request_body.dart';
@@ -53,6 +54,23 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, CustomersPage>> getCustomersByType(
+      {required String type}) async {
+    try {
+      final result = await apiService.get(
+          endPoint: "${ApiConstant.addCustomer}/customerType/$type");
+      if (result[ApiConstant.successApiKey] == true) {
+        final response = CustomerModel.fromJson(result);
+        return Right(response.customersPageOrEmpty);
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
   // check if the user in the right zoon for an Customer
   @override
   double checkAccessibleAreaForCircle(
@@ -79,6 +97,23 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
     }
   }
 
+  @override
+  Future<Either<Failure, UserAttendanceModel>> employeeCheckInWithoutPlan(
+      EmployeeCheckInRequestBody employeeCheckInRequestBody) async {
+    try {
+      final result = await apiService.post(
+          endPoint: ApiConstant.employeeCheckInWithoutPlan,
+          body: employeeCheckInRequestBody.toJson());
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(UserAttendanceModel.fromJson(result));
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
   // employee check out
   @override
   Future<Either<Failure, UserAttendanceModel>> employeeCheckOut(
@@ -89,7 +124,27 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
         employeeImage: null,
       );
       final result = await apiService.post(
-          endPoint: ApiConstant.employeeCheckOut,
+          endPoint: ApiConstant.employeeCheckOut, body: requestBody.toJson());
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(UserAttendanceModel.fromJson(result));
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserAttendanceModel>> employeeCheckOutWithoutPlan(
+      {required String employeeId}) async {
+    try {
+      final requestBody = EmployeeCheckOutRequestBody(
+        employeeId: employeeId,
+        employeeImage: null,
+      );
+      final result = await apiService.post(
+          endPoint: ApiConstant.employeeCheckOutWithoutPlan,
           body: requestBody.toJson());
       if (result[ApiConstant.successApiKey] == true) {
         return Right(UserAttendanceModel.fromJson(result));

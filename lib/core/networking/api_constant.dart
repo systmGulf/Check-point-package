@@ -19,7 +19,9 @@ class ApiConstant {
 
   static const String employee = "Employee";
   static const String employeeCheckIn = 'Attendance/in';
+  static const String employeeCheckInWithoutPlan = 'Attendance/inWithoutPlan';
   static const String employeeCheckOut = 'Attendance/out';
+  static const String employeeCheckOutWithoutPlan = 'Attendance/outWithoutPlan';
   static const String getEmployeeAttendanceHistory = 'Attendance/employeeId';
   static const String leaveRequest = 'LeaveRequest';
   static const String getAllLeaveRequestsForEmployee = 'LeaveRequest/employee';

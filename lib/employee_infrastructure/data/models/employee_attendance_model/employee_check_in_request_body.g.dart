@@ -14,6 +14,9 @@ EmployeeCheckInRequestBody _$EmployeeCheckInRequestBodyFromJson(
       employeeIdd: json['employeeId'] as String,
       area: json['area'] as String,
       location: json['location'] as String,
+      coordinates: (json['coordinates'] as List<dynamic>?)
+          ?.map((e) => AttendanceCoordinate.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
 
 Map<String, dynamic> _$EmployeeCheckInRequestBodyToJson(
@@ -24,4 +27,19 @@ Map<String, dynamic> _$EmployeeCheckInRequestBodyToJson(
       'customerId': instance.customerId,
       'location': instance.location,
       'employeeImage': instance.employeeImage,
+      'coordinates': instance.coordinates,
+    };
+
+AttendanceCoordinate _$AttendanceCoordinateFromJson(
+        Map<String, dynamic> json) =>
+    AttendanceCoordinate(
+      latitude: (json['latitude'] as num).toDouble(),
+      longitude: (json['longitude'] as num).toDouble(),
+    );
+
+Map<String, dynamic> _$AttendanceCoordinateToJson(
+        AttendanceCoordinate instance) =>
+    <String, dynamic>{
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
     };

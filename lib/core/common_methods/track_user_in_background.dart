@@ -21,7 +21,7 @@ Future<void> initializeServiceBackground() async {
       isForegroundMode: true,
     ),
     iosConfiguration: IosConfiguration(
-      autoStart: true,
+      autoStart: false,
       onForeground: onStart,
       onBackground: onIosBackground,
     ),
@@ -85,17 +85,21 @@ Future<bool> onIosBackground(ServiceInstance service) async {
 
 @pragma('vm:entry-point')
 void onStart(ServiceInstance service) async {
-  setUpServiceLocator();
+  WidgetsFlutterBinding.ensureInitialized();
   DartPluginRegistrant.ensureInitialized();
-
-  bool running = true;
-  Timer? locationTimer;
 
   try {
     ApiConstant.employeeId = await SecureCache.getFromCache(key: 'employeeId');
+    ApiConstant.token = await SecureCache.getFromCache(key: 'token');
   } catch (_) {
     ApiConstant.employeeId = '';
+    ApiConstant.token = '';
   }
+
+  setUpServiceLocator();
+
+  bool running = true;
+  Timer? locationTimer;
 
   service.on('get_status').listen((event) {
     service.invoke('service_status', {'running': running});
@@ -108,7 +112,7 @@ void onStart(ServiceInstance service) async {
     service.stopSelf();
   });
 
-  locationTimer = Timer.periodic(const Duration(seconds: 5), (timer) async {
+  locationTimer = Timer.periodic(const Duration(minutes: 1), (timer) async {
     if (!running) {
       timer.cancel();
       return;
@@ -120,7 +124,12 @@ void onStart(ServiceInstance service) async {
             await SecureCache.getFromCache(key: 'employeeId');
       }
 
-      if (ApiConstant.employeeId.isEmpty) {
+      if (ApiConstant.token.isEmpty) {
+        ApiConstant.token = await SecureCache.getFromCache(key: 'token');
+        DioFactory.addDioHeaders();
+      }
+
+      if (ApiConstant.employeeId.isEmpty || ApiConstant.token.isEmpty) {
         return;
       }
 
