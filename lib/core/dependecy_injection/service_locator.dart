@@ -130,4 +130,10 @@ void setUpServiceLocator() {
       apiService: getIt<ApiService>(),
     ),
   );
+
+  getIt.registerSingleton<AdminLeaveRequestsRepo>(
+    AdminLeaveRequestsRepoImpl(
+      apiservice: getIt<ApiService>(),
+    ),
+  );
 }

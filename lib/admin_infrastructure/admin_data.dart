@@ -20,3 +20,6 @@ export 'data/repo/customer_repo/customer_repo.dart';
 export 'data/repo/department_repo/department_repo_impl.dart';
 export 'data/repo/department_repo/department_repo.dart';
 export 'data/repo/employee_repo/admin_manage_employee_repo_impl.dart';
+export 'data/repo/leave_requests_repo/admin_leave_requests_repo.dart';
+export 'data/repo/leave_requests_repo/admin_leave_requests_repo_impl.dart';
+

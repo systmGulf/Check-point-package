@@ -36,7 +36,7 @@ class SupervisorLeaveRequestsRepoImpl implements SupervisorLeaveRequestsRepo {
     try {
       final result = await apiservice.get(
           endPoint:
-              "${ApiConstant.leaveRequest}/department/${ApiConstant.departmentId}/leaveType/$type");
+              "${ApiConstant.leaveRequest}/departmentId/${ApiConstant.departmentId}/leaveType/$type");
       if (result[ApiConstant.successApiKey] == true) {
         return Right(GetLeaveRequestModel.fromJson(result));
       } else {
