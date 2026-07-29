@@ -1,6 +1,7 @@
 import 'package:dartz/dartz.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
+import '../../../../supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
+import '../../../../supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
 
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
 import '../../../../admin_infrastructure/data/models/customers_model/get_customer_model.dart';
@@ -35,7 +36,7 @@ abstract class EmployeeAttendanceRepo {
   Future<Either<Failure, CustomersPage>> getCustomersByType({
     required String type,
   });
-  // Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
+  Future<Either<Failure, GetPlanByIdValue>> getPlanById({required int id});
   // Check user if he in the right location or no for Polygon
   Future<bool> checkAccessibleAreaForPolygon(
     LatLng pointLatLong,

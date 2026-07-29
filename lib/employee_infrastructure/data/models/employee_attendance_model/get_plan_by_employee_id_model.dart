@@ -23,6 +23,8 @@ class EmployeePlansModel {
 
   factory EmployeePlansModel.fromJson(Map<String, dynamic> json) =>
       _$EmployeePlansModelFromJson(json);
+
+  List<Data>? get data => value?.data;
 }
 
 @JsonSerializable()

@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hr_management_system_package/employee_infrastructure/data/models/employee_attendance_model/track_user_request_body.dart';
 import 'package:hr_management_system_package/supervisor_infrastructure/data/models/plan_model/remove_assign_customer_plan_body.dart';
+import '../../../../supervisor_infrastructure/data/models/plan_model/get_plan_by_id_model.dart';
 
 import '../../../../admin_infrastructure/data/models/branches_model/get_branches_models.dart';
 import '../../../../admin_infrastructure/data/models/customers_model/get_customer_model.dart';
@@ -176,21 +177,21 @@ class EmployeeAttendanceRepoImpl implements EmployeeAttendanceRepo {
     }
   }
 
-  // @override
-  // // get plan by id
-  // Future<Either<Failure, GetPlanByIdValue>> getPlanById(
-  //     {required int id}) async {
-  //   try {
-  //     final result = await apiService.get(endPoint: "${ApiConstant.plan}/$id");
-  //     if (result[ApiConstant.successApiKey] == true) {
-  //       return Right(GetPlanByIdValue.fromJson(result['value']));
-  //     } else {
-  //       return Left(ErrorHandler.responseFailure(result));
-  //     }
-  //   } on Object catch (e) {
-  //     return Left(ErrorHandler.handle(e).failure);
-  //   }
-  // }
+  @override
+  // get plan by id
+  Future<Either<Failure, GetPlanByIdValue>> getPlanById(
+      {required int id}) async {
+    try {
+      final result = await apiService.get(endPoint: "${ApiConstant.plan}/$id");
+      if (result[ApiConstant.successApiKey] == true) {
+        return Right(GetPlanByIdValue.fromJson(result['value']));
+      } else {
+        return Left(ErrorHandler.responseFailure(result));
+      }
+    } on Object catch (e) {
+      return Left(ErrorHandler.handle(e).failure);
+    }
+  }
 
   @override
   // check if the user in the right zoon for site
